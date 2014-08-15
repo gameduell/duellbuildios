@@ -1,0 +1,59 @@
+/*
+ *  Main.mm
+ *
+ *  Boot code for lime.
+ *
+ */
+
+#include <stdio.h>
+
+#import <UIKit/UIKit.h>
+
+extern "C" const char *hxRunLibrary();
+
+extern "C" void hxcpp_set_top_of_stack();
+	
+::foreach NDLLS::
+ ::if (REGISTER_STATICS)::
+     extern "C" int ::NAME::_register_prims();
+ ::end::
+::end::
+
+@interface DUELLAppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) UIWindow *window;
+
+@end
+
+@implementation DUELLAppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+	const char *err = NULL;
+ 		err = hxRunLibrary();
+	if (err) {
+		printf(" Error %s\n", err );
+		return -1;
+	}
+
+    return YES;
+}
+
+@end
+
+extern "C" int main(int argc, char *argv[])	
+{
+	hxcpp_set_top_of_stack();
+
+   	::foreach NDLLS::
+     ::if (REGISTER_STATICS)::
+      ::NAME::_register_prims();
+     ::end::
+   	::end::
+
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([DUELLAppDelegate class]));
+    }
+
+	return 0;
+}

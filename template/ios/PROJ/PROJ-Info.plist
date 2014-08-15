@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>::APP.TITLE::</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string>Icon.png</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>Icon.png</string>
+				<string>Icon@2x.png</string>
+				<string>Icon-60.png</string>
+				<string>Icon-60@2x.png</string>
+				<string>Icon-72.png</string>
+				<string>Icon-72@2x.png</string>
+				<string>Icon-76.png</string>
+				<string>Icon-76@2x.png</string>
+				<string>Default.png</string>
+				<string>Default@2x.png</string>
+				<string>Default-568h@2x.png</string>
+				<string>Default-Portrait.png</string>
+				<string>Default-Portrait@2x.png</string>
+				<string>Default-Landscape.png</string>
+				<string>Default-Landscape@2x.png</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<::PLATFORM.PRERENDERED_ICON::/>
+		</dict>
+	</dict>
+	<key>CFBundleIdentifier</key>
+	<string>::APP.PACKAGE::</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>::APP.BUILD_NUMBER::</string>
+	<key>CFBundleShortVersionString</key>
+	<string>::APP.VERSION::</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UIStatusBarHidden</key>
+	<::PLATFORM.FULLSCREEN::/>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<::PLATFORM.FULLSCREEN::/>
+
+	::if (PLATFORM.ORIENTATIONS.length > 0)::
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		::foreach PLATFORM.ORIENTATIONS::
+		<string>::__current__::</string>
+		::end::
+	</array>
+	::end::
+
+	<key>UILaunchImages~ipad</key>
+	<array>
+		<dict>
+			<key>UILaunchImageMinimumOSVersion</key>
+			<string>7.0</string>
+			<key>UILaunchImageName</key>
+			<string>Default-Landscape</string>
+			<key>UILaunchImageOrientation</key>
+			<string>Landscape</string>
+			<key>UILaunchImageSize</key>
+			<string>{768, 1024}</string>
+		</dict>
+		<dict>
+			<key>UILaunchImageMinimumOSVersion</key>
+			<string>7.0</string>
+			<key>UILaunchImageName</key>
+			<string>Default-Portrait</string>
+			<key>UILaunchImageOrientation</key>
+			<string>Portrait</string>
+			<key>UILaunchImageSize</key>
+			<string>{768, 1024}</string>
+		</dict>
+	</array>
+
+	::if (PLATFORM.REQUIRED_CAPABILITIES.length > 0)::
+	<key>UIRequiredDeviceCapabilities</key>
+   	<dict>
+		::foreach PLATFORM.REQUIRED_CAPABILITIES::
+     		<key>::NAME::</key>
+     		::if (VALUE)::<true/>::else::<false/>::end::
+		::end::
+   	</dict>
+   	::end::
+</dict>
+</plist>

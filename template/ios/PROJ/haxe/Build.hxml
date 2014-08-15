@@ -1,0 +1,5 @@
+-main ::MAIN:: ::foreach (HAXE_COMPILE_ARGS)::
+::__current__::::end::
+-D iphone
+-D ios
+-D no-compilation
