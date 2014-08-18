@@ -26,17 +26,18 @@ class PlatformBuild
 {
 	var args : Array<String>;
 
+	/// VARIABLES SET AFTER PARSING
 	var targetDirectory : String;
 	var projectDirectory : String;
 	var duellBuildIOSPath : String;
 	var isDebug : Bool = false;
 	var isSimulator : Bool = false;
+	var isBuildNDLL : Bool = true;
 
 	public function new() : Void
 	{
 
 	}
-
 
 	public function build(args : Array<String>) : Void
 	{
@@ -45,10 +46,6 @@ class PlatformBuild
 		checkArguments();
 
 		parseProject();
-		
-		targetDirectory = Configuration.getData().OUTPUT + "/" + "ios";
-		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.TITLE + "/";
-		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
 
 		prepareBuild();
 
@@ -70,10 +67,13 @@ class PlatformBuild
 			{
 				isDebug = true;
 			}
-
-			if (arg == "-simulator")
+			else if (arg == "-simulator")
 			{
 				isSimulator = true;
+			}
+			else if (arg == "-nondllbuild")
+			{
+				isBuildNDLL = false;
 			}
 		}
 
@@ -96,6 +96,11 @@ class PlatformBuild
 	{
 		var projectXML = DuellProjectXML.getConfig();
 		projectXML.parse();
+
+		/// Set variables
+		targetDirectory = Configuration.getData().OUTPUT + "/" + "ios";
+		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.TITLE + "/";
+		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
 
 		/// Additional Configuration
 		convertDuellAndHaxelibsIntoHaxeCompilationFlags();
@@ -280,38 +285,53 @@ class PlatformBuild
 			
 			for (ndll in Configuration.getData().NDLLS) 
 			{
-        		var result = duell.helpers.ProcessHelper.runCommand(Path.directory(ndll.BUILD_FILE_PATH), "haxelib", ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH)].concat(argsForBuild));
-
-        		if (result != 0)
-        			LogHelper.error("Problem building ndll " + ndll.NAME);
-
-				var releaseLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + libExt]);
-				var debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + "-debug" + libExt]);
-
-				if (!FileSystem.exists(debugLib))
+				if (isBuildNDLL)
 				{
-					debugLib = releaseLib;
+	        		var result = duell.helpers.ProcessHelper.runCommand(Path.directory(ndll.BUILD_FILE_PATH), "haxelib", ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH)].concat(argsForBuild));
+
+					if (result != 0)
+						LogHelper.error("Problem building ndll " + ndll.NAME);
 				}
 
-				var releaseDest = projectDirectory + "/lib/" + arch + "/lib" + ndll.NAME + ".a";
-				var debugDest = projectDirectory + "/lib/" + arch + "-debug/lib" + ndll.NAME + ".a";
-				
-				if (!FileSystem.exists(releaseLib)) 
-				{
-					releaseLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + ".iphoneos.a"]);
-					debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + "-debug" + ".iphoneos.a"]);
-				}
-				FileHelper.copyIfNewer(releaseLib, releaseDest);
-				
-				if (FileSystem.exists(debugLib) && debugLib != releaseLib) 
-				{
-					FileHelper.copyIfNewer (debugLib, debugDest);
-				} 
-				else if (FileSystem.exists(debugDest)) 
-				{
-					FileSystem.deleteFile(debugDest);
-				}
+				handleNDLL(ndll, arch, argsForBuild, libExt);
 			}
+		}
+	}
+
+	private function handleNDLL(ndll : {NAME:String, BIN_PATH:String, BUILD_FILE_PATH:String, REGISTER_STATICS:Bool},
+								arch : String, argsForBuild : Array<String>, libExt : String)
+	{
+		/// Try debug version
+		var releaseLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + libExt]);
+		var debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + "-debug" + libExt]);
+
+		/// Doesn't exist, so use the release on as debug
+		if (!FileSystem.exists(debugLib))
+		{
+			debugLib = releaseLib;
+		}
+
+		var releaseDest = projectDirectory + "/lib/" + arch + "/lib" + ndll.NAME + ".a";
+		var debugDest = projectDirectory + "/lib/" + arch + "-debug/lib" + ndll.NAME + ".a";
+		
+		/// Release doesn't exist so force the extension. Used mainly for trying to compile a armv7 lib without -v7, and universal libs
+		if (!FileSystem.exists(releaseLib)) 
+		{
+			releaseLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + ".iphoneos.a"]);
+			debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + "-debug" + ".iphoneos.a"]);
+		}
+
+		/// Copy!
+		FileHelper.copyIfNewer(releaseLib, releaseDest);
+		
+		if (FileSystem.exists(debugLib) && debugLib != releaseLib) 
+		{
+			FileHelper.copyIfNewer (debugLib, debugDest);
+		} 
+		else if (FileSystem.exists(debugDest)) 
+		{
+			/// If debug wasn't supposed to be there
+			FileSystem.deleteFile(debugDest);
 		}
 	}
 
