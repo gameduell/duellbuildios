@@ -51,6 +51,9 @@ class PlatformBuild
 
 		prepareBuild();
 
+		LogHelper.info("", "" + Configuration.getData());
+		LogHelper.info("", "" + Configuration.getData().LIBRARY.GRAPHICS);
+
 		runXCodeBuild();
 
 		sign();

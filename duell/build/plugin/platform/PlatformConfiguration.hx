@@ -75,7 +75,7 @@ class PlatformConfiguration
 			XCODE_PROJECT_FLAGS : [],
 			XCODE_TARGET_FLAGS : [],
 			XCODE_BUILD_ARGS : [],
-			FRAMEWORKS : [],
+			FRAMEWORKS : [{NAME:"Foundation.framework", PATH:null}, {NAME:"UIKit.framework", PATH:null}],
 			DEPLOYMENT_TARGET : "5",
 			TARGET_DEVICES : "", //1 for iphone, 2 for ipad, 1,2 for both
 			ARCHS : ["armv7"],

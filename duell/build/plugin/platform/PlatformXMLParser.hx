@@ -140,7 +140,7 @@ class PlatformXMLParser
 			if (element.has.path)
 				path = element.att.path;
 
-			PlatformConfiguration.getData().FRAMEWORKS.push({NAME:element.att.name, PATH:element.att.path});
+			PlatformConfiguration.getData().FRAMEWORKS.push({NAME:name, PATH:path});
 		}
 	}
 
