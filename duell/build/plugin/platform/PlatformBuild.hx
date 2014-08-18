@@ -24,6 +24,8 @@ import haxe.io.Path;
 
 class PlatformBuild
 {
+	public var requiredSetups : Array<String>;
+
 	var args : Array<String>;
 
 	/// VARIABLES SET AFTER PARSING
@@ -36,7 +38,7 @@ class PlatformBuild
 
 	public function new() : Void
 	{
-
+		requiredSetups = ["mac"];
 	}
 
 	public function build(args : Array<String>) : Void
