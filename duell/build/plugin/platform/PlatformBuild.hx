@@ -8,7 +8,7 @@ package duell.build.plugin.platform;
 
 import duell.build.objects.DuellProjectXML;
 import duell.build.objects.Configuration;
-import duell.build.helpers.TemplateHelper;
+import duell.helpers.TemplateHelper;
 import duell.build.helpers.XCodeHelper;
 
 import duell.helpers.PathHelper;
@@ -160,18 +160,17 @@ class PlatformBuild
 
 	private function createDirectoriesAndCopyTemplates()
 	{
-		
 		PathHelper.mkdir(targetDirectory);
 		PathHelper.mkdir(projectDirectory);
 		PathHelper.mkdir(projectDirectory + "/haxe");
 
-		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/template/ios/PROJ/haxe", projectDirectory + "/haxe");
+		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/template/ios/PROJ/haxe", projectDirectory + "/haxe", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 		
-		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/template/ios/PROJ/Classes", projectDirectory + "/Classes");
-        TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Entitlements.plist", projectDirectory + "/" + Configuration.getData().APP.TITLE + "-Entitlements.plist");
-        TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Info.plist", projectDirectory + "/" + Configuration.getData().APP.TITLE + "-Info.plist");
-		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Prefix.pch", projectDirectory + "/" + Configuration.getData().APP.TITLE + "-Prefix.pch");
-		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "template/ios/PROJ.xcodeproj", targetDirectory + "/" + Configuration.getData().APP.TITLE + ".xcodeproj");
+		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/template/ios/PROJ/Classes", projectDirectory + "/Classes", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+        TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Entitlements.plist", projectDirectory + "/" + Configuration.getData().APP.TITLE + "-Entitlements.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+        TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Info.plist", projectDirectory + "/" + Configuration.getData().APP.TITLE + "-Info.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Prefix.pch", projectDirectory + "/" + Configuration.getData().APP.TITLE + "-Prefix.pch", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "template/ios/PROJ.xcodeproj", targetDirectory + "/" + Configuration.getData().APP.TITLE + ".xcodeproj", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 	}
 
 	private function addHaxeApplicationLibToTheTemplate() 
