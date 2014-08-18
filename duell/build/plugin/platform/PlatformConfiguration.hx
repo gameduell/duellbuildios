@@ -23,8 +23,7 @@ typedef PlatformConfigurationData = {
 	XCODE_PROJECT_FLAGS : KeyValueArray,
 	XCODE_TARGET_FLAGS : KeyValueArray,
 	XCODE_BUILD_ARGS : Array<String>,
-	FRAMEWORKS : Array<String>,
-	FRAMEWORK_SEARCH_PATHS : Array<String>,
+	FRAMEWORKS : Array<{NAME : String, PATH : String}>,
 	DEPLOYMENT_TARGET : String,
 	TARGET_DEVICES : String,
 	ARCHS : Array<String>,
@@ -35,6 +34,7 @@ typedef PlatformConfigurationData = {
 	ENTITLEMENTS_PATH : String,
 
 	/// derived from the data above
+	FRAMEWORK_SEARCH_PATHS : Array<String>,
 	ADDL_PBX_BUILD_FILE : Array<String>,
 	ADDL_PBX_FILE_REFERENCE : Array<String>,
 	ADDL_PBX_FRAMEWORKS_BUILD_PHASE : Array<String>,
@@ -76,7 +76,6 @@ class PlatformConfiguration
 			XCODE_TARGET_FLAGS : [],
 			XCODE_BUILD_ARGS : [],
 			FRAMEWORKS : [],
-			FRAMEWORK_SEARCH_PATHS : [],
 			DEPLOYMENT_TARGET : "5",
 			TARGET_DEVICES : "", //1 for iphone, 2 for ipad, 1,2 for both
 			ARCHS : ["armv7"],
@@ -86,29 +85,11 @@ class PlatformConfiguration
 			REQUIRED_CAPABILITIES : [],
 			ENTITLEMENTS_PATH : "",
 
+			FRAMEWORK_SEARCH_PATHS : [],
 			ADDL_PBX_BUILD_FILE : [],
 			ADDL_PBX_FILE_REFERENCE : [],
 			ADDL_PBX_FRAMEWORKS_BUILD_PHASE : [],
 			ADDL_PBX_FRAMEWORK_GROUP : []
 		};
-
-		addFramework("Foundation.framework");
-		addFramework("UIKit.framework");
-	}
-
-	public static function addFramework(name : String, path : String = "System/Library/Frameworks/")
-	{
-		if (PlatformConfiguration.getData().FRAMEWORKS.indexOf(name) == -1)
-		{
-			PlatformConfiguration.getData().FRAMEWORKS.push(name);
-
-			var frameworkID = XCodeHelper.getUniqueIDForXCode();
-			var fileID = XCodeHelper.getUniqueIDForXCode();
-
-			PlatformConfiguration.getData().ADDL_PBX_BUILD_FILE.push("      " + frameworkID + " /* " + name + " in Frameworks */ = {isa = PBXBuildFile; fileRef = " + fileID + " /* " + name + " */; };");
-			PlatformConfiguration.getData().ADDL_PBX_FILE_REFERENCE.push("      " + fileID + " /* " + name + " */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = " + name + "; path = " + path + "/" + name + "; sourceTree = SDKROOT; };");
-			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORKS_BUILD_PHASE.push("            " + frameworkID + " /* " + name + " in Frameworks */,");
-			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORK_GROUP.push("            " + fileID + " /* " + name + " */,");
-		}
 	}
 }

@@ -21,28 +21,7 @@ import haxe.xml.Fast;
 
 class PlatformXMLParser
 {
-	private var parsingConditions : Array<String>; /// used in validating elements for "if" or "unless"
-
-	private function new() : Void
-	{
-		parsingConditions = [];
-
-		parsingConditions.concat(Configuration.getConfigParsingDefines());
-		parsingConditions.concat(PlatformConfiguration.getConfigParsingDefines());
-	}
-
-	private static var cache : PlatformXMLParser;
-	public static function getConfig() : PlatformXMLParser
-	{
-		if(cache == null)
-		{
-			cache = new PlatformXMLParser();
-			return cache;
-		}
-
-		return cache;
-	}
-	public function parse(xml : Fast) : Void
+	public static function parse(xml : Fast) : Void
 	{
 		for (element in xml.elements) 
 		{
@@ -54,12 +33,11 @@ class PlatformXMLParser
 		}
 	}
 
-
-	public function parsePlatform(xml : Fast) : Void
+	public static function parsePlatform(xml : Fast) : Void
 	{
 		for (element in xml.elements) 
 		{
-			if (!XMLHelper.isValidElement(element, parsingConditions))
+			if (!XMLHelper.isValidElement(element, DuellProjectXML.getConfig().parsingConditions))
 				continue;
 
 			switch(element.name)
@@ -119,7 +97,7 @@ class PlatformXMLParser
 		}
 	}
 
-	private function parseArchitectureElement(element : Fast)
+	private static function parseArchitectureElement(element : Fast)
 	{
 		if (element.has.name)
 		{
@@ -130,7 +108,7 @@ class PlatformXMLParser
 		}
 	}
 
-	private function parseIconElement(element : Fast)
+	private static function parseIconElement(element : Fast)
 	{
 		if (element.has.path)
 		{
@@ -138,7 +116,7 @@ class PlatformXMLParser
 		}
 	}
 
-	private function parseSplashscreenElement(element : Fast)
+	private static function parseSplashscreenElement(element : Fast)
 	{
 		if (element.has.path)
 		{
@@ -146,36 +124,27 @@ class PlatformXMLParser
 		}
 	}
 
-	private function parseFrameworkElement(element : Fast)
+	private static function parseFrameworkElement(element : Fast)
 	{
 		if (element.has.name)
 		{
-			if (PlatformConfiguration.getData().FRAMEWORKS.indexOf(element.att.name) == -1)
+			var name = element.att.name;
+			var path = null;
+
+			for (framework in PlatformConfiguration.getData().FRAMEWORKS)
 			{
-				PlatformConfiguration.getData().FRAMEWORKS.push(element.att.name);
+				if (framework.NAME == name)
+					return;
 			}
 
 			if (element.has.path)
-			{
-				PlatformConfiguration.addFramework(element.att.name, resolvePath(element.att.path));
-			}
-			else
-			{
-				PlatformConfiguration.addFramework(element.att.name);
-			}
-		}
+				path = element.att.path;
 
-		if (element.has.path)
-		{
-			if (PlatformConfiguration.getData().FRAMEWORK_SEARCH_PATHS.indexOf(element.att.path) == -1)
-			{
-				PlatformConfiguration.getData().FRAMEWORK_SEARCH_PATHS.push(resolvePath(element.att.path));
-			}
+			PlatformConfiguration.getData().FRAMEWORKS.push({NAME:element.att.name, PATH:element.att.path});
 		}
-
 	}
 
-	private function parseHXCPPCompilationArgElement(element : Fast)
+	private static function parseHXCPPCompilationArgElement(element : Fast)
 	{
 		if (element.has.value)
 		{
@@ -183,7 +152,7 @@ class PlatformXMLParser
 		}
 	}
 
-	private function parseXCodeLinkArgElement(element : Fast)
+	private static function parseXCodeLinkArgElement(element : Fast)
 	{
 		if (element.has.value)
 		{
@@ -191,7 +160,7 @@ class PlatformXMLParser
 		}
 	}
 
-	private function parseXCodeBuildArgElement(element : Fast)
+	private static function parseXCodeBuildArgElement(element : Fast)
 	{
 		if (element.has.value)
 		{
@@ -199,7 +168,7 @@ class PlatformXMLParser
 		}
 	}
 
-	private function parseXCodeProjectFlagElement(element : Fast)
+	private static function parseXCodeProjectFlagElement(element : Fast)
 	{
 		var name = null;
 		var value = "";
@@ -214,7 +183,7 @@ class PlatformXMLParser
 		}
 	}
 
-	private function parseXCodeTargetFlagElement(element : Fast)
+	private static function parseXCodeTargetFlagElement(element : Fast)
 	{
 		var name = null;
 		var value = "";
@@ -229,7 +198,7 @@ class PlatformXMLParser
 		}
 	}
 
-	private function parsePreRenderedIconElement(element : Fast)
+	private static function parsePreRenderedIconElement(element : Fast)
 	{
 		if (element.has.value)
 		{
@@ -237,7 +206,7 @@ class PlatformXMLParser
 		}	
 	}
 
-	private function parseDeploymentTargetElement(element : Fast)
+	private static function parseDeploymentTargetElement(element : Fast)
 	{
 		if (element.has.value)
 		{
@@ -245,7 +214,7 @@ class PlatformXMLParser
 		}	
 	}
 
-	private function parseTargetDevicesElement(element : Fast)
+	private static function parseTargetDevicesElement(element : Fast)
 	{
 		if (element.has.value)
 		{
@@ -253,7 +222,7 @@ class PlatformXMLParser
 		}	
 	}
 
-	private function parseKeyStoreIdentityElement(element : Fast)
+	private static function parseKeyStoreIdentityElement(element : Fast)
 	{
 		if (element.has.value)
 		{
@@ -261,7 +230,7 @@ class PlatformXMLParser
 		}	
 	}
 
-	private function parseFullscreenElement(element : Fast)
+	private static function parseFullscreenElement(element : Fast)
 	{
 		if (element.has.value)
 		{
@@ -269,7 +238,7 @@ class PlatformXMLParser
 		}	
 	}
 
-	private function parseOrientationElement(element : Fast)
+	private static function parseOrientationElement(element : Fast)
 	{
 		if (element.has.value)
 		{
@@ -277,7 +246,7 @@ class PlatformXMLParser
 		}	
 	}
 
-	private function parseRequiredCapabilityElement(element : Fast)
+	private static function parseRequiredCapabilityElement(element : Fast)
 	{
 		var name = null;
 		var value = "";
@@ -293,7 +262,7 @@ class PlatformXMLParser
 		}
 	}
 
-	private function parseEntitlementsElement(element : Fast)
+	private static function parseEntitlementsElement(element : Fast)
 	{
 		if (element.has.path)
 		{
@@ -302,7 +271,7 @@ class PlatformXMLParser
 	}
 
 	/// HELPERS
-	private function addUniqueKeyValueToKeyValueArray(keyValueArray : KeyValueArray, key : String, value : String)
+	private static function addUniqueKeyValueToKeyValueArray(keyValueArray : KeyValueArray, key : String, value : String)
 	{
 		for (keyValuePair in keyValueArray)
 		{
@@ -316,7 +285,7 @@ class PlatformXMLParser
 		keyValueArray.push({NAME : key, VALUE : value});
 	}
 
-	private function resolvePath(string : String) : String /// convenience method
+	private static function resolvePath(string : String) : String /// convenience method
 	{
 		return DuellProjectXML.getConfig().resolvePath(string);
 	}
