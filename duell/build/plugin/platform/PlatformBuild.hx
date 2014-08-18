@@ -264,19 +264,17 @@ class PlatformBuild
 	{
 		for (archID in 0...3) 
 		{
-			var arch = [ "armv6", "armv7", "i386" ][archID];
+			var arch = ["armv6", "armv7", "i386"][archID];
 
 			var argsForBuild = [["-Diphoneos"],
 								["-Diphoneos", "-DHXCPP_ARMV7"],
 								["-Diphonesim"]][archID];
-			
-			if (arch == "armv6" && Configuration.getData().PLATFORM.ARCHS.indexOf("armv6") == -1)
-				continue;
-			
-			if (arch == "armv7" && Configuration.getData().PLATFORM.ARCHS.indexOf("armv7") == -1)
-				continue;
-			
+
 			var libExt = [ ".iphoneos.a", ".iphoneos-v7.a", ".iphonesim.a" ][archID];
+			
+			if (Configuration.getData().PLATFORM.ARCHS.indexOf(arch) == -1)
+				continue;
+			
 			
 			PathHelper.mkdir (projectDirectory + "/lib/" + arch);
 			PathHelper.mkdir (projectDirectory + "/lib/" + arch + "-debug");
