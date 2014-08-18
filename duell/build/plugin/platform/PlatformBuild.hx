@@ -50,8 +50,6 @@ class PlatformBuild
 
 		parseProject();
 
-		overrideArchsIfSimulator();
-
 		prepareBuild();
 
 		runXCodeBuild();
@@ -103,6 +101,7 @@ class PlatformBuild
 		convertDuellAndHaxelibsIntoHaxeCompilationFlags();
 		addHaxeApplicationLibToTheTemplate();
 		addHXCPPLibs();
+		overrideArchsIfSimulator();
 	}
 
 	private function overrideArchsIfSimulator()
@@ -266,6 +265,10 @@ class PlatformBuild
 		for (archID in 0...3) 
 		{
 			var arch = [ "armv6", "armv7", "i386" ][archID];
+
+			var argsForBuild = [["-Diphoneos"],
+								["-Diphoneos", "-DHXCPP_ARMV7"],
+								["-Diphonesim"]][archID];
 			
 			if (arch == "armv6" && Configuration.getData().PLATFORM.ARCHS.indexOf("armv6") == -1)
 				continue;
@@ -280,6 +283,11 @@ class PlatformBuild
 			
 			for (ndll in Configuration.getData().NDLLS) 
 			{
+        		var result = duell.helpers.ProcessHelper.runCommand(Path.directory(ndll.BUILD_FILE_PATH), "haxelib", ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH)].concat(argsForBuild));
+
+        		if (result != 0)
+        			LogHelper.error("Problem building ndll " + ndll.NAME);
+
 				var releaseLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + libExt]);
 				var debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + "-debug" + libExt]);
 
