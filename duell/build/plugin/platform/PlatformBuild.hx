@@ -42,13 +42,13 @@ class PlatformBuild
 	{
 		this.args = args;
 
-		targetDirectory = Configuration.getData().OUTPUT + "/" + "ios";
-		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.TITLE + "/";
-		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
-
 		checkArguments();
 
 		parseProject();
+		
+		targetDirectory = Configuration.getData().OUTPUT + "/" + "ios";
+		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.TITLE + "/";
+		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
 
 		prepareBuild();
 
@@ -274,7 +274,6 @@ class PlatformBuild
 			
 			if (Configuration.getData().PLATFORM.ARCHS.indexOf(arch) == -1)
 				continue;
-			
 			
 			PathHelper.mkdir (projectDirectory + "/lib/" + arch);
 			PathHelper.mkdir (projectDirectory + "/lib/" + arch + "-debug");
