@@ -51,6 +51,9 @@ class PlatformBuild
 
 		prepareBuild();
 
+		LogHelper.info("", "" + Configuration.getData());
+		LogHelper.info("", "" + Configuration.getData().LIBRARY.GRAPHICS);
+
 		runXCodeBuild();
 
 		sign();
@@ -109,6 +112,7 @@ class PlatformBuild
 		addHaxeApplicationLibToTheTemplate();
 		addHXCPPLibs();
 		overrideArchsIfSimulator();
+		convertFrameworksToXCodeParts();
 	}
 
 	private function overrideArchsIfSimulator()
@@ -116,6 +120,23 @@ class PlatformBuild
 		if (isSimulator)
 		{
 			Configuration.getData().PLATFORM.ARCHS = ["i386"];
+		}
+	}
+
+	private function convertFrameworksToXCodeParts()
+	{
+		for (framework in PlatformConfiguration.getData().FRAMEWORKS)
+		{
+			var frameworkID = XCodeHelper.getUniqueIDForXCode();
+			var fileID = XCodeHelper.getUniqueIDForXCode();
+
+			if (framework.PATH != null)
+				PlatformConfiguration.getData().FRAMEWORK_SEARCH_PATHS.push(framework.PATH);
+			
+			PlatformConfiguration.getData().ADDL_PBX_BUILD_FILE.push("      " + frameworkID + " /* " + framework.NAME + " in Frameworks */ = {isa = PBXBuildFile; fileRef = " + fileID + " /* " + framework.NAME + " */; };");
+			PlatformConfiguration.getData().ADDL_PBX_FILE_REFERENCE.push("      " + fileID + " /* " + framework.NAME + " */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = " + framework.NAME + "; path = " + framework.PATH + "/" + framework.NAME + "; sourceTree = SDKROOT; };");
+			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORKS_BUILD_PHASE.push("            " + frameworkID + " /* " + framework.NAME + " in Frameworks */,");
+			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORK_GROUP.push("            " + fileID + " /* " + framework.NAME + " */,");
 		}
 	}
 
