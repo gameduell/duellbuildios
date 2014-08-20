@@ -71,7 +71,7 @@ class PlatformConfiguration
 			PRERENDERED_ICON : "true",
 			SPLASHSCREEN_PATH : "Splashscreens/ios",
 			HXCPP_COMPILATION_ARGS : [],
-			XCODE_LINK_ARGS : [],
+			XCODE_LINK_ARGS : ["-stdlib=libc++"],
 			XCODE_PROJECT_FLAGS : [],
 			XCODE_TARGET_FLAGS : [],
 			XCODE_BUILD_ARGS : [],

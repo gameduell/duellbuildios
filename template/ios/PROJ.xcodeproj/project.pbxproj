@@ -28,9 +28,7 @@
 		1EF0A83B121ADB8E003F2F59 /* haxe in Sources */ = {isa = PBXBuildFile; fileRef = 1E2E17A5141E8B5D0048F3C7 /* haxe */; };
 
 		::foreach PLATFORM.ADDL_PBX_BUILD_FILE::
-		::__current__::
-
-		::end::
+		::__current__::::end::
 
 /* End PBXBuildFile section */
 
@@ -45,29 +43,29 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1D6058910D05DD3D006BFB54 /* "::APP.TITLE::.app" */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "::APP.TITLE::.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* "::APP.FILE::.app" */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "::APP.FILE::.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		
-        1EF0A83900000001C0000001 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Icon.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000002 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Icon@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000003 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Icon-72.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000004 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Icon-72@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000012 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Icon-60.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000013 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Icon-60@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000014 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Icon-76.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000015 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Icon-76@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000005 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Default.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000006 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Default@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000007 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Default-Portrait.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000008 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Default-Portrait@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000009 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Default-Landscape.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000010 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Default-Landscape@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000011 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.TITLE::/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A839121ADB8E003F2F59 /* Main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Main.mm; path = "::APP.TITLE::/Classes/Main.mm"; sourceTree = SOURCE_ROOT; };
-		1E2E17A5141E8B5D0048F3C7 /* haxe */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "::APP.TITLE::/haxe/build"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000001 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000002 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon@2x.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000003 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-72.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000004 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-72@2x.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000012 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-60.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000013 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-60@2x.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000014 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-76.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000015 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-76@2x.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000005 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000006 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default@2x.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000007 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default-Portrait.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000008 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default-Portrait@2x.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000009 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default-Landscape.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000010 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default-Landscape@2x.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A83900000001C0000011 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
+        1EF0A839121ADB8E003F2F59 /* Main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Main.mm; path = "::APP.FILE::/Classes/Main.mm"; sourceTree = SOURCE_ROOT; };
+		1E2E17A5141E8B5D0048F3C7 /* haxe */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "::APP.FILE::/haxe/build"; sourceTree = SOURCE_ROOT; };
 
 		::foreach PLATFORM.ADDL_PBX_FILE_REFERENCE::::__current__::::end::
 
-		8D1107310486CEB800E47090 /* ::APP.TITLE::-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "::APP.TITLE::/::APP.TITLE::-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* ::APP.FILE::-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "::APP.FILE::/::APP.FILE::-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 
@@ -94,7 +92,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* "::APP.TITLE::.app" */,
+				1D6058910D05DD3D006BFB54 /* "::APP.FILE::.app" */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -131,7 +129,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-                8D1107310486CEB800E47090 /* ::APP.TITLE::-Info.plist */,
+                8D1107310486CEB800E47090 /* ::APP.FILE::-Info.plist */,
                 1E2E17A5131E8B5D0048F3C7 /* assets */,
                 1EF0A83900000001C0000001 /* Icon.png */,
                 1EF0A83900000001C0000002 /* Icon@2x.png */,
@@ -155,9 +153,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* "::APP.TITLE::" */ = {
+		1D6058900D05DD3D006BFB54 /* "::APP.FILE::" */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "::APP.TITLE::" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "::APP.FILE::" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -168,9 +166,9 @@
 			dependencies = (
 				1EF0A883121AE1D2003F2F59 /* PBXTargetDependency */,
 			);
-			name = "::APP.TITLE::"; /* HMMM */
-			productName = "::APP.TITLE::";
-			productReference = 1D6058910D05DD3D006BFB54 /* "::APP.TITLE::.app" */;
+			name = "::APP.FILE::"; /* HMMM */
+			productName = "::APP.FILE::";
+			productReference = 1D6058910D05DD3D006BFB54 /* "::APP.FILE::.app" */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -183,7 +181,7 @@
 			buildPhases = (
 			);
 			buildToolPath = make;
-			buildWorkingDirectory = "::APP.TITLE::/haxe";
+			buildWorkingDirectory = "::APP.FILE::/haxe";
 			dependencies = (
 			);
 			name = "Build Haxe";
@@ -195,14 +193,14 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "::APP.TITLE::" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "::APP.FILE::" */;
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* "::APP.TITLE::" */,
+				1D6058900D05DD3D006BFB54 /* "::APP.FILE::" */,
 				1EF0A87F121AE1CE003F2F59 /* Build Haxe */,
 			);
 		};
@@ -254,7 +252,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		C01FCF4F08A954540054247B /* Debug */ = {/* Build configuration list for PBXProject "::APP.TITLE::" */ 
+		C01FCF4F08A954540054247B /* Debug */ = {/* Build configuration list for PBXProject "::APP.FILE::" */ 
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -283,7 +281,7 @@
 			};
 			name = Debug;
 		};
-		C01FCF5008A954540054247B /* Release */ = {/* Build configuration list for PBXProject "::APP.TITLE::" */ 
+		C01FCF5008A954540054247B /* Release */ = {/* Build configuration list for PBXProject "::APP.FILE::" */ 
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -310,29 +308,29 @@
 			};
 			name = Release;
 		};
-		1D6058940D05DD3E006BFB54 /* Debug */ = {/* Build configuration list for PBXNativeTarget "::APP.TITLE::" */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {/* Build configuration list for PBXNativeTarget "::APP.FILE::" */
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "::APP.TITLE::/::APP.TITLE::-Prefix.pch";
-				INFOPLIST_FILE = "::APP.TITLE::/::APP.TITLE::-Info.plist";
+				GCC_PREFIX_HEADER = "::APP.FILE::/::APP.FILE::-Prefix.pch";
+				INFOPLIST_FILE = "::APP.FILE::/::APP.FILE::-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 
 	            "LIBRARY_SEARCH_PATHS[arch=armv6]" = (
 					"$(inherited)",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/armv6-debug\"",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/armv6\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/armv6-debug\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/armv6\"",
 				);
 				"LIBRARY_SEARCH_PATHS[arch=armv7]" = (
 					"$(inherited)",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/armv7-debug\"",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/armv7\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/armv7-debug\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/armv7\"",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
 					"$(inherited)",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/i386-debug\"",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/i386\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/i386-debug\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/i386\"",
 				);
                 FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -342,37 +340,35 @@
 		        OTHER_LDFLAGS = (
 					::foreach NDLLS:: "-l::NAME::",
 					::end::					
-					"-lHaxeApplication",
-					"-stdlib=libc++",
 					::foreach PLATFORM.XCODE_LINK_ARGS:: "::__current__::",
 					::end::
 				);
 			};
 			name = Debug;
 		};
-		1D6058950D05DD3E006BFB54 /* Release */ = {/* Build configuration list for PBXNativeTarget "::APP.TITLE::" */
+		1D6058950D05DD3E006BFB54 /* Release */ = {/* Build configuration list for PBXNativeTarget "::APP.FILE::" */
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "::APP.TITLE::/::APP.TITLE::-Prefix.pch";
-				INFOPLIST_FILE = "::APP.TITLE::/::APP.TITLE::-Info.plist";
+				GCC_PREFIX_HEADER = "::APP.FILE::/::APP.FILE::-Prefix.pch";
+				INFOPLIST_FILE = "::APP.FILE::/::APP.FILE::-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 
 	            "LIBRARY_SEARCH_PATHS[arch=armv6]" = (
 					"$(inherited)",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/armv6-debug\"",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/armv6\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/armv6-debug\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/armv6\"",
 				);
 				"LIBRARY_SEARCH_PATHS[arch=armv7]" = (
 					"$(inherited)",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/armv7-debug\"",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/armv7\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/armv7-debug\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/armv7\"",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
 					"$(inherited)",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/i386-debug\"",
-					"\"$(SRCROOT)/::APP.TITLE::/lib/i386\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/i386-debug\"",
+					"\"$(SRCROOT)/::APP.FILE::/lib/i386\"",
 				);
                 FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -381,9 +377,7 @@
                 );
 		        OTHER_LDFLAGS = (
 					::foreach NDLLS:: "-l::NAME::",
-					::end::					
-					"-lHaxeApplication",
-					"-stdlib=libc++",
+					::end::		
 					::foreach PLATFORM.XCODE_LINK_ARGS:: "::__current__::",
 					::end::
 				);
@@ -423,7 +417,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "::APP.TITLE::" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "::APP.FILE::" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
@@ -432,7 +426,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "::APP.TITLE::" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "::APP.FILE::" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,

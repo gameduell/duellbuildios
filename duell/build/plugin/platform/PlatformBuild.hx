@@ -104,7 +104,7 @@ class PlatformBuild
 
 		/// Set variables
 		targetDirectory = Configuration.getData().OUTPUT + "/" + "ios";
-		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.TITLE + "/";
+		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.FILE + "/";
 		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
 
 		/// Additional Configuration
@@ -190,10 +190,10 @@ class PlatformBuild
 		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/template/ios/PROJ/haxe", projectDirectory + "/haxe", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 		
 		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/template/ios/PROJ/Classes", projectDirectory + "/Classes", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
-        TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Entitlements.plist", projectDirectory + "/" + Configuration.getData().APP.TITLE + "-Entitlements.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
-        TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Info.plist", projectDirectory + "/" + Configuration.getData().APP.TITLE + "-Info.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
-		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Prefix.pch", projectDirectory + "/" + Configuration.getData().APP.TITLE + "-Prefix.pch", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
-		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "template/ios/PROJ.xcodeproj", targetDirectory + "/" + Configuration.getData().APP.TITLE + ".xcodeproj", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+        TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Entitlements.plist", projectDirectory + "/" + Configuration.getData().APP.FILE + "-Entitlements.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+        TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Info.plist", projectDirectory + "/" + Configuration.getData().APP.FILE + "-Info.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Prefix.pch", projectDirectory + "/" + Configuration.getData().APP.FILE + "-Prefix.pch", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "template/ios/PROJ.xcodeproj", targetDirectory + "/" + Configuration.getData().APP.FILE + ".xcodeproj", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 	}
 
 	private function addHaxeApplicationLibToTheTemplate() 
@@ -207,11 +207,12 @@ class PlatformBuild
 		{
 			Configuration.getData().PLATFORM.ADDL_PBX_FRAMEWORKS_BUILD_PHASE.push("            " + armv7LibID + " /* lib/HaxeApplication-v7.a in Frameworks */,");
 		}
+
+		Configuration.getData().PLATFORM.XCODE_LINK_ARGS.push("-lHaxeApplication");
 	}
 
 	private function addHXCPPLibs()
 	{
-
 		var binPath = Path.join([Haxelib.getHaxelib("hxcpp").getPath(), "bin"]);
 		var buildFilePath = Path.join([Haxelib.getHaxelib("hxcpp").getPath(), "project", "Build.xml"]);
 
@@ -387,7 +388,7 @@ class PlatformBuild
 			
 		}
 		
-		var applicationPath = Path.join([targetDirectory, "build", configuration + "-iphoneos", Configuration.getData().APP.TITLE + ".app"]);
+		var applicationPath = Path.join([targetDirectory, "build", configuration + "-iphoneos", Configuration.getData().APP.FILE + ".app"]);
 			
 		commands.push(applicationPath);
 		
@@ -408,7 +409,7 @@ class PlatformBuild
 		
 		if (isSimulator) 
 		{
-			var applicationPath = Path.join([targetDirectory, "build", configuration + "-iphonesimulator", Configuration.getData().APP.TITLE + ".app"]);
+			var applicationPath = Path.join([targetDirectory, "build", configuration + "-iphonesimulator", Configuration.getData().APP.FILE + ".app"]);
 			
 			var family = "iphone";
 			
@@ -429,7 +430,7 @@ class PlatformBuild
 		} 
 		else 
 		{
-			var applicationPath = Path.join([targetDirectory, "build", configuration + "-iphoneos", Configuration.getData().APP.TITLE + ".app"]);
+			var applicationPath = Path.join([targetDirectory, "build", configuration + "-iphoneos", Configuration.getData().APP.FILE + ".app"]);
 			
 			var launcher = Path.join([duellBuildIOSPath , "bin", "ios-deploy"]);
 			Sys.command ("chmod", [ "+x", launcher ]);
