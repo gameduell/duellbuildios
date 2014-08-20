@@ -316,12 +316,12 @@ class PlatformBuild
 						LogHelper.error("Problem building ndll " + ndll.NAME);
 				}
 
-				handleNDLL(ndll, arch, argsForBuild, libExt);
+				copyNDLL(ndll, arch, argsForBuild, libExt);
 			}
 		}
 	}
 
-	private function handleNDLL(ndll : {NAME:String, BIN_PATH:String, BUILD_FILE_PATH:String, REGISTER_STATICS:Bool},
+	private function copyNDLL(ndll : {NAME:String, BIN_PATH:String, BUILD_FILE_PATH:String, REGISTER_STATICS:Bool},
 								arch : String, argsForBuild : Array<String>, libExt : String)
 	{
 		/// Try debug version
