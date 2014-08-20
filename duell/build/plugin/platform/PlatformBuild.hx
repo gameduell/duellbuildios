@@ -24,9 +24,7 @@ import haxe.io.Path;
 
 class PlatformBuild
 {
-	public var requiredSetups : Array<String>;
-
-	var args : Array<String>;
+	public var requiredSetups = ["mac"];
 
 	/// VARIABLES SET AFTER PARSING
 	var targetDirectory : String;
@@ -36,13 +34,9 @@ class PlatformBuild
 	var isSimulator : Bool = false;
 	var isBuildNDLL : Bool = true;
 
-	public function new(args : Array<String>) : Void
+	public function new() : Void
 	{
-        this.args = args;
-
         checkArguments();
-
-		requiredSetups = ["mac"];
 	}
 
     public function parse()
@@ -51,7 +45,19 @@ class PlatformBuild
     }
 
     public function prepareBuild()
-    {
+    {		
+    	/// Set variables
+		targetDirectory = Configuration.getData().OUTPUT + "/" + "ios";
+		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.FILE + "/";
+		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
+
+		/// Additional Configuration
+		convertDuellAndHaxelibsIntoHaxeCompilationFlags();
+		addHaxeApplicationLibToTheTemplate();
+		addHXCPPLibs();
+		overrideArchsIfSimulator();
+		convertFrameworksToXCodeParts();
+
         prepareXcodeBuild();
     }
 
@@ -65,14 +71,14 @@ class PlatformBuild
 		sign();
 	}
 
-	public function run(args : Array<String>)
+	public function run()
 	{
 		runApp();
 	} 
 
 	private function checkArguments()
 	{	
-		for (arg in args)
+		for (arg in Sys.args())
 		{
 			if (arg == "-debug")
 			{
@@ -107,18 +113,6 @@ class PlatformBuild
 	{
 		var projectXML = DuellProjectXML.getConfig();
 		projectXML.parse();
-
-		/// Set variables
-		targetDirectory = Configuration.getData().OUTPUT + "/" + "ios";
-		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.FILE + "/";
-		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
-
-		/// Additional Configuration
-		convertDuellAndHaxelibsIntoHaxeCompilationFlags();
-		addHaxeApplicationLibToTheTemplate();
-		addHXCPPLibs();
-		overrideArchsIfSimulator();
-		convertFrameworksToXCodeParts();
 	}
 
 	private function overrideArchsIfSimulator()
