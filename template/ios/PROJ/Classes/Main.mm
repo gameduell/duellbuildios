@@ -1,7 +1,7 @@
 /*
  *  Main.mm
  *
- *  Boot code for lime.
+ *  Boot code for duell.
  *
  */
 

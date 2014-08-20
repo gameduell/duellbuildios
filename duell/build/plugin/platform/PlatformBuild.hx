@@ -36,21 +36,27 @@ class PlatformBuild
 	var isSimulator : Bool = false;
 	var isBuildNDLL : Bool = true;
 
-	public function new() : Void
+	public function new(args : Array<String>) : Void
 	{
+        this.args = args;
+
+        checkArguments();
+
 		requiredSetups = ["mac"];
 	}
 
-	public function build(args : Array<String>) : Void
+    public function parse()
+    {
+        parseProject();
+    }
+
+    public function prepareBuild()
+    {
+        prepareXcodeBuild();
+    }
+
+	public function build()
 	{
-		this.args = args;
-
-		checkArguments();
-
-		parseProject();
-
-		prepareBuild();
-
 		LogHelper.info("", "" + Configuration.getData());
 		LogHelper.info("", "" + Configuration.getData().LIBRARY.GRAPHICS);
 
@@ -59,7 +65,7 @@ class PlatformBuild
 		sign();
 	}
 
-	public function run(args : Array<String>) : Void
+	public function run(args : Array<String>)
 	{
 		runApp();
 	} 
@@ -140,7 +146,7 @@ class PlatformBuild
 		}
 	}
 
-	private function prepareBuild()
+	private function prepareXcodeBuild()
 	{
 		createDirectoriesAndCopyTemplates();
 		handleIcons();
