@@ -57,6 +57,7 @@ class PlatformBuild
 		addHXCPPLibs();
 		overrideArchsIfSimulator();
 		convertFrameworksToXCodeParts();
+		convertParsingDefinesToCompilationDefines();
 
         prepareXcodeBuild();
     }
@@ -106,6 +107,18 @@ class PlatformBuild
 		if (isSimulator)
 		{
 			PlatformConfiguration.addParsingDefine("simulator");
+		}
+	}
+	
+	private function convertParsingDefinesToCompilationDefines()
+	{		
+		for (define in DuellProjectXML.getConfig().parsingConditions)
+		{
+			if (define == "cpp") /// not allowed
+				continue;
+
+			Configuration.getData().HAXE_COMPILE_ARGS.push("-D");
+			Configuration.getData().HAXE_COMPILE_ARGS.push(define);
 		}
 	}
 
