@@ -21,8 +21,6 @@ extern "C" void hxcpp_set_top_of_stack();
 
 @interface DUELLAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
-
 @end
 
 @implementation DUELLAppDelegate
