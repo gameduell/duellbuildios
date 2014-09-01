@@ -311,6 +311,11 @@ class PlatformBuild
 								["-Diphoneos", "-DHXCPP_ARMV7"],
 								["-Diphonesim"]][archID];
 
+			if (isDebug)
+			{
+				argsForBuild.push("-Ddebug");
+			}
+
 			var libExt = [ ".iphoneos.a", ".iphoneos-v7.a", ".iphonesim.a" ][archID];
 			
 			if (Configuration.getData().PLATFORM.ARCHS.indexOf(arch) == -1)
