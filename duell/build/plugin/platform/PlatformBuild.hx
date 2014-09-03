@@ -354,18 +354,26 @@ class PlatformBuild
 
 		var releaseDest = projectDirectory + "/lib/" + arch + "/lib" + ndll.NAME + ".a";
 		var debugDest = projectDirectory + "/lib/" + arch + "-debug/lib" + ndll.NAME + ".a";
-		
+
 		/// Release doesn't exist so force the extension. Used mainly for trying to compile a armv7 lib without -v7, and universal libs
-		if (!FileSystem.exists(releaseLib)) 
+		if (!isDebug && !FileSystem.exists(releaseLib))
 		{
 			releaseLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + ".iphoneos.a"]);
+		}
+		
+		/// Debug doesn't exist so force the extension. Used mainly for trying to compile a armv7 lib without -v7, and universal libs
+		if (isDebug && !FileSystem.exists(debugLib)) 
+		{
 			debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + "-debug" + ".iphoneos.a"]);
 		}
 
 		/// Copy!
-		FileHelper.copyIfNewer(releaseLib, releaseDest);
+		if (!isDebug)
+		{
+			FileHelper.copyIfNewer(releaseLib, releaseDest);
+		}
 		
-		if (FileSystem.exists(debugLib) && debugLib != releaseLib) 
+		if (isDebug && FileSystem.exists(debugLib) && debugLib != releaseLib) 
 		{
 			FileHelper.copyIfNewer (debugLib, debugDest);
 		} 
