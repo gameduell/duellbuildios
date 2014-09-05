@@ -58,6 +58,7 @@ class PlatformBuild
 		overrideArchsIfSimulator();
 		convertFrameworksToXCodeParts();
 		convertParsingDefinesToCompilationDefines();
+		overrideTargetDevices();
 
         prepareXcodeBuild();
     }
@@ -151,6 +152,12 @@ class PlatformBuild
 			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORKS_BUILD_PHASE.push("            " + frameworkID + " /* " + framework.NAME + " in Frameworks */,");
 			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORK_GROUP.push("            " + fileID + " /* " + framework.NAME + " */,");
 		}
+	}
+
+	private function overrideTargetDevices()
+	{
+		if (PlatformConfiguration.getData().TARGET_DEVICES == "")
+			PlatformConfiguration.getData().TARGET_DEVICES = "1,2";
 	}
 
 	private function prepareXcodeBuild()
