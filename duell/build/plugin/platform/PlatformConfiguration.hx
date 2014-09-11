@@ -38,7 +38,9 @@ typedef PlatformConfigurationData = {
 	ADDL_PBX_BUILD_FILE : Array<String>,
 	ADDL_PBX_FILE_REFERENCE : Array<String>,
 	ADDL_PBX_FRAMEWORKS_BUILD_PHASE : Array<String>,
-	ADDL_PBX_FRAMEWORK_GROUP : Array<String>
+	ADDL_PBX_FRAMEWORK_GROUP : Array<String>,
+	ADDL_PBX_RESOURCE_GROUP : Array<String>,
+	ADDL_PBX_RESOURCES_BUILD_PHASE : Array<String>,
 }
 
 class PlatformConfiguration
@@ -75,7 +77,7 @@ class PlatformConfiguration
 			XCODE_PROJECT_FLAGS : [],
 			XCODE_TARGET_FLAGS : [],
 			XCODE_BUILD_ARGS : [],
-			FRAMEWORKS : [{NAME:"Foundation.framework", PATH:null}, {NAME:"UIKit.framework", PATH:null}],
+			FRAMEWORKS : [{NAME:"Foundation.framework", PATH:null}, {NAME:"UIKit.framework", PATH:null}, {NAME:"QuartzCore.framework", PATH:null}],
 			DEPLOYMENT_TARGET : "5",
 			TARGET_DEVICES : "", //1 for iphone, 2 for ipad, 1,2 for both
 			ARCHS : ["armv7"],
@@ -89,7 +91,9 @@ class PlatformConfiguration
 			ADDL_PBX_BUILD_FILE : [],
 			ADDL_PBX_FILE_REFERENCE : [],
 			ADDL_PBX_FRAMEWORKS_BUILD_PHASE : [],
-			ADDL_PBX_FRAMEWORK_GROUP : []
+			ADDL_PBX_FRAMEWORK_GROUP : [],
+			ADDL_PBX_RESOURCES_BUILD_PHASE : [],
+			ADDL_PBX_RESOURCE_GROUP : [],
 		};
 	}
 }

@@ -63,7 +63,8 @@
         1EF0A839121ADB8E003F2F59 /* Main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Main.mm; path = "::APP.FILE::/Classes/Main.mm"; sourceTree = SOURCE_ROOT; };
 		1E2E17A5141E8B5D0048F3C7 /* haxe */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "::APP.FILE::/haxe/build"; sourceTree = SOURCE_ROOT; };
 
-		::foreach PLATFORM.ADDL_PBX_FILE_REFERENCE::::__current__::::end::
+		::foreach PLATFORM.ADDL_PBX_FILE_REFERENCE::
+		::__current__::::end::
 
 		8D1107310486CEB800E47090 /* ::APP.FILE::-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "::APP.FILE::/::APP.FILE::-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,7 +75,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				::foreach PLATFORM.ADDL_PBX_FRAMEWORKS_BUILD_PHASE::::__current__::::end::
+				::foreach PLATFORM.ADDL_PBX_FRAMEWORKS_BUILD_PHASE::
+				::__current__::::end::
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +102,8 @@
 		1EEEBA99121AF18B0048A9DF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				::foreach PLATFORM.ADDL_PBX_FRAMEWORK_GROUP::::__current__::::end::
+				::foreach PLATFORM.ADDL_PBX_FRAMEWORK_GROUP::
+				::__current__::::end::
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -145,7 +148,9 @@
                 1EF0A83900000001C0000008 /* Default-Portrait@2x.png */,
                 1EF0A83900000001C0000009 /* Default-Landscape.png */,
                 1EF0A83900000001C0000010 /* Default-Landscape@2x.png */,
-                1EF0A83900000001C0000011 /* Default-568h@2x.png */,
+                1EF0A83900000001C0000011 /* Default-568h@2x.png */,      
+				::foreach PLATFORM.ADDL_PBX_RESOURCE_GROUP::
+				::__current__::::end::
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -227,6 +232,8 @@
                 1EF0A83A000000001C000009 /* Default-Landscape.png */,
                 1EF0A83A000000001C000010 /* Default-Landscape@2x.png */,
                 1EF0A83A000000001C000011 /* Default-568h@2x.png */,
+				::foreach PLATFORM.ADDL_PBX_RESOURCES_BUILD_PHASE::
+				::__current__::::end::
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
