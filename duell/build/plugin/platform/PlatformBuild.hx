@@ -118,8 +118,7 @@ class PlatformBuild
 			if (define == "cpp") /// not allowed
 				continue;
 
-			Configuration.getData().HAXE_COMPILE_ARGS.push("-D");
-			Configuration.getData().HAXE_COMPILE_ARGS.push(define);
+			Configuration.getData().HAXE_COMPILE_ARGS.push("-D " + define);
 		}
 	}
 
@@ -245,20 +244,17 @@ class PlatformBuild
 	{
 		for (haxelib in Configuration.getData().DEPENDENCIES.HAXELIBS)
 		{
-			Configuration.getData().HAXE_COMPILE_ARGS.push("-cp");
-			Configuration.getData().HAXE_COMPILE_ARGS.push(Haxelib.getHaxelib(haxelib.name, haxelib.version).getPath());
+			Configuration.getData().HAXE_COMPILE_ARGS.push("-cp " + Haxelib.getHaxelib(haxelib.name, haxelib.version).getPath());
 		}
 
 		for (duelllib in Configuration.getData().DEPENDENCIES.DUELLLIBS)
 		{
-			Configuration.getData().HAXE_COMPILE_ARGS.push("-cp");
-			Configuration.getData().HAXE_COMPILE_ARGS.push(DuellLib.getDuellLib(duelllib.name, duelllib.version).getPath());
+			Configuration.getData().HAXE_COMPILE_ARGS.push("-cp " + DuellLib.getDuellLib(duelllib.name, duelllib.version).getPath());
 		}
 
 		for (path in Configuration.getData().SOURCES)
 		{
-			Configuration.getData().HAXE_COMPILE_ARGS.push("-cp");
-			Configuration.getData().HAXE_COMPILE_ARGS.push(path);
+			Configuration.getData().HAXE_COMPILE_ARGS.push("-cp " + path);
 		}
 	}
 
