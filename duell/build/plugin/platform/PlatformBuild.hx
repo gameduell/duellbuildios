@@ -51,8 +51,8 @@ class PlatformBuild
     public function prepareBuild()
     {		
     	/// Set variables
-		targetDirectory = Configuration.getData().OUTPUT + "/" + "ios";
-		fullTestResultPath = Path.join([targetDirectory, TEST_RESULT_FILENAME]);
+		targetDirectory = Path.join([Configuration.getData().OUTPUT, "ios"]);
+		fullTestResultPath = Path.join([Configuration.getData().OUTPUT, "test", TEST_RESULT_FILENAME]);
 		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.FILE + "/";
 		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
 
@@ -104,6 +104,7 @@ class PlatformBuild
 			else if (arg == "-test")
 			{
 				isSimulator = true;
+				PlatformConfiguration.addParsingDefine("test");
 			}
 		}
 
@@ -119,11 +120,6 @@ class PlatformBuild
 		if (isSimulator)
 		{
 			PlatformConfiguration.addParsingDefine("simulator");
-		}
-
-		if (isTest)
-		{
-			PlatformConfiguration.addParsingDefine("test");
 		}
 	}
 	
@@ -486,6 +482,7 @@ class PlatformBuild
 
 	private function testApp()
 	{
+		PathHelper.mkdir(Path.directory(fullTestResultPath));
 		neko.vm.Thread.create(runApp);
 		TestHelper.runListenerServer(10, 8181, fullTestResultPath);
 	}
