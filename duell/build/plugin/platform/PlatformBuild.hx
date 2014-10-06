@@ -15,6 +15,7 @@ import duell.helpers.PathHelper;
 import duell.helpers.LogHelper;
 import duell.helpers.FileHelper;
 import duell.helpers.ProcessHelper;
+import duell.helpers.TestHelper;
 
 import duell.objects.DuellLib;
 import duell.objects.Haxelib;
@@ -25,14 +26,17 @@ import haxe.io.Path;
 class PlatformBuild
 {
 	public var requiredSetups = ["mac"];
+	public static inline var TEST_RESULT_FILENAME = "test_result_ios.xml";
 
 	/// VARIABLES SET AFTER PARSING
 	var targetDirectory : String;
 	var projectDirectory : String;
+	var fullTestResultPath : String;
 	var duellBuildIOSPath : String;
 	var isDebug : Bool = false;
 	var isSimulator : Bool = false;
 	var isBuildNDLL : Bool = true;
+	var isTest : Bool = false;
 
 	public function new() : Void
 	{
@@ -48,6 +52,7 @@ class PlatformBuild
     {		
     	/// Set variables
 		targetDirectory = Configuration.getData().OUTPUT + "/" + "ios";
+		fullTestResultPath = Path.join([targetDirectory, TEST_RESULT_FILENAME]);
 		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.FILE + "/";
 		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
 
@@ -65,9 +70,6 @@ class PlatformBuild
 
 	public function build()
 	{
-		LogHelper.info("", "" + Configuration.getData());
-		LogHelper.info("", "" + Configuration.getData().LIBRARY.GRAPHICS);
-
 		runXCodeBuild();
 
 		sign();
@@ -77,6 +79,11 @@ class PlatformBuild
 	{
 		runApp();
 	} 
+
+	public function test()
+	{
+		testApp();
+	}
 
 	private function checkArguments()
 	{	
@@ -93,6 +100,10 @@ class PlatformBuild
 			else if (arg == "-nondllbuild")
 			{
 				isBuildNDLL = false;
+			} 
+			else if (arg == "-test")
+			{
+				isSimulator = true;
 			}
 		}
 
@@ -108,6 +119,11 @@ class PlatformBuild
 		if (isSimulator)
 		{
 			PlatformConfiguration.addParsingDefine("simulator");
+		}
+
+		if (isTest)
+		{
+			PlatformConfiguration.addParsingDefine("test");
 		}
 	}
 	
@@ -466,5 +482,11 @@ class PlatformBuild
 			
 			ProcessHelper.runCommand ("", launcher, [ "install", "--timeout", "5", "--bundle", applicationPath]);
 		}
+	}
+
+	private function testApp()
+	{
+		neko.vm.Thread.create(runApp);
+		TestHelper.runListenerServer(10, 8181, fullTestResultPath);
 	}
 }
