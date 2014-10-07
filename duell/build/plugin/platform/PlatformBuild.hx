@@ -464,7 +464,7 @@ class PlatformBuild
 
 			var launcherPath = Path.directory(launcher);
 			
-			var result = ProcessHelper.runCommand(launcherPath, "./ios-sim", [ "launch", FileSystem.fullPath(applicationPath), "--sdk", XCodeHelper.getIOSVersion(), "--family", family, "--timeout", "60" ] );
+			var result = ProcessHelper.runCommand(launcherPath, "./ios-sim", [ "launch", FileSystem.fullPath(applicationPath), "--sdk", XCodeHelper.getIOSVersion(), "--family", family, "--timeout", "60", "--verbose" ] );
 			
 			if (result != 0)
 				throw "Execution error";
