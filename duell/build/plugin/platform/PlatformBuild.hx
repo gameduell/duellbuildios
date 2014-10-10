@@ -19,6 +19,7 @@ import duell.helpers.TestHelper;
 
 import duell.objects.DuellLib;
 import duell.objects.Haxelib;
+import duell.objects.DuellProcess;
 
 import sys.FileSystem;
 import haxe.io.Path;
@@ -37,6 +38,8 @@ class PlatformBuild
 	var isSimulator : Bool = false;
 	var isBuildNDLL : Bool = true;
 	var isTest : Bool = false;
+
+	var iosSimulatorProcess : DuellProcess;
 
 	public function new() : Void
 	{
@@ -104,22 +107,22 @@ class PlatformBuild
 			else if (arg == "-test")
 			{
 				isSimulator = true;
-				PlatformConfiguration.addParsingDefine("test");
+				Configuration.addParsingDefine("test");
 			}
 		}
 
 		if (isDebug)
 		{
-			PlatformConfiguration.addParsingDefine("debug");
+			Configuration.addParsingDefine("debug");
 		}
 		else
 		{
-			PlatformConfiguration.addParsingDefine("release");
+			Configuration.addParsingDefine("release");
 		}
 
 		if (isSimulator)
 		{
-			PlatformConfiguration.addParsingDefine("simulator");
+			Configuration.addParsingDefine("simulator");
 		}
 	}
 	
@@ -464,9 +467,11 @@ class PlatformBuild
 
 			var launcherPath = Path.directory(launcher);
 			
-			var result = ProcessHelper.runCommand(launcherPath, "./ios-sim", [ "launch", FileSystem.fullPath(applicationPath), "--sdk", XCodeHelper.getIOSVersion(), "--family", family, "--timeout", "60", "--verbose" ] );
+			iosSimulatorProcess = new DuellProcess(launcherPath, "./ios-sim", [ "launch", FileSystem.fullPath(applicationPath), "--sdk", XCodeHelper.getIOSVersion(), "--family", family, "--timeout", "60" ] );
 			
-			if (result != 0)
+			iosSimulatorProcess.blockUntilFinished();
+
+			if (iosSimulatorProcess.exitCode() != 0)
 				throw "Execution error";
 		} 
 		else 
@@ -482,8 +487,20 @@ class PlatformBuild
 
 	private function testApp()
 	{
+		/// DELETE PREVIOUS TEST
+		if (sys.FileSystem.exists(fullTestResultPath))
+		{
+			sys.FileSystem.deleteFile(fullTestResultPath);
+		}
+
+		/// CREATE TARGET FOLDER
 		PathHelper.mkdir(Path.directory(fullTestResultPath));
+
+		/// RUN THE APP IN A THREAD
 		neko.vm.Thread.create(runApp);
-		TestHelper.runListenerServer(10, 8181, fullTestResultPath);
+		
+		/// RUN THE LISTENER
+		TestHelper.runListenerServer(60, 8181, fullTestResultPath);
+		iosSimulatorProcess.kill();
 	}
 }
