@@ -17,11 +17,13 @@ import duell.helpers.FileHelper;
 import duell.helpers.ProcessHelper;
 import duell.helpers.TestHelper;
 
+import duell.objects.Arguments;
 import duell.objects.DuellLib;
 import duell.objects.Haxelib;
 import duell.objects.DuellProcess;
 
 import sys.FileSystem;
+import sys.io.File;
 import haxe.io.Path;
 
 class PlatformBuild
@@ -34,10 +36,6 @@ class PlatformBuild
 	var projectDirectory : String;
 	var fullTestResultPath : String;
 	var duellBuildIOSPath : String;
-	var isDebug : Bool = false;
-	var isSimulator : Bool = false;
-	var isBuildNDLL : Bool = true;
-	var isTest : Bool = false;
 
 	var iosSimulatorProcess : DuellProcess;
 
@@ -53,13 +51,8 @@ class PlatformBuild
 
     public function prepareBuild()
     {		
-    	/// Set variables
-		targetDirectory = Path.join([Configuration.getData().OUTPUT, "ios"]);
-		fullTestResultPath = Path.join([Configuration.getData().OUTPUT, "test", TEST_RESULT_FILENAME]);
-		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.FILE + "/";
-		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
-
 		/// Additional Configuration
+    	prepareVariables();
 		convertDuellAndHaxelibsIntoHaxeCompilationFlags();
 		addHaxeApplicationLibToTheTemplate();
 		addHXCPPLibs();
@@ -83,36 +76,42 @@ class PlatformBuild
 		runApp();
 	} 
 
+	public function fast()
+	{
+		parseProject();
+		prepareVariables();
+		runXCodeBuild();
+		sign();
+		runApp();
+	}
+
+	public function publish()
+	{
+		throw "Publish is not yet implemented";
+	}
+
 	public function test()
 	{
 		testApp();
 	}
 
+	private function prepareVariables()
+	{
+    	/// Set variables
+		targetDirectory = Path.join([Configuration.getData().OUTPUT, "ios"]);
+		fullTestResultPath = Path.join([Configuration.getData().OUTPUT, "test", TEST_RESULT_FILENAME]);
+		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.FILE + "/";
+		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
+		
+		Configuration.getData().PLATFORM.IOS_VERSION = XCodeHelper.getIOSVersion();
+		Configuration.getData().PLATFORM.OUTPUT_FILE = Path.join([targetDirectory, "build", (Configuration.getData().PLATFORM.DEBUG?"Debug":"Release") + (Configuration.getData().PLATFORM.SIMULATOR?"-iphonesimulator":"-iphoneos"), Configuration.getData().APP.FILE + ".app"]);
+	}
+
 	private function checkArguments()
 	{	
-		for (arg in Sys.args())
+		if (Arguments.isSet("-debug"))
 		{
-			if (arg == "-debug")
-			{
-				isDebug = true;
-			}
-			else if (arg == "-simulator")
-			{
-				isSimulator = true;
-			}
-			else if (arg == "-nondllbuild")
-			{
-				isBuildNDLL = false;
-			} 
-			else if (arg == "-test")
-			{
-				isSimulator = true;
-				Configuration.addParsingDefine("test");
-			}
-		}
-
-		if (isDebug)
-		{
+			Configuration.getData().PLATFORM.DEBUG = true;
 			Configuration.addParsingDefine("debug");
 		}
 		else
@@ -120,9 +119,16 @@ class PlatformBuild
 			Configuration.addParsingDefine("release");
 		}
 
-		if (isSimulator)
+		if (Arguments.isSet("-simulator") || Arguments.isSet("-test"))
 		{
+			Configuration.getData().PLATFORM.SIMULATOR = true;
 			Configuration.addParsingDefine("simulator");
+
+		}
+
+		if (Arguments.isSet("-test"))
+		{
+			Configuration.addParsingDefine("test");
 		}
 	}
 	
@@ -145,7 +151,7 @@ class PlatformBuild
 
 	private function overrideArchsIfSimulator()
 	{
-		if (isSimulator)
+		if (Configuration.getData().PLATFORM.SIMULATOR)
 		{
 			Configuration.getData().PLATFORM.ARCHS = ["i386"];
 		}
@@ -184,32 +190,10 @@ class PlatformBuild
 
 	private function runXCodeBuild()
 	{
-		var platformName = "iphoneos";
-		
-		if (isSimulator) 
-		{
-			platformName = "iphonesimulator";
-		}
-		
-		var configuration = "Release";
-		
-		if (isDebug) 
-		{
-			configuration = "Debug";
-		}
-			
-		var iphoneVersion = XCodeHelper.getIOSVersion();
-		var commands = [ "-configuration", configuration, "PLATFORM_NAME=" + platformName, "SDKROOT=" + platformName + iphoneVersion];
-			
-		if (isSimulator) 
-		{
-			commands.push ("-arch");
-			commands.push ("i386");
-		}
-		
-		commands = commands.concat(Configuration.getData().PLATFORM.XCODE_BUILD_ARGS);
-		
-		var result = ProcessHelper.runCommand(targetDirectory, "xcodebuild", commands);
+		var argsString = File.getContent(Path.join([targetDirectory, "xcodebuild_args"]));
+		var args = argsString.split("\n");
+		args = args.filter(function(str) return str != "");
+		var result = ProcessHelper.runCommand(targetDirectory, "xcodebuild", args);
 
 		if (result != 0)
 			throw "Build error";
@@ -228,6 +212,10 @@ class PlatformBuild
         TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Info.plist", projectDirectory + "/" + Configuration.getData().APP.FILE + "-Info.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Prefix.pch", projectDirectory + "/" + Configuration.getData().APP.FILE + "-Prefix.pch", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "template/ios/PROJ.xcodeproj", targetDirectory + "/" + Configuration.getData().APP.FILE + ".xcodeproj", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/xcodebuild_args", targetDirectory + "/xcodebuild_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/codesign_args", targetDirectory + "/codesign_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/rundevice_args", targetDirectory + "/rundevice_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/runsimulator_args", targetDirectory + "/runsimulator_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 	}
 
 	private function addHaxeApplicationLibToTheTemplate() 
@@ -329,7 +317,7 @@ class PlatformBuild
 								["-Diphoneos", "-DHXCPP_ARMV7"],
 								["-Diphonesim"]][archID];
 
-			if (isDebug)
+			if (Configuration.getData().PLATFORM.DEBUG)
 			{
 				argsForBuild.push("-Ddebug");
 			}
@@ -344,13 +332,10 @@ class PlatformBuild
 			
 			for (ndll in Configuration.getData().NDLLS) 
 			{
-				if (isBuildNDLL)
-				{
-	        		var result = duell.helpers.ProcessHelper.runCommand(Path.directory(ndll.BUILD_FILE_PATH), "haxelib", ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH)].concat(argsForBuild));
+        		var result = duell.helpers.ProcessHelper.runCommand(Path.directory(ndll.BUILD_FILE_PATH), "haxelib", ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH)].concat(argsForBuild));
 
-					if (result != 0)
-						LogHelper.error("Problem building ndll " + ndll.NAME);
-				}
+				if (result != 0)
+					LogHelper.error("Problem building ndll " + ndll.NAME);
 
 				copyNDLL(ndll, arch, argsForBuild, libExt);
 			}
@@ -374,24 +359,24 @@ class PlatformBuild
 		var debugDest = projectDirectory + "/lib/" + arch + "-debug/lib" + ndll.NAME + ".a";
 
 		/// Release doesn't exist so force the extension. Used mainly for trying to compile a armv7 lib without -v7, and universal libs
-		if (!isDebug && !FileSystem.exists(releaseLib))
+		if (!Configuration.getData().PLATFORM.DEBUG && !FileSystem.exists(releaseLib))
 		{
 			releaseLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + ".iphoneos.a"]);
 		}
 		
 		/// Debug doesn't exist so force the extension. Used mainly for trying to compile a armv7 lib without -v7, and universal libs
-		if (isDebug && !FileSystem.exists(debugLib)) 
+		if (Configuration.getData().PLATFORM.DEBUG && !FileSystem.exists(debugLib)) 
 		{
 			debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + "-debug" + ".iphoneos.a"]);
 		}
 
 		/// Copy!
-		if (!isDebug)
+		if (!Configuration.getData().PLATFORM.DEBUG)
 		{
 			FileHelper.copyIfNewer(releaseLib, releaseDest);
 		}
 		
-		if (isDebug && FileSystem.exists(debugLib) && debugLib != releaseLib) 
+		if (Configuration.getData().PLATFORM.DEBUG && FileSystem.exists(debugLib) && debugLib != releaseLib) 
 		{
 			FileHelper.copyIfNewer (debugLib, debugDest);
 		} 
@@ -404,39 +389,16 @@ class PlatformBuild
 
 	private function sign()
 	{
-		if (isSimulator)
+		if (Configuration.getData().PLATFORM.SIMULATOR)
 		{
 			return;
 		}
 
-		var configuration = "Release";
+		var argsString = File.getContent(Path.join([targetDirectory, "codesign_args"]));
+		var args = argsString.split("\n");
+		args = args.filter(function(str) return str != "");
 		
-		if (isDebug) 
-		{
-			configuration = "Debug";
-		}
-		
-		var identity = "iPhone Developer";
-		
-		if (Configuration.getData().PLATFORM.KEY_STORE_IDENTITY != "") 
-		{
-			identity = Configuration.getData().PLATFORM.KEY_STORE_IDENTITY;	
-		}
-		
-		var commands = ["-s", identity];
-		
-		if (Configuration.getData().PLATFORM.ENTITLEMENTS_PATH != "") {
-			
-			commands.push ("--entitlements");
-			commands.push (Configuration.getData().PLATFORM.ENTITLEMENTS_PATH);
-			
-		}
-		
-		var applicationPath = Path.join([targetDirectory, "build", configuration + "-iphoneos", Configuration.getData().APP.FILE + ".app"]);
-			
-		commands.push(applicationPath);
-		
-		var result = ProcessHelper.runCommand(targetDirectory, "codesign", commands, true, true);
+		var result = ProcessHelper.runCommand(targetDirectory, "codesign", args, true, true);
 
 		if (result != 0)
 			throw "Sign error";
@@ -444,30 +406,18 @@ class PlatformBuild
 
 	private function runApp()
 	{
-		var configuration = "Release";
-		
-		if (isDebug) 
+		if (Configuration.getData().PLATFORM.SIMULATOR) 
 		{
-			configuration = "Debug";
-		}
-		
-		if (isSimulator) 
-		{
-			var applicationPath = Path.join([targetDirectory, "build", configuration + "-iphonesimulator", Configuration.getData().APP.FILE + ".app"]);
-			
-			var family = "iphone";
-			
-			if (Configuration.getData().PLATFORM.TARGET_DEVICES == "2") 
-			{
-				family = "ipad";
-			}
-			
+			var argsString = File.getContent(Path.join([targetDirectory, "runsimulator_args"]));
+			var args = argsString.split("\n");
+			args = args.filter(function(str) return str != "");
+
 			var launcher = Path.join([duellBuildIOSPath , "bin", "ios-sim"]);
 			Sys.command ("chmod", ["+x", launcher]);
 
 			var launcherPath = Path.directory(launcher);
-			
-			iosSimulatorProcess = new DuellProcess(launcherPath, "./ios-sim", [ "launch", FileSystem.fullPath(applicationPath), "--sdk", XCodeHelper.getIOSVersion(), "--family", family, "--timeout", "60" ] );
+
+			iosSimulatorProcess = new DuellProcess(launcherPath, "./ios-sim", args);
 			
 			iosSimulatorProcess.blockUntilFinished();
 
@@ -476,12 +426,14 @@ class PlatformBuild
 		} 
 		else 
 		{
-			var applicationPath = Path.join([targetDirectory, "build", configuration + "-iphoneos", Configuration.getData().APP.FILE + ".app"]);
+			var argsString = File.getContent(Path.join([targetDirectory, "rundevice_args"]));
+			var args = argsString.split("\n");
+			args = args.filter(function(str) return str != "");
 			
 			var launcher = Path.join([duellBuildIOSPath , "bin", "ios-deploy"]);
 			Sys.command ("chmod", [ "+x", launcher ]);
 			
-			ProcessHelper.runCommand ("", launcher, [ "install", "--timeout", "5", "--bundle", applicationPath]);
+			ProcessHelper.runCommand ("", launcher, args);
 		}
 	}
 

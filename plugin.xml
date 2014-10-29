@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin>
+	<documentation>
+    Use this plugin to build for the iOS platform. Current limitations are mainly that Publishing is not implemented, meaning currently there isn't the possibility to properly sign an and release it. You can however open the xcode project, and configure the signing there and build it to release it. 
+	</documentation>
+	<configuration>
+		<elem name="icon">
+			Use this to configure where the icon files are. By default they are searched in current_project_path/Icons/ios. The naming and sizing is very strict due to how ios works. To know them, just do a "duell create emptyProject" and see the icons that are on the default project. E.g.: &lt;icon path="Iconys/ios" /&gt;. 
+		</elem>
+
+		<elem name="splashscreen">
+			Use this to configure where the splashscreen files are. By default they are searched in current_project_path/Splashscreens/ios. The naming and sizing is very strict due to how ios works. To know them, just do a "duell create emptyProject" and see the splashscreens that are on the default project. E.g.: &lt;splashscreen path="Splashyscreenys/ios" /&gt;. 
+		</elem>
+
+		<elem name="framework">
+			Use this tag if you want to link against an additional framework. By default Foundation.framework, QuartzCore.framework and UIKit.framework are linked. You can specify the name of the framework and a optionally a path. If no path is specified, then it is assumed to be a system framework. E.g.: &lt;framework name="Something.framework" path="frameworks" /&gt;. 
+		</elem>
+
+		<elem name="architecture">
+			Use this tag to specify an architecture that the app should be built with. By default armv7 is used. If you run in the simulator, x86 is overridden automatically. If you want to build for armv6 you can specify that here. E.g.: &lt;architecture name="armv6" /&gt;. 
+		</elem>
+
+		<elem name="hxcpp-compilation-arg">
+			*WARNING Currently this is not working properly* Use this tag if you want to pass an additional compilation argument to the hxcpp compilation of the generated c++ code. E.g.: &lt;hxcpp-compilation-arg value="armv6" /&gt;. 
+		</elem>
+
+		<elem name="xcode-build-arg">
+			Use this to pass an additional argument to the xcode build code building phase. E.g.: &lt;xcode-build-arg value="-Wfoo" /&gt;. 
+		</elem>
+
+		<elem name="xcode-link-arg">
+			Use this to pass an additional argument to the xcode build code linking phase. E.g.: &lt;xcode-link-arg value="-Wfoo" /&gt;. 
+		</elem>
+		
+		<elem name="xcode-project-flag">
+			Use this to add an additional project flag to the xcode project. E.g.: &lt;xcode-project-flag name="COMPRESS_PNG_FILES" value="YES" /&gt;. 
+		</elem>
+		
+		<elem name="xcode-target-flag">
+			Use this to add an additional target flag to the xcode project. E.g.: &lt;xcode-target-flag name="COMPRESS_PNG_FILES" value="YES" /&gt;. 
+		</elem>
+		
+		<elem name="pre-rendered-icon">
+			Use this to specify if your icons are pre rendered or not, by default it is set to true. E.g.: &lt;pre-rendered-icon value="YES" /&gt;. 
+		</elem>
+		
+		<elem name="deployment-target">
+			Use this to specify your ios deployment target. You specify the iOS version directly. By default iOS 5 is selected. E.g.: &lt;deployment-target value="6" /&gt;. 
+		</elem>
+		
+		<elem name="target-devices">
+			Use this to specify your target devices. 1 is for iPhone, 2 is for iPad, 1,2 for both. By default 1,2 is selected. E.g.: &lt;target-devices value="1,2" /&gt;. 
+		</elem>
+		
+		<elem name="key-store-identity">
+			Use this to specify your key store identity. By default it is "iPhone Developer". E.g.: &lt;key-store-identity value="John Smith" /&gt;. 
+		</elem>
+		
+		<elem name="fullscreen">
+			Use this to specify if you want to hide the status bar. By defualt it is hidden. E.g.: &lt;fullscreeen value="true" /&gt;. 
+		</elem>
+		
+		<elem name="orientation">
+			Use this to specify the orientations you allow on the app. Possible values are UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight, UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown. By default all orientations are allowed. E.g.: &lt;orientation value="UIInterfaceOrientationLandscapeLeft,UIInterfaceOrientationLandscapeRight" /&gt;. 
+		</elem>
+		
+		<elem name="required-capability">
+			Use this to specify a required capability for your app. E.g.: &lt;required-capability name="gyroscope" value="true" /&gt;. 
+		</elem>
+
+		<elem name="entitlements">
+			Use this to specify the entitlements file for your app. E.g.: &lt;entitlements path="somefile.entitlements" /&gt;. 
+		</elem>
+	</configuration>
+
+	<arg name="-debug" type="void">
+		<documentation>
+			Use this argument if you want to build in debug.
+		</documentation>
+	</arg>
+
+	<arg name="-simulator" type="void">
+		<documentation>
+			Use this if you want to application to be built and run on the simulator. Be advised that running on the simulator and device requires different architectures, and so, different compilations. If you use -fast with a simulator execution, you need to rerun the build process if you want to run on the device.
+		</documentation>
+	</arg>
+</plugin>
+
+

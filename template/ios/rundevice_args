@@ -1,0 +1,5 @@
+install
+--timeout
+5
+--bundle
+::PLATFORM.OUTPUT_FILE::

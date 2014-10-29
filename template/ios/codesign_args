@@ -1,0 +1,6 @@
+::if PLATFORM.DEBUG::Debug::else::Release::end::
+-s
+::if (PLATFORM.KEY_STORE_IDENTITY != "")::::PLATFORM.KEY_STORE_IDENTITY::::else::iPhone Developer::end::
+::if (PLATFORM.ENTITLEMENTS_PATH != "")::--entitlements
+::PLATFORM.ENTITLEMENTS_PATH::::end::
+::PLATFORM.OUTPUT_FILE::

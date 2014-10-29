@@ -41,6 +41,12 @@ typedef PlatformConfigurationData = {
 	ADDL_PBX_FRAMEWORK_GROUP : Array<String>,
 	ADDL_PBX_RESOURCE_GROUP : Array<String>,
 	ADDL_PBX_RESOURCES_BUILD_PHASE : Array<String>,
+
+	/// derived from the arguments
+	DEBUG : Bool,
+	SIMULATOR : Bool,
+	OUTPUT_FILE : String,
+	IOS_VERSION : String
 }
 
 class PlatformConfiguration
@@ -89,6 +95,11 @@ class PlatformConfiguration
 			ADDL_PBX_FRAMEWORK_GROUP : [],
 			ADDL_PBX_RESOURCES_BUILD_PHASE : [],
 			ADDL_PBX_RESOURCE_GROUP : [],
+
+			DEBUG : false,
+			SIMULATOR : false,
+			OUTPUT_FILE : "",
+			IOS_VERSION : ""
 		};
 	}
 }

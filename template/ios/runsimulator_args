@@ -1,0 +1,8 @@
+launch
+::PLATFORM.OUTPUT_FILE::
+--sdk
+::PLATFORM.IOS_VERSION::
+--family
+::if (PLATFORM.TARGET_DEVICES == 2)::ipad::else::iphone::end::
+--timeout
+60
