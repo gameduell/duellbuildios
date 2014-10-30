@@ -37,7 +37,8 @@ class PlatformBuild
 	var fullTestResultPath : String;
 	var duellBuildIOSPath : String;
 
-	var iosSimulatorProcess : DuellProcess;
+	/// WORKAROUND
+	//var iosSimulatorProcess : DuellProcess;
 
 	public function new() : Void
 	{
@@ -82,7 +83,11 @@ class PlatformBuild
 		prepareVariables();
 		runXCodeBuild();
 		sign();
-		runApp();
+		
+		if (Arguments.isSet("-test"))
+			testApp();
+		else
+			runApp();
 	}
 
 	public function publish()
@@ -102,7 +107,7 @@ class PlatformBuild
 		fullTestResultPath = Path.join([Configuration.getData().OUTPUT, "test", TEST_RESULT_FILENAME]);
 		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.FILE + "/";
 		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
-		
+
 		Configuration.getData().PLATFORM.IOS_VERSION = XCodeHelper.getIOSVersion();
 		Configuration.getData().PLATFORM.OUTPUT_FILE = Path.join([targetDirectory, "build", (Configuration.getData().PLATFORM.DEBUG?"Debug":"Release") + (Configuration.getData().PLATFORM.SIMULATOR?"-iphonesimulator":"-iphoneos"), Configuration.getData().APP.FILE + ".app"]);
 	}
@@ -417,12 +422,21 @@ class PlatformBuild
 
 			var launcherPath = Path.directory(launcher);
 
-			iosSimulatorProcess = new DuellProcess(launcherPath, "./ios-sim", args);
-			
-			iosSimulatorProcess.blockUntilFinished();
 
-			if (iosSimulatorProcess.exitCode() != 0)
-				throw "Execution error";
+			/// WARNING the latest version of the ios sim has some output issues, it only seems to work by running with Sys.command
+			/// for now we will use that until a solution is found
+
+			//iosSimulatorProcess = new DuellProcess(launcherPath, "ios-sim", args, {logOnlyIfVerbose:false});
+			
+			//iosSimulatorProcess.blockUntilFinished();
+
+			//if (iosSimulatorProcess.exitCode() != 0)
+			//	throw "Execution error";
+
+			/// WORKAROUND
+			Sys.setCwd(launcherPath);
+			Sys.command("./ios-sim", args);
+
 		} 
 		else 
 		{
@@ -453,6 +467,8 @@ class PlatformBuild
 		
 		/// RUN THE LISTENER
 		TestHelper.runListenerServer(300, 8181, fullTestResultPath);
-		iosSimulatorProcess.kill();
+		
+		/// WORKAROUND
+		//iosSimulatorProcess.kill();
 	}
 }

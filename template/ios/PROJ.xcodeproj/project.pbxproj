@@ -327,17 +327,14 @@
 	            "LIBRARY_SEARCH_PATHS[arch=armv6]" = (
 					"$(inherited)",
 					"\"$(SRCROOT)/::APP.FILE::/lib/armv6-debug\"",
-					"\"$(SRCROOT)/::APP.FILE::/lib/armv6\"",
 				);
 				"LIBRARY_SEARCH_PATHS[arch=armv7]" = (
 					"$(inherited)",
 					"\"$(SRCROOT)/::APP.FILE::/lib/armv7-debug\"",
-					"\"$(SRCROOT)/::APP.FILE::/lib/armv7\"",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
 					"$(inherited)",
 					"\"$(SRCROOT)/::APP.FILE::/lib/i386-debug\"",
-					"\"$(SRCROOT)/::APP.FILE::/lib/i386\"",
 				);
                 FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -364,17 +361,14 @@
 
 	            "LIBRARY_SEARCH_PATHS[arch=armv6]" = (
 					"$(inherited)",
-					"\"$(SRCROOT)/::APP.FILE::/lib/armv6-debug\"",
 					"\"$(SRCROOT)/::APP.FILE::/lib/armv6\"",
 				);
 				"LIBRARY_SEARCH_PATHS[arch=armv7]" = (
 					"$(inherited)",
-					"\"$(SRCROOT)/::APP.FILE::/lib/armv7-debug\"",
 					"\"$(SRCROOT)/::APP.FILE::/lib/armv7\"",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
 					"$(inherited)",
-					"\"$(SRCROOT)/::APP.FILE::/lib/i386-debug\"",
 					"\"$(SRCROOT)/::APP.FILE::/lib/i386\"",
 				);
                 FRAMEWORK_SEARCH_PATHS = (
