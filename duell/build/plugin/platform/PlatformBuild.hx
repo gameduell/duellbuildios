@@ -337,12 +337,24 @@ class PlatformBuild
 			
 			for (ndll in Configuration.getData().NDLLS) 
 			{
-        		var result = duell.helpers.ProcessHelper.runCommand(Path.directory(ndll.BUILD_FILE_PATH), "haxelib", ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH)].concat(argsForBuild));
+        		var argsForBuildSpecific = argsForBuild;
+				var additionalArgsPath = Path.join([Path.directory(ndll.BUILD_FILE_PATH), "Build.args"]);
+				
+				if (FileSystem.exists(additionalArgsPath))
+				{
+					var argsString = File.getContent(additionalArgsPath);
+					var additionalArgs = argsString.split("\n");
+					additionalArgs = additionalArgs.filter(function(str) return str != "");
+					argsForBuildSpecific = argsForBuildSpecific.concat(additionalArgs);
+				}
+
+        		var result = duell.helpers.ProcessHelper.runCommand(Path.directory(ndll.BUILD_FILE_PATH), "haxelib", ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH)].concat(argsForBuildSpecific));
+
 
 				if (result != 0)
 					LogHelper.error("Problem building ndll " + ndll.NAME);
 
-				copyNDLL(ndll, arch, argsForBuild, libExt);
+				copyNDLL(ndll, arch, argsForBuildSpecific, libExt);
 			}
 		}
 	}
