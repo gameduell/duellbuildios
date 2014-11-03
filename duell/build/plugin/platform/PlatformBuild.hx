@@ -16,6 +16,7 @@ import duell.helpers.LogHelper;
 import duell.helpers.FileHelper;
 import duell.helpers.ProcessHelper;
 import duell.helpers.TestHelper;
+import duell.helpers.PlatformHelper;
 
 import duell.objects.Arguments;
 import duell.objects.DuellLib;
@@ -29,6 +30,8 @@ import haxe.io.Path;
 class PlatformBuild
 {
 	public var requiredSetups = ["mac"];
+	public var supportedHostPlatforms = [WINDOWS, MAC];
+	
 	public static inline var TEST_RESULT_FILENAME = "test_result_ios.xml";
 
 	/// VARIABLES SET AFTER PARSING
@@ -83,7 +86,7 @@ class PlatformBuild
 		prepareVariables();
 		runXCodeBuild();
 		sign();
-		
+
 		if (Arguments.isSet("-test"))
 			testApp();
 		else
