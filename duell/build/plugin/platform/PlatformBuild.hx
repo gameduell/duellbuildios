@@ -14,14 +14,13 @@ import duell.build.helpers.XCodeHelper;
 import duell.helpers.PathHelper;
 import duell.helpers.LogHelper;
 import duell.helpers.FileHelper;
-import duell.helpers.ProcessHelper;
+import duell.helpers.CommandHelper;
 import duell.helpers.TestHelper;
 import duell.helpers.PlatformHelper;
 
 import duell.objects.Arguments;
 import duell.objects.DuellLib;
 import duell.objects.Haxelib;
-import duell.objects.DuellProcess;
 
 import sys.FileSystem;
 import sys.io.File;
@@ -39,9 +38,6 @@ class PlatformBuild
 	var projectDirectory : String;
 	var fullTestResultPath : String;
 	var duellBuildIOSPath : String;
-
-	/// WORKAROUND
-	//var iosSimulatorProcess : DuellProcess;
 
 	public function new() : Void
 	{
@@ -201,7 +197,7 @@ class PlatformBuild
 		var argsString = File.getContent(Path.join([targetDirectory, "xcodebuild_args"]));
 		var args = argsString.split("\n");
 		args = args.filter(function(str) return str != "");
-		var result = ProcessHelper.runCommand(targetDirectory, "xcodebuild", args);
+		var result = CommandHelper.runCommand(targetDirectory, "xcodebuild", args, {errorMessage: "running the xcode build"});
 
 		if (result != 0)
 			throw "Build error";
@@ -351,11 +347,7 @@ class PlatformBuild
 					argsForBuildSpecific = argsForBuildSpecific.concat(additionalArgs);
 				}
 
-        		var result = duell.helpers.ProcessHelper.runCommand(Path.directory(ndll.BUILD_FILE_PATH), "haxelib", ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH)].concat(argsForBuildSpecific));
-
-
-				if (result != 0)
-					LogHelper.error("Problem building ndll " + ndll.NAME);
+        		var result = CommandHelper.runHaxelib(Path.directory(ndll.BUILD_FILE_PATH), ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH)].concat(argsForBuildSpecific));
 
 				copyNDLL(ndll, arch, argsForBuildSpecific, libExt);
 			}
@@ -418,10 +410,7 @@ class PlatformBuild
 		var args = argsString.split("\n");
 		args = args.filter(function(str) return str != "");
 		
-		var result = ProcessHelper.runCommand(targetDirectory, "codesign", args, true, true);
-
-		if (result != 0)
-			throw "Sign error";
+		CommandHelper.runCommand(targetDirectory, "codesign", args, {exitOnError: false, errorMessage: "signing the app"});
 	}
 
 	private function runApp()
@@ -433,25 +422,12 @@ class PlatformBuild
 			args = args.filter(function(str) return str != "");
 
 			var launcher = Path.join([duellBuildIOSPath , "bin", "ios-sim"]);
-			Sys.command ("chmod", ["+x", launcher]);
+			CommandHelper.runCommand("", "chmod", ["+x", launcher], {errorMessage: "setting permissions on the simulator launcher"});
+
 
 			var launcherPath = Path.directory(launcher);
 
-
-			/// WARNING the latest version of the ios sim has some output issues, it only seems to work by running with Sys.command
-			/// for now we will use that until a solution is found
-
-			//iosSimulatorProcess = new DuellProcess(launcherPath, "ios-sim", args, {logOnlyIfVerbose:false});
-			
-			//iosSimulatorProcess.blockUntilFinished();
-
-			//if (iosSimulatorProcess.exitCode() != 0)
-			//	throw "Execution error";
-
-			/// WORKAROUND
-			Sys.setCwd(launcherPath);
-			Sys.command("./ios-sim", args);
-
+			CommandHelper.runCommand(launcherPath, "ios-sim", args, {systemCommand: false, errorMessage: "running the simulator"});
 		} 
 		else 
 		{
@@ -460,9 +436,9 @@ class PlatformBuild
 			args = args.filter(function(str) return str != "");
 			
 			var launcher = Path.join([duellBuildIOSPath , "bin", "ios-deploy"]);
-			Sys.command ("chmod", [ "+x", launcher ]);
+			CommandHelper.runCommand("", "chmod", ["+x", launcher], {errorMessage: "setting permission on the ios deploy tool"});
 			
-			ProcessHelper.runCommand ("", launcher, args);
+			CommandHelper.runCommand("", launcher, args, {errorMessage: "deploying the app into the device"});
 		}
 	}
 
@@ -482,8 +458,5 @@ class PlatformBuild
 		
 		/// RUN THE LISTENER
 		TestHelper.runListenerServer(300, 8181, fullTestResultPath);
-		
-		/// WORKAROUND
-		//iosSimulatorProcess.kill();
 	}
 }

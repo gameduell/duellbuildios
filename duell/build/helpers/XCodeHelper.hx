@@ -8,7 +8,8 @@ package duell.build.helpers;
 
 using StringTools;
 
-import duell.helpers.ProcessHelper;
+import duell.helpers.CommandHelper;
+import duell.objects.DuellProcess;
 
 import sys.FileSystem;
 
@@ -57,7 +58,8 @@ class XCodeHelper
 		if (developerDir != null)
 			return developerDir;
 
-		developerDir = ProcessHelper.runProcess("", "xcode-select", ["--print-path"]);
+        var proc = new DuellProcess("", "xcode-select", ["--print-path"], {block:true, systemCommand:true, errorMessage: "trying to determine the developer directory"});
+        developerDir = proc.getCompleteStdout().toString(); 
 
 		if (developerDir.endsWith("\n"))
 		{
