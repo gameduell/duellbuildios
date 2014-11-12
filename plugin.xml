@@ -21,7 +21,7 @@
 		</elem>
 
 		<elem name="hxcpp-compilation-arg">
-			*WARNING Currently this is not working properly* Use this tag if you want to pass an additional compilation argument to the hxcpp compilation of the generated c++ code. E.g.: &lt;hxcpp-compilation-arg value="armv6" /&gt;. 
+			Use this tag if you want to pass an additional compilation argument to the hxcpp compilation of the generated c++ code. E.g.: &lt;hxcpp-compilation-arg value="armv6" /&gt;. 
 		</elem>
 
 		<elem name="xcode-build-arg">
