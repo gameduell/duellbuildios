@@ -1,0 +1,6 @@
+-main ::MAIN:: ::foreach (HAXE_COMPILE_ARGS)::
+::__current__::::end::
+-D no-compilation
+-D simulator 
+-cpp build/Debug-iphonesim
+-debug

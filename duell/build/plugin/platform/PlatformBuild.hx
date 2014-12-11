@@ -143,6 +143,12 @@ class PlatformBuild
 			if (define == "cpp") /// not allowed
 				continue;
 
+			if (define == "debug") /// already there
+				continue;
+
+			if (define == "release") /// already there
+				continue;
+
 			Configuration.getData().HAXE_COMPILE_ARGS.push("-D " + define);
 		}
 	}
