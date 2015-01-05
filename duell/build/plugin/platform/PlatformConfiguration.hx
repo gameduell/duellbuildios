@@ -32,6 +32,7 @@ typedef PlatformConfigurationData = {
 	ORIENTATIONS : Array<String>,
 	REQUIRED_CAPABILITIES : KeyValueArray,
 	ENTITLEMENTS_PATH : String,
+	INFOPLIST_SECTIONS: Array<String>,
 
 	/// derived from the data above
 	FRAMEWORK_SEARCH_PATHS : Array<String>,
@@ -87,6 +88,7 @@ class PlatformConfiguration
 			ORIENTATIONS : ["UIInterfaceOrientationLandscapeLeft", "UIInterfaceOrientationLandscapeRight", "UIInterfaceOrientationPortrait", "UIInterfaceOrientationPortraitUpsideDown"],
 			REQUIRED_CAPABILITIES : [],
 			ENTITLEMENTS_PATH : "",
+			INFOPLIST_SECTIONS: [],
 
 			FRAMEWORK_SEARCH_PATHS : [],
 			ADDL_PBX_BUILD_FILE : [],

@@ -71,6 +71,10 @@
 		<elem name="entitlements">
 			Use this to specify the entitlements file for your app. E.g.: &lt;entitlements path="somefile.entitlements" /&gt;. 
 		</elem>
+
+		<elem name="infoplist-section">
+			Use this to add custom parameters to the info.plist file of the project. E.g.: &lt;infoplist-section value="&lt;key&gt;FacebookAppID&lt;/key&gt; &lt;string&gt;12345678&lt;/string&gt;" /&gt;. 
+		</elem>
 	</configuration>
 
 	<arg name="-debug" type="void">

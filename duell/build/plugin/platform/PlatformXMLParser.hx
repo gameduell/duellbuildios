@@ -93,6 +93,9 @@ class PlatformXMLParser
 				case 'entitlements':
 					parseEntitlementsElement(element);
 
+				case 'infoplist-section':
+					parseInfoPlistSectionElement(element);
+
 			}
 		}
 	}
@@ -268,6 +271,11 @@ class PlatformXMLParser
 		{
 			PlatformConfiguration.getData().ENTITLEMENTS_PATH = resolvePath(element.att.path);
 		}
+	}
+
+	private static function parseInfoPlistSectionElement(element : Fast)
+	{
+		PlatformConfiguration.getData().INFOPLIST_SECTIONS.push(element.innerHTML);
 	}
 
 	/// HELPERS
