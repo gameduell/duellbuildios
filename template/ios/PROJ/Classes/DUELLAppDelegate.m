@@ -12,6 +12,9 @@ const char *hxRunLibrary();
 
 
 @interface DUELLAppDelegate ()
+
+@property (strong, nonatomic, readwrite) NSMutableArray *duellDelegates;
+
 @end
 
 
@@ -47,7 +50,12 @@ const char *hxRunLibrary();
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    return NO;
+	return NO;
+}
+
+- (void)addDuellDelegate:(id<DUELLDelegate>)delegate
+{
+	// TODO: Implement me
 }
 
 @end

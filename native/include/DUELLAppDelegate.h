@@ -7,10 +7,14 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol DUELLDelegate;
+
 
 @interface DUELLAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic, readwrite) UIWindow *window;
+
+- (void)addDuellDelegate:(id<DUELLDelegate>)delegate;
 
 @end
 

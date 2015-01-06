@@ -193,6 +193,7 @@ class PlatformBuild
 	private function prepareXcodeBuild()
 	{
 		createDirectoriesAndCopyTemplates();
+		copyNativeFiles();
 		handleIcons();
 		handleSplashscreens();
 		handleNDLLs();
@@ -226,6 +227,11 @@ class PlatformBuild
 		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/codesign_args", targetDirectory + "/codesign_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/rundevice_args", targetDirectory + "/rundevice_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/runsimulator_args", targetDirectory + "/runsimulator_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+	}
+
+	private function copyNativeFiles() 
+	{
+		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/native/include", projectDirectory + "/Classes", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 	}
 
 	private function addHaxeApplicationLibToTheTemplate() 
