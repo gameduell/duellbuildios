@@ -29,7 +29,7 @@ import haxe.io.Path;
 class PlatformBuild
 {
 	public var requiredSetups = ["mac"];
-	public var supportedHostPlatforms = [WINDOWS, MAC];
+	public var supportedHostPlatforms = [MAC];
 	
 	public static inline var TEST_RESULT_FILENAME = "test_result_ios.xml";
 
