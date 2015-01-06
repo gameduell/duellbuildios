@@ -55,6 +55,7 @@ build-haxe-i386:
 	cd build/$(CONFIG); haxelib run hxcpp Build.xml -Dios -Diphone -Dsimulator -DHXCPP_CPP11 $(DEF_DEBUG) $(HXCPP_CLANG) ::foreach (PLATFORM.HXCPP_COMPILATION_ARGS)::::__current__:: ::end::
 	cp $(LIB_BASE).iphonesim.a ../lib/i386$(LIB_DEST)
 	touch ../Classes/Main.mm
+	touch ../Classes/DUELLAppDelegate.m
 
 build-haxe-armv6:
 	@echo "Haxe armv6 build CONFIG : $(CONFIG)"
@@ -62,6 +63,7 @@ build-haxe-armv6:
 	cd build/$(CONFIG); haxelib run hxcpp Build.xml -Dios -Diphone -DHXCPP_ARMV6 -DHXCPP_CPP11 $(DEF_DEBUG) $(HXCPP_CLANG) ::foreach (PLATFORM.HXCPP_COMPILATION_ARGS)::::__current__:: ::end::
 	cp $(LIB_BASE).iphoneos.a ../lib/armv6$(LIB_DEST)
 	touch ../Classes/Main.mm
+	touch ../Classes/DUELLAppDelegate.m
 
 build-haxe-armv7:
 	@echo "Haxe armv7 build CONFIG : $(CONFIG)"
@@ -69,6 +71,7 @@ build-haxe-armv7:
 	cd build/$(CONFIG); haxelib run hxcpp Build.xml -Dios -Diphone -DHXCPP_ARMV7 -DHXCPP_CPP11 $(DEF_DEBUG) $(HXCPP_CLANG) ::foreach (PLATFORM.HXCPP_COMPILATION_ARGS)::::__current__:: ::end::
 	cp $(LIB_BASE).iphoneos-v7.a ../lib/armv7$(LIB_DEST)
 	touch ../Classes/Main.mm
+	touch ../Classes/DUELLAppDelegate.m
 
 clean:
 	rm -rf build

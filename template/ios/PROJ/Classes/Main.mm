@@ -9,7 +9,8 @@
 
 #import <UIKit/UIKit.h>
 
-extern "C" const char *hxRunLibrary();
+#import "DUELLAppDelegate.h"
+
 
 extern "C" void hxcpp_set_top_of_stack();
 	
@@ -18,26 +19,6 @@ extern "C" void hxcpp_set_top_of_stack();
      extern "C" int ::NAME::_register_prims();
  ::end::
 ::end::
-
-@interface DUELLAppDelegate : UIResponder <UIApplicationDelegate>
-
-@end
-
-@implementation DUELLAppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-	const char *err = NULL;
- 		err = hxRunLibrary();
-	if (err) {
-		printf(" Error %s\n", err );
-		return -1;
-	}
-
-    return YES;
-}
-
-@end
 
 extern "C" int main(int argc, char *argv[])	
 {
@@ -49,7 +30,8 @@ extern "C" int main(int argc, char *argv[])
      ::end::
    	::end::
 
-    @autoreleasepool {
+    @autoreleasepool
+    {
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([DUELLAppDelegate class]));
     }
 
