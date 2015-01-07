@@ -12,9 +12,10 @@
 
 @interface DUELLAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic, readwrite) UIWindow *window;
+@property (nonatomic, readwrite, strong) UIWindow *window;
 
-- (void)addDuellDelegate:(id<DUELLDelegate>)delegate;
+- (void)addDuellDelegate:(id<DUELLDelegate>)delegate; // Keeps a strong refernce
+- (void)removeDuellDelegate:(id<DUELLDelegate>)delegate;
 
 @end
 

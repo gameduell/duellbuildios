@@ -7,13 +7,15 @@
 
 #import "DUELLAppDelegate.h"
 
+#import "DUELLDelegate.h"
+
 
 const char *hxRunLibrary();
 
 
 @interface DUELLAppDelegate ()
 
-@property (strong, nonatomic, readwrite) NSMutableArray *duellDelegates;
+@property (nonatomic, readwrite, strong) NSMutableArray *duellDelegates;
 
 @end
 
@@ -34,28 +36,91 @@ const char *hxRunLibrary();
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
-{}
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(applicationWillResignActive:)])
+        {
+            [delegate applicationWillResignActive:application];
+        }
+    }
+}
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
-{}
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(applicationDidEnterBackground:)])
+        {
+            [delegate applicationDidEnterBackground:application];
+        }
+    }
+}
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
-{}
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(applicationWillEnterForeground:)])
+        {
+            [delegate applicationWillEnterForeground:application];
+        }
+    }
+}
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
-{}
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(applicationDidBecomeActive:)])
+        {
+            [delegate applicationDidBecomeActive:application];
+        }
+    }
+}
 
 - (void)applicationWillTerminate:(UIApplication *)application
-{}
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(applicationWillTerminate:)])
+        {
+            [delegate applicationWillTerminate:application];
+        }
+    }
+}
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-	return NO;
+    BOOL returnValue = NO;
+
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(application:openURL:sourceApplication:annotation:)])
+        {
+            returnValue |= [delegate application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+        }
+    }
+
+    return returnValue;
 }
 
 - (void)addDuellDelegate:(id<DUELLDelegate>)delegate
 {
-	// TODO: Implement me
+    if (self.duellDelegates == nil)
+    {
+        self.duellDelegates = [[NSMutableArray alloc] init];
+    }
+
+    if ([self.duellDelegates containsObject:delegate] == NO)
+    {
+        [self.duellDelegates addObject:delegate];
+    }
+}
+
+- (void)removeDuellDelegate:(id<DUELLDelegate>)delegate
+{
+    [self.duellDelegates removeObject:delegate];
 }
 
 @end
