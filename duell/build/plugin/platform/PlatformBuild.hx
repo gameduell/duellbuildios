@@ -465,4 +465,32 @@ class PlatformBuild
 		/// RUN THE LISTENER
 		TestHelper.runListenerServer(300, 8181, fullTestResultPath);
 	}
+
+	public function clean()
+	{
+		prepareVariables();
+		addHXCPPLibs();
+
+		LogHelper.info('Cleaning ios part of export folder...');
+
+		if (FileSystem.exists(targetDirectory))
+		{
+			PathHelper.removeDirectory(targetDirectory);
+		}
+
+		for (ndll in Configuration.getData().NDLLS) 
+		{
+			LogHelper.info('Cleaning ndll ' + ndll.NAME + "...");
+    		var result = CommandHelper.runHaxelib(Path.directory(ndll.BUILD_FILE_PATH), ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH), "clean"], {errorMessage: "cleaning ndll"});
+
+			if (result != 0)
+				LogHelper.error("Problem cleaning ndll " + ndll.NAME);
+
+			var destFolder = Path.join([ndll.BIN_PATH, "iPhone"]);
+			if (FileSystem.exists(destFolder))
+			{
+				PathHelper.removeDirectory(destFolder);
+			}
+		}
+	}
 }
