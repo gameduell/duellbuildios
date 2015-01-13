@@ -1,0 +1,3 @@
+<xml>
+	<compilerflag value="-I${haxelib:duellbuildios}/native/include" />
+</xml>
