@@ -96,6 +96,8 @@ class PlatformXMLParser
 				case 'infoplist-section':
 					parseInfoPlistSectionElement(element);
 
+				case 'infoplist-entry':
+					parseInfoPlistEntryElement(element);
 			}
 		}
 	}
@@ -276,6 +278,38 @@ class PlatformXMLParser
 	private static function parseInfoPlistSectionElement(element : Fast)
 	{
 		PlatformConfiguration.getData().INFOPLIST_SECTIONS.push(element.innerHTML);
+	}
+
+	private static function parseInfoPlistEntryElement(element : Fast)
+	{
+		var key: String = null;
+
+		if (element.has.key)
+		{
+			key = element.att.key;
+
+			var value: String = "";
+			var type: EntryType = EntryType.DYNAMIC;
+
+			if (element.has.type)
+			{
+				type = Type.createEnum(EntryType, element.att.type.toUpperCase());
+			}
+
+			if (element.has.value)
+			{
+				value = element.att.value;
+			}
+
+			var entry: PlistEntry =
+			{
+				KEY : key,
+				TYPE : type,
+				VALUE : value
+			};
+
+			PlatformConfiguration.getData().INFOPLIST_ENTRIES.push(entry);
+		}
 	}
 
 	/// HELPERS

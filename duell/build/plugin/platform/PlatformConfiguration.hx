@@ -5,11 +5,22 @@
  */
 package duell.build.plugin.platform;
 
-import haxe.io.Path;
-
 import duell.build.helpers.XCodeHelper;
 
+enum EntryType
+{
+	STRING;
+	BOOL;
+	NUMBER;
+	DYNAMIC;
+}
 
+typedef PlistEntry =
+{
+	KEY : String,
+	TYPE : EntryType,
+	VALUE : String
+};
 
 typedef KeyValueArray = Array<{NAME : String, VALUE : String}>;
 
@@ -33,6 +44,7 @@ typedef PlatformConfigurationData = {
 	REQUIRED_CAPABILITIES : KeyValueArray,
 	ENTITLEMENTS_PATH : String,
 	INFOPLIST_SECTIONS: Array<String>,
+	INFOPLIST_ENTRIES: Array<PlistEntry>,
 
 	/// derived from the data above
 	FRAMEWORK_SEARCH_PATHS : Array<String>,
@@ -89,6 +101,7 @@ class PlatformConfiguration
 			REQUIRED_CAPABILITIES : [],
 			ENTITLEMENTS_PATH : "",
 			INFOPLIST_SECTIONS: [],
+			INFOPLIST_ENTRIES: [],
 
 			FRAMEWORK_SEARCH_PATHS : [],
 			ADDL_PBX_BUILD_FILE : [],

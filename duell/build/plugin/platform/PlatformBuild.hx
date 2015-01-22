@@ -192,6 +192,7 @@ class PlatformBuild
 
 	private function prepareXcodeBuild()
 	{
+		convertPlistEntriesToSections();
 		createDirectoriesAndCopyTemplates();
 		copyNativeFiles();
 		handleIcons();
@@ -208,6 +209,40 @@ class PlatformBuild
 
 		if (result != 0)
 			throw "Build error";
+	}
+
+	private static function convertPlistEntriesToSections()
+	{
+		for (entry in PlatformConfiguration.getData().INFOPLIST_ENTRIES)
+		{
+			var xmlString: String = '<key>${entry.KEY}</key>';
+			var value: String = entry.VALUE;
+
+			switch (entry.TYPE)
+			{
+				case DYNAMIC:
+					xmlString = xmlString + value;
+
+				case BOOL:
+					var boolValue: Bool = value.toLowerCase() == "true" || value.toLowerCase() == "yes";
+					xmlString = '$xmlString<$boolValue/>';
+
+				case NUMBER:
+					var number: Float = Std.parseFloat(value);
+
+					if (number == null || Math.isNaN(number))
+					{
+						throw 'Invalid argument "$value" for key "${entry.KEY}"';
+					}
+
+					xmlString = '$xmlString<real>$number</real>';
+
+				case STRING:
+					xmlString = '$xmlString<string>$value</string>';
+			}
+
+			PlatformConfiguration.getData().INFOPLIST_SECTIONS.push(xmlString);
+		}
 	}
 
 	private function createDirectoriesAndCopyTemplates()
