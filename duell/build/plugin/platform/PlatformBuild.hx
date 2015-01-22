@@ -59,6 +59,8 @@ class PlatformBuild
 		overrideArchsIfSimulator();
 		convertFrameworksToXCodeParts();
 		convertParsingDefinesToCompilationDefines();
+		forceDeprecationWarnings();
+
 		overrideTargetDevices();
 
         prepareXcodeBuild();
@@ -151,6 +153,11 @@ class PlatformBuild
 
 			Configuration.getData().HAXE_COMPILE_ARGS.push("-D " + define);
 		}
+	}
+
+	private function forceDeprecationWarnings(): Void
+	{
+		Configuration.getData().HAXE_COMPILE_ARGS.push("-D deprecation-warnings");
 	}
 
 	private function parseProject()
