@@ -31,6 +31,14 @@ const char *hxRunLibrary();
         printf(" Error %s\n", err );
         return -1;
     }
+
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(application:didFinishLaunchingWithOptions:)])
+        {
+            [delegate application:application didFinishLaunchingWithOptions:launchOptions];
+        }
+    }
     
     return YES;
 }
@@ -103,6 +111,17 @@ const char *hxRunLibrary();
     }
 
     return returnValue;
+}
+
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(application:didReceiveRemoteNotification:)])
+        {
+            [delegate application:application didReceiveRemoteNotification:userInfo];
+        }
+    }
 }
 
 - (void)addDuellDelegate:(id<DUELLDelegate>)delegate
