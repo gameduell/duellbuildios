@@ -28,7 +28,7 @@ import haxe.io.Path;
 
 class PlatformBuild
 {
-	public var requiredSetups = ["mac"];
+	public var requiredSetups = [{name: "mac", version: "1.0.0"}];
 	public var supportedHostPlatforms = [MAC];
 	
 	public static inline var TEST_RESULT_FILENAME = "test_result_ios.xml";
