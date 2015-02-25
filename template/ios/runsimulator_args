@@ -5,4 +5,4 @@ launch
 --family
 ::if (PLATFORM.TARGET_DEVICES == 2)::ipad::else::iphone::end::
 --timeout
-60
+300
