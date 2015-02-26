@@ -26,6 +26,8 @@ import sys.FileSystem;
 import sys.io.File;
 import haxe.io.Path;
 
+using StringTools;
+
 class PlatformBuild
 {
 	public var requiredSetups = [{name: "mac", version: "1.0.0"}];
