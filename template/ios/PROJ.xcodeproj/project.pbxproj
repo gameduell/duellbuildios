@@ -245,26 +245,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-
-		6627D892180D8AC900E2A13E /* Set Revision */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Set Revision";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"Distribution\" = \"${CONFIGURATION}\" ]; then\n    echo \"Distribution build - not setting revision\"\nelse\n    revision=\"-\"\n    timestamp=`date '+%Y-%m-%d_%H-%M-%S'`\n    if svn info 2>&1 | grep -q URL\n    then\n        revision=`svn info | grep 'Last Changed Rev' | cut -d ' ' -f 4`\n    else\n        revision=`git log --oneline --max-count=1 | cut -d ' ' -f 1`\n    fi\n    echo -n ${TARGET_BUILD_DIR}/${INFOPLIST_PATH} \\\n    | xargs -0 /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion '$timestamp'__Rev_$revision\"\n    echo -n ${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app.dSYM/Contents/Info.plist \\\n    | xargs -0 /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion '$timestamp'__Rev_$revision\"\nfi";
-			showEnvVarsInLog = 0;
-		};
-
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
