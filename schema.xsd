@@ -11,26 +11,26 @@
             <xs:element name="architecture" type="d:Name"/>
             <xs:element name="icon" type="d:Path"/>
             <xs:element name="splashscreen" type="d:Path"/>
-            <xs:element name="framework" type="d:NamePath"/>
+            <xs:element name="framework" type="d:NamePathNameRequired"/>
             <xs:element name="hxcpp-compilation-arg" type="d:Value"/>
             <xs:element name="xcode-link-arg" type="d:Value"/>
             <xs:element name="xcode-build-arg" type="d:Value"/>
-            <xs:element name="xcode-project-flag" type="d:NameValue"/>
-            <xs:element name="xcode-target-flag" type="d:NameValue"/>
+            <xs:element name="xcode-project-flag" type="d:NameValueNameRequired"/>
+            <xs:element name="xcode-target-flag" type="d:NameValueNameRequired"/>
             <xs:element name="pre-rendered-icon" type="d:Value"/>
             <xs:element name="deployment-target" type="d:Value"/>
             <xs:element name="target-devices" type="d:Value"/>
             <xs:element name="key-store-identity" type="d:Value"/>
             <xs:element name="fullscreen" type="d:ValueBoolean"/>
             <xs:element name="orientation" type="d:Value"/>
-            <xs:element name="required-capability" type="d:NameValue"/>
+            <xs:element name="required-capability" type="d:NameValueNameRequired"/>
             <xs:element name="entitlements" type="d:Path" />
             <xs:element name="infoplist-section" type="d:InnerContent"/>
             <xs:element name="infoplist-entry" type="d:PlistEntry"/>
         </xs:choice>
     </xs:complexType>
 
-    <xs:complexType name="NamePath">
+    <xs:complexType name="NamePathNameRequired">
         <xs:complexContent>
             <xs:extension base="d:Conditional">
                 <xs:attribute name="name" type="xs:string" use="required"/>
@@ -39,7 +39,7 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="NameValue">
+    <xs:complexType name="NameValueNameRequired">
         <xs:complexContent>
             <xs:extension base="d:Conditional">
                 <xs:attribute name="name" type="xs:string" use="required"/>
