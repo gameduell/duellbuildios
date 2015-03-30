@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:d="duell"
+           targetNamespace="duell"
+           elementFormDefault="qualified">
+
+    <xs:include schemaLocation="../duell/schema/common_schema.xsd" />
+
+    <xs:complexType name="ios">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element name="architecture" type="d:Name"/>
+            <xs:element name="icon" type="d:Path"/>
+            <xs:element name="splashscreen" type="d:Path"/>
+            <xs:element name="framework" type="d:NamePath"/>
+            <xs:element name="hxcpp-compilation-arg" type="d:Value"/>
+            <xs:element name="xcode-link-arg" type="d:Value"/>
+            <xs:element name="xcode-build-arg" type="d:Value"/>
+            <xs:element name="xcode-project-flag" type="d:NameValue"/>
+            <xs:element name="xcode-target-flag" type="d:NameValue"/>
+            <xs:element name="pre-rendered-icon" type="d:Value"/>
+            <xs:element name="deployment-target" type="d:Value"/>
+            <xs:element name="target-devices" type="d:Value"/>
+            <xs:element name="key-store-identity" type="d:Value"/>
+            <xs:element name="fullscreen" type="d:ValueBoolean"/>
+            <xs:element name="orientation" type="d:Value"/>
+            <xs:element name="required-capability" type="d:NameValue"/>
+            <xs:element name="entitlements" type="d:Path" />
+            <xs:element name="infoplist-section" type="d:InnerContent"/>
+            <xs:element name="infoplist-entry" type="d:PlistEntry"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="NamePath">
+        <xs:complexContent>
+            <xs:extension base="d:Conditional">
+                <xs:attribute name="name" type="xs:string" use="required"/>
+                <xs:attribute name="path" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="NameValue">
+        <xs:complexContent>
+            <xs:extension base="d:Conditional">
+                <xs:attribute name="name" type="xs:string" use="required"/>
+                <xs:attribute name="value" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="PlistEntry">
+        <xs:complexContent>
+            <xs:extension base="d:Conditional">
+                <xs:attribute name="key" type="xs:string" use="required"/>
+                <xs:attribute name="type" type="d:EntryType" use="optional"/>
+                <xs:attribute name="value" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="EntryType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="string" />
+            <xs:enumeration value="bool" />
+            <xs:enumeration value="number" />
+            <xs:enumeration value="dynamic" />
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
+
+
