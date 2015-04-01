@@ -98,6 +98,17 @@ const char *hxRunLibrary();
     }
 }
 
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(application:didReceiveRemoteNotification:)])
+        {
+            [delegate application:application didReceiveRemoteNotification:userInfo];
+        }
+    }
+}
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     BOOL returnValue = NO;
@@ -111,17 +122,6 @@ const char *hxRunLibrary();
     }
 
     return returnValue;
-}
-
-- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
-    {
-        if ([delegate respondsToSelector:@selector(application:didReceiveRemoteNotification:)])
-        {
-            [delegate application:application didReceiveRemoteNotification:userInfo];
-        }
-    }
 }
 
 - (void)addDuellDelegate:(id<DUELLDelegate>)delegate

@@ -17,7 +17,7 @@
   - (void)applicationWillEnterForeground:(UIApplication *)application;
   - (void)applicationDidBecomeActive:(UIApplication *)application;
   - (void)applicationWillTerminate:(UIApplication *)application;
-  - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
   - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
+  - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 
 @end
