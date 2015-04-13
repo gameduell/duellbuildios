@@ -45,7 +45,7 @@
 
 /* Begin PBXFileReference section */
 		1D6058910D05DD3D006BFB54 /* "::APP.FILE::.app" */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "::APP.FILE::.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		
+
         1EF0A83900000001C0000001 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon.png"; sourceTree = SOURCE_ROOT; };
         1EF0A83900000001C0000002 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon@2x.png"; sourceTree = SOURCE_ROOT; };
         1EF0A83900000001C0000003 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-72.png"; sourceTree = SOURCE_ROOT; };
@@ -153,7 +153,7 @@
                 1EF0A83900000001C0000008 /* Default-Portrait@2x.png */,
                 1EF0A83900000001C0000009 /* Default-Landscape.png */,
                 1EF0A83900000001C0000010 /* Default-Landscape@2x.png */,
-                1EF0A83900000001C0000011 /* Default-568h@2x.png */,      
+                1EF0A83900000001C0000011 /* Default-568h@2x.png */,
 				::foreach PLATFORM.ADDL_PBX_RESOURCE_GROUP::
 				::__current__::::end::
 			);
@@ -170,7 +170,7 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				6627D892180D8AC900E2A13E /* Set Revision */,				
+				6627D892180D8AC900E2A13E /* Set Revision */,
 			);
 			buildRules = (
 			);
@@ -266,7 +266,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		C01FCF4F08A954540054247B /* Debug */ = {/* Build configuration list for PBXProject "::APP.FILE::" */ 
+		C01FCF4F08A954540054247B /* Debug */ = {/* Build configuration list for PBXProject "::APP.FILE::" */
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -295,7 +295,7 @@
 			};
 			name = Debug;
 		};
-		C01FCF5008A954540054247B /* Release */ = {/* Build configuration list for PBXProject "::APP.FILE::" */ 
+		C01FCF5008A954540054247B /* Release */ = {/* Build configuration list for PBXProject "::APP.FILE::" */
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -331,13 +331,17 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 
-	            "LIBRARY_SEARCH_PATHS[arch=armv6]" = (
-					"$(inherited)",
-					"\"$(SRCROOT)/::APP.FILE::/lib/armv6-debug\"",
-				);
-				"LIBRARY_SEARCH_PATHS[arch=armv7]" = (
+	            "LIBRARY_SEARCH_PATHS[arch=armv7]" = (
 					"$(inherited)",
 					"\"$(SRCROOT)/::APP.FILE::/lib/armv7-debug\"",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=armv7s]" = (
+					"$(inherited)",
+					"\"$(SRCROOT)/::APP.FILE::/lib/armv7s-debug\"",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64]" = (
+					"$(inherited)",
+					"\"$(SRCROOT)/::APP.FILE::/lib/arm64-debug\"",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
 					"$(inherited)",
@@ -349,8 +353,9 @@
 					::end::
                 );
 		        OTHER_LDFLAGS = (
+					-lHaxeApplication,
 					::foreach NDLLS:: "-l::NAME::",
-					::end::					
+					::end::
 					::foreach PLATFORM.XCODE_LINK_ARGS:: "::__current__::",
 					::end::
 				);
@@ -366,13 +371,17 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 
-	            "LIBRARY_SEARCH_PATHS[arch=armv6]" = (
-					"$(inherited)",
-					"\"$(SRCROOT)/::APP.FILE::/lib/armv6\"",
-				);
-				"LIBRARY_SEARCH_PATHS[arch=armv7]" = (
+	            "LIBRARY_SEARCH_PATHS[arch=armv7]" = (
 					"$(inherited)",
 					"\"$(SRCROOT)/::APP.FILE::/lib/armv7\"",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=armv7s]" = (
+					"$(inherited)",
+					"\"$(SRCROOT)/::APP.FILE::/lib/armv7s\"",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64]" = (
+					"$(inherited)",
+					"\"$(SRCROOT)/::APP.FILE::/lib/arm64\"",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphonesimulator*]" = (
 					"$(inherited)",
@@ -384,8 +393,9 @@
 					::end::
                 );
 		        OTHER_LDFLAGS = (
+					-lHaxeApplication,
 					::foreach NDLLS:: "-l::NAME::",
-					::end::		
+					::end::
 					::foreach PLATFORM.XCODE_LINK_ARGS:: "::__current__::",
 					::end::
 				);

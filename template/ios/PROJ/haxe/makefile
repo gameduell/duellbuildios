@@ -32,7 +32,7 @@ endif
 ifeq ("$(CLANG_ENABLE_OBJC_ARC)", "YES")
    HXCPP_CLANG := -DHXCPP_CLANG -DOBJC_ARC
 else
-   HXCPP_CLANG := 
+   HXCPP_CLANG :=
 endif
 
 HAXE_OS := $(PLATFORM_NAME)
@@ -57,19 +57,27 @@ build-haxe-i386:
 	touch ../Classes/Main.mm
 	touch ../Classes/DUELLAppDelegate.m
 
-build-haxe-armv6:
-	@echo "Haxe armv6 build CONFIG : $(CONFIG)"
-	haxe Build_$(CONFIG_FILE)_armv6.hxml
-	cd build/$(CONFIG); haxelib run hxcpp Build.xml -Dios -Diphone -DHXCPP_ARMV6 -DHXCPP_CPP11 $(DEF_DEBUG) $(HXCPP_CLANG) ::foreach (PLATFORM.HXCPP_COMPILATION_ARGS)::::__current__:: ::end::
-	cp $(LIB_BASE).iphoneos.a ../lib/armv6$(LIB_DEST)
-	touch ../Classes/Main.mm
-	touch ../Classes/DUELLAppDelegate.m
-
 build-haxe-armv7:
 	@echo "Haxe armv7 build CONFIG : $(CONFIG)"
 	haxe Build_$(CONFIG_FILE)_armv7.hxml
 	cd build/$(CONFIG); haxelib run hxcpp Build.xml -Dios -Diphone -DHXCPP_ARMV7 -DHXCPP_CPP11 $(DEF_DEBUG) $(HXCPP_CLANG) ::foreach (PLATFORM.HXCPP_COMPILATION_ARGS)::::__current__:: ::end::
 	cp $(LIB_BASE).iphoneos-v7.a ../lib/armv7$(LIB_DEST)
+	touch ../Classes/Main.mm
+	touch ../Classes/DUELLAppDelegate.m
+
+build-haxe-armv7s:
+	@echo "Haxe armv7s build CONFIG : $(CONFIG)"
+	haxe Build_$(CONFIG_FILE)_armv7s.hxml
+	cd build/$(CONFIG); haxelib run hxcpp Build.xml -Dios -Diphone -DHXCPP_ARMV7S -DHXCPP_CPP11 $(DEF_DEBUG) $(HXCPP_CLANG) ::foreach (PLATFORM.HXCPP_COMPILATION_ARGS)::::__current__:: ::end::
+	cp $(LIB_BASE).iphoneos-v7s.a ../lib/armv7s$(LIB_DEST)
+	touch ../Classes/Main.mm
+	touch ../Classes/DUELLAppDelegate.m
+
+build-haxe-arm64:
+	@echo "Haxe arm64 build CONFIG : $(CONFIG)"
+	haxe Build_$(CONFIG_FILE)_arm64.hxml
+	cd build/$(CONFIG); haxelib run hxcpp Build.xml -Dios -Diphone -DHXCPP_ARM64 -DHXCPP_CPP11 $(DEF_DEBUG) $(HXCPP_CLANG) ::foreach (PLATFORM.HXCPP_COMPILATION_ARGS)::::__current__:: ::end::
+	cp $(LIB_BASE).iphoneos-64.a ../lib/arm64$(LIB_DEST)
 	touch ../Classes/Main.mm
 	touch ../Classes/DUELLAppDelegate.m
 

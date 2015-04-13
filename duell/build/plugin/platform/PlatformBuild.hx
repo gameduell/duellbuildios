@@ -32,7 +32,7 @@ class PlatformBuild
 {
 	public var requiredSetups = [{name: "mac", version: "1.0.0"}];
 	public var supportedHostPlatforms = [MAC];
-	
+
 	public static inline var TEST_RESULT_FILENAME = "test_result_ios.xml";
 
 	/// VARIABLES SET AFTER PARSING
@@ -52,13 +52,12 @@ class PlatformBuild
     }
 
     public function prepareBuild()
-    {		
+    {
 		/// Additional Configuration
     	prepareVariables();
 		convertDuellAndHaxelibsIntoHaxeCompilationFlags();
-		addHaxeApplicationLibToTheTemplate();
+		//addHaxeApplicationLibToTheTemplate();
 		addHXCPPLibs();
-		overrideArchsIfSimulator();
 		convertFrameworksToXCodeParts();
 		convertParsingDefinesToCompilationDefines();
 		forceDeprecationWarnings();
@@ -78,7 +77,7 @@ class PlatformBuild
 	public function run()
 	{
 		runApp();
-	} 
+	}
 
 	public function fast()
 	{
@@ -116,7 +115,7 @@ class PlatformBuild
 	}
 
 	private function checkArguments()
-	{	
+	{
 		if (Arguments.isSet("-debug"))
 		{
 			Configuration.getData().PLATFORM.DEBUG = true;
@@ -127,11 +126,32 @@ class PlatformBuild
 			Configuration.addParsingDefine("release");
 		}
 
-		if (Arguments.isSet("-simulator") || Arguments.isSet("-test"))
+		var isArmv7 = Arguments.isSet("-armv7");
+		var isArmv7s = Arguments.isSet("-armv7s");
+		var isArm64 = Arguments.isSet("-arm64");
+		var isSimulator = Arguments.isSet("-simulator");
+
+		if (isArmv7 || isArmv7s || isArm64)
+		{
+
+			if (isSimulator)
+				LogHelper.error("simulator arguments is incompatible with architecture arguments such as -armv7s");
+
+			Configuration.getData().PLATFORM.ARCHS = [];
+
+			if (isArmv7)
+				Configuration.getData().PLATFORM.ARCHS.push("armv7");
+			if (isArmv7s)
+				Configuration.getData().PLATFORM.ARCHS.push("armv7s");
+			if (isArm64)
+				Configuration.getData().PLATFORM.ARCHS.push("arm64");
+		}
+
+		if (isSimulator || Arguments.isSet("-test"))
 		{
 			Configuration.getData().PLATFORM.SIMULATOR = true;
 			Configuration.addParsingDefine("simulator");
-
+			Configuration.getData().PLATFORM.ARCHS = ["x86"];
 		}
 
 		if (Arguments.isSet("-test"))
@@ -139,9 +159,9 @@ class PlatformBuild
 			Configuration.addParsingDefine("test");
 		}
 	}
-	
+
 	private function convertParsingDefinesToCompilationDefines()
-	{		
+	{
 		for (define in DuellProjectXML.getConfig().parsingConditions)
 		{
 			if (define == "cpp") /// not allowed
@@ -168,14 +188,6 @@ class PlatformBuild
 		projectXML.parse();
 	}
 
-	private function overrideArchsIfSimulator()
-	{
-		if (Configuration.getData().PLATFORM.SIMULATOR)
-		{
-			Configuration.getData().PLATFORM.ARCHS = ["i386"];
-		}
-	}
-
 	private function convertFrameworksToXCodeParts()
 	{
 		for (framework in PlatformConfiguration.getData().FRAMEWORKS)
@@ -185,7 +197,7 @@ class PlatformBuild
 
 			if (framework.PATH != null)
 				PlatformConfiguration.getData().FRAMEWORK_SEARCH_PATHS.push(framework.PATH);
-			
+
 			PlatformConfiguration.getData().ADDL_PBX_BUILD_FILE.push("      " + frameworkID + " /* " + framework.NAME + " in Frameworks */ = {isa = PBXBuildFile; fileRef = " + fileID + " /* " + framework.NAME + " */; };");
 			PlatformConfiguration.getData().ADDL_PBX_FILE_REFERENCE.push("      " + fileID + " /* " + framework.NAME + " */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = " + framework.NAME + "; path = " + framework.PATH + "/" + framework.NAME + "; sourceTree = SDKROOT; };");
 			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORKS_BUILD_PHASE.push("            " + frameworkID + " /* " + framework.NAME + " in Frameworks */,");
@@ -261,7 +273,7 @@ class PlatformBuild
 		PathHelper.mkdir(projectDirectory + "/haxe");
 
 		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/template/ios/PROJ/haxe", projectDirectory + "/haxe", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
-		
+
 		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/template/ios/PROJ/Classes", projectDirectory + "/Classes", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
         TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Entitlements.plist", projectDirectory + "/" + Configuration.getData().APP.FILE + "-Entitlements.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
         TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Info.plist", projectDirectory + "/" + Configuration.getData().APP.FILE + "-Info.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
@@ -273,24 +285,9 @@ class PlatformBuild
 		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/runsimulator_args", targetDirectory + "/runsimulator_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 	}
 
-	private function copyNativeFiles() 
+	private function copyNativeFiles()
 	{
 		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/native/include", projectDirectory + "/Classes", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
-	}
-
-	private function addHaxeApplicationLibToTheTemplate() 
-	{
-		var armv7LibID = XCodeHelper.getUniqueIDForXCode();
-		var armv6LibID = XCodeHelper.getUniqueIDForXCode();
-
-		Configuration.getData().PLATFORM.ADDL_PBX_FRAMEWORKS_BUILD_PHASE.push("            " + armv6LibID + " /* lib/HaxeApplication.a in Frameworks */,");
-		
-		if (Configuration.getData().PLATFORM.ARCHS.indexOf("armv7") != -1)
-		{
-			Configuration.getData().PLATFORM.ADDL_PBX_FRAMEWORKS_BUILD_PHASE.push("            " + armv7LibID + " /* lib/HaxeApplication-v7.a in Frameworks */,");
-		}
-
-		Configuration.getData().PLATFORM.XCODE_LINK_ARGS.push("-lHaxeApplication");
 	}
 
 	private function addHXCPPLibs()
@@ -298,9 +295,9 @@ class PlatformBuild
 		var binPath = Path.join([Haxelib.getHaxelib("hxcpp").getPath(), "bin"]);
 		var buildFilePath = Path.join([Haxelib.getHaxelib("hxcpp").getPath(), "project", "Build.xml"]);
 
-		Configuration.getData().NDLLS.push({NAME : "std", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true});
-		Configuration.getData().NDLLS.push({NAME : "regexp", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true});
-		Configuration.getData().NDLLS.push({NAME : "zlib", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true});
+		Configuration.getData().NDLLS.push({NAME : "std", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true, DEBUG_SUFFIX : false});
+		Configuration.getData().NDLLS.push({NAME : "regexp", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true, DEBUG_SUFFIX : false});
+		Configuration.getData().NDLLS.push({NAME : "zlib", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true, DEBUG_SUFFIX : false});
 	}
 
 	private function convertDuellAndHaxelibsIntoHaxeCompilationFlags()
@@ -333,8 +330,8 @@ class PlatformBuild
 		}
 
 		var iconNames = [ "Icon.png", "Icon@2x.png", "Icon-60.png", "Icon-60@2x.png", "Icon-72.png", "Icon-72@2x.png", "Icon-76.png", "Icon-76@2x.png" ];
-		
-		for (icon in iconNames) 
+
+		for (icon in iconNames)
 		{
 			var iconPath = PlatformConfiguration.getData().ICON_PATH + "/" + icon;
 			if(!FileSystem.exists(iconPath))
@@ -348,7 +345,7 @@ class PlatformBuild
 	}
 
 	private function handleSplashscreens()
-	{		
+	{
 		if (!FileSystem.exists(PlatformConfiguration.getData().SPLASHSCREEN_PATH))
 		{
 			LogHelper.println('Splashscreen path ${PlatformConfiguration.getData().SPLASHSCREEN_PATH} is not accessible.');
@@ -356,8 +353,8 @@ class PlatformBuild
 		}
 
 		var splashscreenNames = [ "Default.png", "Default@2x.png", "Default-568h@2x.png", "Default-Portrait.png", "Default-Landscape.png", "Default-Portrait@2x.png", "Default-Landscape@2x.png" ];
-		
-		for (splashscreen in splashscreenNames) 
+
+		for (splashscreen in splashscreenNames)
 		{
 			var splashscreenPath = PlatformConfiguration.getData().SPLASHSCREEN_PATH + "/" + splashscreen;
 			if(!FileSystem.exists(splashscreenPath))
@@ -365,19 +362,20 @@ class PlatformBuild
 				LogHelper.println('Splashscreen $splashscreen not found.');
 				continue;
 			}
-			
+
 			FileHelper.copyIfNewer(splashscreenPath, projectDirectory + "/" + splashscreen);
 		}
 	}
 
 	private function handleNDLLs()
 	{
-		for (archID in 0...3) 
+		for (archID in 0...4)
 		{
-			var arch = ["armv6", "armv7", "i386"][archID];
+			var arch = ["armv7", "armv7s", "arm64", "i386"][archID];
 
-			var argsForBuild = [["-Diphoneos"],
-								["-Diphoneos", "-DHXCPP_ARMV7"],
+			var argsForBuild = [["-Diphoneos", "-DHXCPP_ARMV7"],
+								["-Diphoneos", "-DHXCPP_ARMV7S"],
+								["-Diphoneos", "-DHXCPP_ARM64"],
 								["-Diphonesim"]][archID];
 
 			if (Configuration.getData().PLATFORM.DEBUG)
@@ -385,19 +383,20 @@ class PlatformBuild
 				argsForBuild.push("-Ddebug");
 			}
 
-			var libExt = [ ".iphoneos.a", ".iphoneos-v7.a", ".iphonesim.a" ][archID];
-			
+			var libExt = [ ".iphoneos-v7.a", ".iphoneos-v7s.a", ".iphoneos-64.a", ".iphonesim.a" ][archID];
+
 			if (Configuration.getData().PLATFORM.ARCHS.indexOf(arch) == -1)
 				continue;
-			
+
 			PathHelper.mkdir (projectDirectory + "/lib/" + arch);
 			PathHelper.mkdir (projectDirectory + "/lib/" + arch + "-debug");
-			
-			for (ndll in Configuration.getData().NDLLS) 
+
+			for (ndll in Configuration.getData().NDLLS)
 			{
+				/// this is not needed anymore with newer versions of hxcpp, but is kept here for backwards compatibility
         		var argsForBuildSpecific = argsForBuild;
 				var additionalArgsPath = Path.join([Path.directory(ndll.BUILD_FILE_PATH), "Build.args"]);
-				
+
 				if (FileSystem.exists(additionalArgsPath))
 				{
 					var argsString = File.getContent(additionalArgsPath);
@@ -413,12 +412,18 @@ class PlatformBuild
 		}
 	}
 
-	private function copyNDLL(ndll : {NAME:String, BIN_PATH:String, BUILD_FILE_PATH:String, REGISTER_STATICS:Bool},
+	private function copyNDLL(ndll : {NAME:String, BIN_PATH:String, BUILD_FILE_PATH:String, REGISTER_STATICS:Bool, DEBUG_SUFFIX: Bool},
 								arch : String, argsForBuild : Array<String>, libExt : String)
 	{
+		/// if there is no suffix, tbe release version might be used.
+		var debugSuffix = ndll.DEBUG_SUFFIX? "-debug": "";
+
+		var releaseDest = projectDirectory + "/lib/" + arch + "/lib" + ndll.NAME + ".a";
+		var debugDest = projectDirectory + "/lib/" + arch + "-debug/lib" + ndll.NAME + ".a";
+
 		/// Try debug version
 		var releaseLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + libExt]);
-		var debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + "-debug" + libExt]);
+		var debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + debugSuffix + libExt]);
 
 		/// Doesn't exist, so use the release on as debug
 		if (!FileSystem.exists(debugLib))
@@ -426,35 +431,48 @@ class PlatformBuild
 			debugLib = releaseLib;
 		}
 
-		var releaseDest = projectDirectory + "/lib/" + arch + "/lib" + ndll.NAME + ".a";
-		var debugDest = projectDirectory + "/lib/" + arch + "-debug/lib" + ndll.NAME + ".a";
-
 		/// Release doesn't exist so force the extension. Used mainly for trying to compile a armv7 lib without -v7, and universal libs
 		if (!Configuration.getData().PLATFORM.DEBUG && !FileSystem.exists(releaseLib))
 		{
 			releaseLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + ".iphoneos.a"]);
 		}
-		
+
 		/// Debug doesn't exist so force the extension. Used mainly for trying to compile a armv7 lib without -v7, and universal libs
-		if (Configuration.getData().PLATFORM.DEBUG && !FileSystem.exists(debugLib)) 
+		if (Configuration.getData().PLATFORM.DEBUG && !FileSystem.exists(debugLib))
 		{
-			debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + "-debug" + ".iphoneos.a"]);
+			debugLib = Path.join([ndll.BIN_PATH, "iPhone", "lib" + ndll.NAME + debugSuffix + ".iphoneos.a"]);
 		}
 
 		/// Copy!
 		if (!Configuration.getData().PLATFORM.DEBUG)
 		{
+			if (!FileSystem.exists(releaseLib))
+			{
+				LogHelper.error("Could not find release lib for ndll" + ndll.NAME + " built with build file " + ndll.BUILD_FILE_PATH + " and having output folder " + ndll.BIN_PATH);
+			}
+
 			FileHelper.copyIfNewer(releaseLib, releaseDest);
+
+			if (!FileSystem.exists(debugLib) && FileSystem.exists(debugDest))
+			{
+				/// If debug wasn't supposed to be there
+				FileSystem.deleteFile(debugDest);
+			}
 		}
-		
-		if (Configuration.getData().PLATFORM.DEBUG && FileSystem.exists(debugLib) && debugLib != releaseLib) 
+		else
 		{
+			if (!FileSystem.exists(debugLib))
+			{
+				LogHelper.error("Could not find release lib for ndll" + ndll.NAME + " built with build file " + ndll.BUILD_FILE_PATH + " and having output folder " + ndll.BIN_PATH);
+			}
+
 			FileHelper.copyIfNewer (debugLib, debugDest);
-		} 
-		else if (FileSystem.exists(debugDest)) 
-		{
-			/// If debug wasn't supposed to be there
-			FileSystem.deleteFile(debugDest);
+
+			if (!FileSystem.exists(releaseLib) && FileSystem.exists(releaseDest))
+			{
+				/// If release wasn't supposed to be there
+				FileSystem.deleteFile(releaseDest);
+			}
 		}
 	}
 
@@ -468,13 +486,13 @@ class PlatformBuild
 		var argsString = File.getContent(Path.join([targetDirectory, "codesign_args"]));
 		var args = argsString.split("\n");
 		args = args.filter(function(str) return str != "");
-		
+
 		CommandHelper.runCommand(targetDirectory, "codesign", args, {exitOnError: false, errorMessage: "signing the app"});
 	}
 
 	private function runApp()
 	{
-		if (Configuration.getData().PLATFORM.SIMULATOR) 
+		if (Configuration.getData().PLATFORM.SIMULATOR)
 		{
 			var argsString = File.getContent(Path.join([targetDirectory, "runsimulator_args"]));
 			var args = argsString.split("\n");
@@ -487,16 +505,16 @@ class PlatformBuild
 			var launcherPath = Path.directory(launcher);
 
 			CommandHelper.runCommand(launcherPath, "ios-sim", args, {systemCommand: false, errorMessage: "running the simulator"});
-		} 
-		else 
+		}
+		else
 		{
 			var argsString = File.getContent(Path.join([targetDirectory, "rundevice_args"]));
 			var args = argsString.split("\n");
 			args = args.filter(function(str) return str != "");
-			
+
 			var launcher = Path.join([duellBuildIOSPath , "bin", "ios-deploy"]);
 			CommandHelper.runCommand("", "chmod", ["+x", launcher], {errorMessage: "setting permission on the ios deploy tool"});
-			
+
 			CommandHelper.runCommand("", launcher, args, {errorMessage: "deploying the app into the device"});
 		}
 	}
@@ -514,7 +532,7 @@ class PlatformBuild
 
 		/// RUN THE APP IN A THREAD
 		neko.vm.Thread.create(runApp);
-		
+
 		/// RUN THE LISTENER
 		TestHelper.runListenerServer(300, 8181, fullTestResultPath);
 	}
@@ -531,7 +549,7 @@ class PlatformBuild
 			PathHelper.removeDirectory(targetDirectory);
 		}
 
-		for (ndll in Configuration.getData().NDLLS) 
+		for (ndll in Configuration.getData().NDLLS)
 		{
 			LogHelper.info('Cleaning ndll ' + ndll.NAME + "...");
     		var result = CommandHelper.runHaxelib(Path.directory(ndll.BUILD_FILE_PATH), ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH), "clean"], {errorMessage: "cleaning ndll"});

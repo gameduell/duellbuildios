@@ -23,7 +23,7 @@ class PlatformXMLParser
 {
 	public static function parse(xml : Fast) : Void
 	{
-		for (element in xml.elements) 
+		for (element in xml.elements)
 		{
 			switch(element.name)
 			{
@@ -35,16 +35,13 @@ class PlatformXMLParser
 
 	public static function parsePlatform(xml : Fast) : Void
 	{
-		for (element in xml.elements) 
+		for (element in xml.elements)
 		{
 			if (!XMLHelper.isValidElement(element, DuellProjectXML.getConfig().parsingConditions))
 				continue;
 
 			switch(element.name)
 			{
-				case 'architecture':
-					parseArchitectureElement(element);
-
 				case 'icon':
 					parseIconElement(element);
 
@@ -98,17 +95,6 @@ class PlatformXMLParser
 
 				case 'infoplist-entry':
 					parseInfoPlistEntryElement(element);
-			}
-		}
-	}
-
-	private static function parseArchitectureElement(element : Fast)
-	{
-		if (element.has.name)
-		{
-			if (PlatformConfiguration.getData().ARCHS.indexOf(element.att.name) == -1)
-			{
-				PlatformConfiguration.getData().ARCHS.push(element.att.name);
 			}
 		}
 	}
@@ -208,7 +194,7 @@ class PlatformXMLParser
 		if (element.has.value)
 		{
 			PlatformConfiguration.getData().PRERENDERED_ICON = element.att.value;
-		}	
+		}
 	}
 
 	private static function parseDeploymentTargetElement(element : Fast)
@@ -216,7 +202,7 @@ class PlatformXMLParser
 		if (element.has.value)
 		{
 			PlatformConfiguration.getData().DEPLOYMENT_TARGET = element.att.value;
-		}	
+		}
 	}
 
 	private static function parseTargetDevicesElement(element : Fast)
@@ -224,7 +210,7 @@ class PlatformXMLParser
 		if (element.has.value)
 		{
 			PlatformConfiguration.getData().TARGET_DEVICES = element.att.value;
-		}	
+		}
 	}
 
 	private static function parseKeyStoreIdentityElement(element : Fast)
@@ -232,7 +218,7 @@ class PlatformXMLParser
 		if (element.has.value)
 		{
 			PlatformConfiguration.getData().KEY_STORE_IDENTITY = element.att.value;
-		}	
+		}
 	}
 
 	private static function parseFullscreenElement(element : Fast)
@@ -240,7 +226,7 @@ class PlatformXMLParser
 		if (element.has.value)
 		{
 			PlatformConfiguration.getData().FULLSCREEN = element.att.value;
-		}	
+		}
 	}
 
 	private static function parseOrientationElement(element : Fast)
@@ -248,7 +234,7 @@ class PlatformXMLParser
 		if (element.has.value)
 		{
 			PlatformConfiguration.getData().ORIENTATIONS = (element.att.value).split(",").map(function (str) return StringTools.trim(str));
-		}	
+		}
 	}
 
 	private static function parseRequiredCapabilityElement(element : Fast)

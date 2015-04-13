@@ -1,0 +1,6 @@
+-main ::MAIN:: ::foreach (HAXE_COMPILE_ARGS)::
+::__current__::::end::
+-D no-compilation
+-D HXCPP_ARM64
+-cpp build/Debug-iphoneos
+-debug

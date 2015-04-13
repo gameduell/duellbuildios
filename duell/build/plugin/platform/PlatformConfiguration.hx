@@ -77,10 +77,10 @@ class PlatformConfiguration
 	{
 		return _parsingDefines;
 	}
-	
+
 	private static function initConfig()
 	{
-		_configuration = 
+		_configuration =
 		{
 			PLATFORM_NAME : "ios",
 			ICON_PATH : "Icons/ios",
@@ -94,7 +94,7 @@ class PlatformConfiguration
 			FRAMEWORKS : [{NAME:"Foundation.framework", PATH:null}, {NAME:"UIKit.framework", PATH:null}, {NAME:"QuartzCore.framework", PATH:null}],
 			DEPLOYMENT_TARGET : "5",
 			TARGET_DEVICES : "", //1 for iphone, 2 for ipad, 1,2 for both
-			ARCHS : ["armv7"],
+			ARCHS : ["armv7"], 
 			KEY_STORE_IDENTITY : "iPhone Developer",
 			FULLSCREEN : "true",
 			ORIENTATIONS : ["UIInterfaceOrientationLandscapeLeft", "UIInterfaceOrientationLandscapeRight", "UIInterfaceOrientationPortrait", "UIInterfaceOrientationPortraitUpsideDown"],
