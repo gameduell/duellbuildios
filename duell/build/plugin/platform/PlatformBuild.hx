@@ -151,7 +151,7 @@ class PlatformBuild
 		{
 			Configuration.getData().PLATFORM.SIMULATOR = true;
 			Configuration.addParsingDefine("simulator");
-			Configuration.getData().PLATFORM.ARCHS = ["x86"];
+			Configuration.getData().PLATFORM.ARCHS = ["i386"];
 		}
 
 		if (Arguments.isSet("-test"))
