@@ -8,7 +8,6 @@
 
     <xs:complexType name="ios">
         <xs:choice maxOccurs="unbounded">
-            <xs:element name="architecture" type="d:Name"/>
             <xs:element name="icon" type="d:Path"/>
             <xs:element name="splashscreen" type="d:Path"/>
             <xs:element name="framework" type="d:NamePathNameRequired"/>
@@ -68,5 +67,3 @@
     </xs:simpleType>
 
 </xs:schema>
-
-
