@@ -81,7 +81,6 @@ class PlatformBuild
 
 	public function fast()
 	{
-		parseProject();
 		prepareVariables();
 		runXCodeBuild();
 		sign();
