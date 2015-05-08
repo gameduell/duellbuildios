@@ -83,7 +83,11 @@ typedef PlatformConfigurationData = {
 	DEBUG : Bool,
 	SIMULATOR : Bool,
 	OUTPUT_FILE : String,
-	IOS_VERSION : String
+	IOS_VERSION : String,
+
+	// generated from publish,
+	PUBLISHED_IPA_PATH: String,
+	PUBLISHED_DSYM_PATH: String
 }
 
 class PlatformConfiguration
@@ -141,7 +145,10 @@ class PlatformConfiguration
 			DEBUG : false,
 			SIMULATOR : false,
 			OUTPUT_FILE : "",
-			IOS_VERSION : ""
+			IOS_VERSION : "",
+
+			PUBLISHED_IPA_PATH : "",
+			PUBLISHED_DSYM_PATH : ""
 		};
 	}
 }
