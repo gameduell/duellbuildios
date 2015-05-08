@@ -281,6 +281,7 @@ class PlatformBuild
 
 	private function prepareXcodeBuild()
 	{
+        prepareKeychain();
 		convertPlistEntriesToSections();
 		createDirectoriesAndCopyTemplates();
 		copyNativeFiles();
@@ -551,8 +552,6 @@ class PlatformBuild
 			return;
 		}
 
-        prepareKeychain();
-
 		var argsString = File.getContent(Path.join([targetDirectory, "codesign_args"]));
 		var args = argsString.split("\n");
 		args = args.filter(function(str) return str != "");
@@ -562,6 +561,12 @@ class PlatformBuild
 
     private function prepareKeychain()
     {
+        if (Configuration.getData().PLATFORM.SIMULATOR)
+        {
+            // we're not signing if it's not device, so no point in preparing the keychain anyway
+            return;
+        }
+
         var mobileProvision: String = Configuration.getData().PLATFORM.PROVISIONING_PROFILE_PATH;
         var keychainPath: String = Configuration.getData().PLATFORM.KEY_STORE_PATH;
         var keychainPwd: String = Configuration.getData().PLATFORM.KEY_STORE_PASSWORD;
@@ -572,10 +577,16 @@ class PlatformBuild
             return;
         }
 
-        var destinationFolder: String = Path.join([PathHelper.getHomeFolder(), "Library", "MobileDevice", "Provisioning Profiles", "provisioning"]);
+        var mobileDeviceFolder: String = Path.join([PathHelper.getHomeFolder(), "Library", "MobileDevice"]);
+        var destinationFolder: String = Path.join([mobileDeviceFolder, "Provisioning Profiles"]);
         var destinationFile: String = Path.join([destinationFolder, "profile.mobileprovision"]);
 
-        // create the destination folder if it doesn't exist
+        // create the destination folders if they don't exist
+        if (!FileSystem.exists(mobileDeviceFolder))
+        {
+            PathHelper.mkdir(mobileDeviceFolder);
+        }
+
         if (!FileSystem.exists(destinationFolder))
         {
             PathHelper.mkdir(destinationFolder);
