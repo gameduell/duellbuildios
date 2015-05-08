@@ -281,6 +281,7 @@ class PlatformBuild
 
 	private function prepareXcodeBuild()
 	{
+        prepareKeychain();
 		convertPlistEntriesToSections();
 		createDirectoriesAndCopyTemplates();
 		copyNativeFiles();
@@ -557,6 +558,58 @@ class PlatformBuild
 
 		CommandHelper.runCommand(targetDirectory, "codesign", args, {exitOnError: false, errorMessage: "signing the app"});
 	}
+
+    private function prepareKeychain()
+    {
+        if (Configuration.getData().PLATFORM.SIMULATOR)
+        {
+            // we're not signing if it's not device, so no point in preparing the keychain anyway
+            return;
+        }
+
+        var mobileProvision: String = Configuration.getData().PLATFORM.PROVISIONING_PROFILE_PATH;
+        var keychainPath: String = Configuration.getData().PLATFORM.KEY_STORE_PATH;
+        var keychainPwd: String = Configuration.getData().PLATFORM.KEY_STORE_PASSWORD;
+
+        if (mobileProvision == "" || keychainPath == "")
+        {
+            // don't prepare the keychain if these vars are not set
+            return;
+        }
+
+        var mobileDeviceFolder: String = Path.join([PathHelper.getHomeFolder(), "Library", "MobileDevice"]);
+        var destinationFolder: String = Path.join([mobileDeviceFolder, "Provisioning Profiles"]);
+        var destinationFile: String = Path.join([destinationFolder, "profile.mobileprovision"]);
+
+        // create the destination folders if they don't exist
+        if (!FileSystem.exists(mobileDeviceFolder))
+        {
+            PathHelper.mkdir(mobileDeviceFolder);
+        }
+
+        if (!FileSystem.exists(destinationFolder))
+        {
+            PathHelper.mkdir(destinationFolder);
+        }
+
+        // delete existing provisioning profile
+        if (FileSystem.exists(destinationFile))
+        {
+            FileSystem.deleteFile(destinationFile);
+        }
+
+        FileHelper.copyIfNewer(mobileProvision, destinationFile);
+
+        // send keychain command party \o/
+        CommandHelper.runCommand("", "/usr/bin/security", ["-v", "list-keychains", "-s", keychainPath], null);
+        CommandHelper.runCommand("", "/usr/bin/security", ["-v", "default-keychain", "-d", "user", "-s", keychainPath], null);
+        CommandHelper.runCommand("", "/usr/bin/security", ["-v", "unlock-keychain", "-p", keychainPwd, keychainPath], {errorMessage : "error unlocking keychain for the given password"});
+        CommandHelper.runCommand("", "/usr/bin/security", ["-v", "set-keychain-settings", "-lut", "1800", keychainPath], null);
+        CommandHelper.runCommand("", "/usr/bin/security", ["-v", "show-keychain-info", keychainPath], null);
+
+        // check if keychain has been activated properly, this is optional
+        CommandHelper.runCommand("", "/usr/bin/security", ["find-identity", "-p", "codesigning", "-v"], {errorMessage : "error verifying identity"});
+    }
 
 	private function runApp()
 	{
