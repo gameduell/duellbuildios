@@ -57,6 +57,7 @@ class PlatformBuild
 
 	/// VARIABLES SET AFTER PARSING
 	var targetDirectory : String;
+	var publishDirectory : String;
 	var projectDirectory : String;
 	var fullTestResultPath : String;
 	var duellBuildIOSPath : String;
@@ -113,7 +114,48 @@ class PlatformBuild
 
 	public function publish()
 	{
-		throw "Publish is not yet implemented";
+		if (Configuration.getData().PLATFORM.SIMULATOR)
+		{
+			LogHelper.error("Cannot publish with the simulator as target");
+			return;
+		}
+
+		if (Configuration.getData().PLATFORM.PROVISIONING_PROFILE_PATH == "")
+		{
+			LogHelper.error("No provisioning profile is set for publishing");
+			return;
+		}
+
+		// remove the old publish ios folder
+		if (FileSystem.exists(publishDirectory))
+		{
+			PathHelper.removeDirectory(publishDirectory);
+		}
+
+		// create the publish part for iOS
+		PathHelper.mkdir(publishDirectory);
+
+		var outputFolder: String = Path.join([targetDirectory, "build", (Configuration.getData().PLATFORM.DEBUG ? "Debug" : "Release") + (Configuration.getData().PLATFORM.SIMULATOR ? "-iphonesimulator" : "-iphoneos")]);
+		var outputFileWithoutExtension = Path.join([publishDirectory, Configuration.getData().APP.FILE]);
+
+		// copy files from output to publish
+		TemplateHelper.recursiveCopyTemplatedFiles(outputFolder, publishDirectory, null, null);
+
+		// run the PackageApplication command
+		var args: Array<String> =
+		[
+			"-sdk",
+			"iphoneos",
+			"PackageApplication",
+			"-v",
+			'$outputFileWithoutExtension.app',
+			"-o",
+			'$outputFileWithoutExtension.ipa',
+			"--embed",
+			Configuration.getData().PLATFORM.PROVISIONING_PROFILE_PATH
+		];
+
+		CommandHelper.runCommand(targetDirectory, "/usr/bin/xcrun", args, {exitOnError: false, errorMessage: "packaging the app to an .ipa file"});
 	}
 
 	public function test()
@@ -125,6 +167,7 @@ class PlatformBuild
 	{
     	/// Set variables
 		targetDirectory = Path.join([Configuration.getData().OUTPUT, "ios"]);
+		publishDirectory = Path.join([Configuration.getData().PUBLISH, "ios"]);
 		fullTestResultPath = Path.join([Configuration.getData().OUTPUT, "test", TEST_RESULT_FILENAME]);
 		projectDirectory = targetDirectory + "/" + Configuration.getData().APP.FILE + "/";
 		duellBuildIOSPath = DuellLib.getDuellLib("duellbuildios").getPath();
