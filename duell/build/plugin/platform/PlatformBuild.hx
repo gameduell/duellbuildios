@@ -136,7 +136,9 @@ class PlatformBuild
 		PathHelper.mkdir(publishDirectory);
 
 		var outputFolder: String = Path.join([targetDirectory, "build", (Configuration.getData().PLATFORM.DEBUG ? "Debug" : "Release") + (Configuration.getData().PLATFORM.SIMULATOR ? "-iphonesimulator" : "-iphoneos")]);
-		var outputFileWithoutExtension = Path.join([publishDirectory, Configuration.getData().APP.FILE]);
+		var outputFileWithoutExtension: String = Path.join([publishDirectory, Configuration.getData().APP.FILE]);
+		var outputFileIpa: String = '$outputFileWithoutExtension.ipa';
+		var outputFileDsym: String = '$outputFileWithoutExtension.app.dSYM';
 
 		// copy files from output to publish
 		TemplateHelper.recursiveCopyTemplatedFiles(outputFolder, publishDirectory, null, null);
@@ -150,12 +152,16 @@ class PlatformBuild
 			"-v",
 			'$outputFileWithoutExtension.app',
 			"-o",
-			'$outputFileWithoutExtension.ipa',
+			outputFileIpa,
 			"--embed",
 			Configuration.getData().PLATFORM.PROVISIONING_PROFILE_PATH
 		];
 
 		CommandHelper.runCommand(targetDirectory, "/usr/bin/xcrun", args, {exitOnError: false, errorMessage: "packaging the app to an .ipa file"});
+
+		// update the published paths so that the plugins can operate on postPublish
+		Configuration.getData().PLATFORM.PUBLISHED_IPA_PATH = outputFileIpa;
+		Configuration.getData().PLATFORM.PUBLISHED_DSYM_PATH = outputFileDsym;
 	}
 
 	public function test()
