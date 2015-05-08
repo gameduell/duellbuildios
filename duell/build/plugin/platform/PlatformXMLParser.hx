@@ -96,8 +96,11 @@ class PlatformXMLParser
 				case 'target-devices':
 					parseTargetDevicesElement(element);
 
-				case 'key-store-identity':
-					parseKeyStoreIdentityElement(element);
+				case 'key-store':
+					parseKeyStoreElement(element);
+
+				case 'provisioning-profile':
+					parseProvisioningProfileElement(element);
 
 				case 'fullscreen':
 					parseFullscreenElement(element);
@@ -234,11 +237,29 @@ class PlatformXMLParser
 		}
 	}
 
-	private static function parseKeyStoreIdentityElement(element : Fast)
+	private static function parseKeyStoreElement(element : Fast)
 	{
-		if (element.has.value)
+		if (element.has.path)
 		{
-			PlatformConfiguration.getData().KEY_STORE_IDENTITY = element.att.value;
+			PlatformConfiguration.getData().KEY_STORE_PATH = element.att.path;
+		}
+
+		if (element.has.password)
+		{
+			PlatformConfiguration.getData().KEY_STORE_PASSWORD = element.att.password;
+		}
+
+		if (element.has.identity)
+		{
+			PlatformConfiguration.getData().KEY_STORE_IDENTITY = element.att.identity;
+		}
+	}
+
+	private static function parseProvisioningProfileElement(element : Fast)
+	{
+		if (element.has.path)
+		{
+			PlatformConfiguration.getData().PROVISIONING_PROFILE_PATH = element.att.path;
 		}
 	}
 

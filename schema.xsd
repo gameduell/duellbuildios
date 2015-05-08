@@ -19,7 +19,8 @@
             <xs:element name="pre-rendered-icon" type="d:Value"/>
             <xs:element name="deployment-target" type="d:Value"/>
             <xs:element name="target-devices" type="d:Value"/>
-            <xs:element name="key-store-identity" type="d:Value"/>
+            <xs:element name="key-store" type="d:KeystoreIOS"/>
+            <xs:element name="provisioning-profile" type="d:Path"/>
             <xs:element name="fullscreen" type="d:ValueBoolean"/>
             <xs:element name="orientation" type="d:Value"/>
             <xs:element name="required-capability" type="d:NameValueNameRequired"/>
@@ -65,5 +66,15 @@
             <xs:enumeration value="dynamic" />
         </xs:restriction>
     </xs:simpleType>
+
+    <xs:complexType name="KeystoreIOS">
+        <xs:complexContent>
+            <xs:extension base="d:Conditional">
+                <xs:attribute name="path" type="xs:string" use="optional"/>
+                <xs:attribute name="password" type="xs:string" use="optional"/>
+                <xs:attribute name="identity" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
 </xs:schema>
