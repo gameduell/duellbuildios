@@ -50,7 +50,7 @@ using StringTools;
 
 class PlatformBuild
 {
-	public var requiredSetups = [{name: "mac", version: "1.0.0"}];
+	public var requiredSetups = [{name: "mac", version: "2.0.0"}];
 	public var supportedHostPlatforms = [MAC];
 
 	public static inline var TEST_RESULT_FILENAME = "test_result_ios.xml";
@@ -116,13 +116,13 @@ class PlatformBuild
 	{
 		if (Configuration.getData().PLATFORM.SIMULATOR)
 		{
-			LogHelper.error("Cannot publish with the simulator as target");
+			throw "Cannot publish with the simulator as target";
 			return;
 		}
 
 		if (Configuration.getData().PLATFORM.PROVISIONING_PROFILE_PATH == "")
 		{
-			LogHelper.error("No provisioning profile is set for publishing");
+			throw "No provisioning profile is set for publishing";
 			return;
 		}
 
@@ -203,7 +203,7 @@ class PlatformBuild
 		{
 
 			if (isSimulator)
-				LogHelper.error("simulator arguments is incompatible with architecture arguments such as -armv7s");
+				throw "simulator arguments is incompatible with architecture arguments such as -armv7s";
 
 			Configuration.getData().PLATFORM.ARCHS = [];
 
@@ -517,7 +517,7 @@ class PlatformBuild
 		{
 			if (!FileSystem.exists(releaseLib))
 			{
-				LogHelper.error("Could not find release lib for ndll" + ndll.NAME + " built with build file " + ndll.BUILD_FILE_PATH + " and having output folder " + ndll.BIN_PATH);
+				throw "Could not find release lib for ndll" + ndll.NAME + " built with build file " + ndll.BUILD_FILE_PATH + " and having output folder " + ndll.BIN_PATH;
 			}
 
 			FileHelper.copyIfNewer(releaseLib, releaseDest);
@@ -532,7 +532,7 @@ class PlatformBuild
 		{
 			if (!FileSystem.exists(debugLib))
 			{
-				LogHelper.error("Could not find release lib for ndll" + ndll.NAME + " built with build file " + ndll.BUILD_FILE_PATH + " and having output folder " + ndll.BIN_PATH);
+				throw "Could not find release lib for ndll" + ndll.NAME + " built with build file " + ndll.BUILD_FILE_PATH + " and having output folder " + ndll.BIN_PATH;
 			}
 
 			FileHelper.copyIfNewer (debugLib, debugDest);
@@ -676,7 +676,7 @@ class PlatformBuild
     		var result = CommandHelper.runHaxelib(Path.directory(ndll.BUILD_FILE_PATH), ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH), "clean"], {errorMessage: "cleaning ndll"});
 
 			if (result != 0)
-				LogHelper.error("Problem cleaning ndll " + ndll.NAME);
+				throw "Problem cleaning ndll " + ndll.NAME;
 
 			var destFolder = Path.join([ndll.BIN_PATH, "iPhone"]);
 			if (FileSystem.exists(destFolder))
@@ -684,5 +684,10 @@ class PlatformBuild
 				PathHelper.removeDirectory(destFolder);
 			}
 		}
+	}
+
+	public function handleError()
+	{
+
 	}
 }
