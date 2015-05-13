@@ -90,6 +90,8 @@ class PlatformBuild
 
 	public function build()
 	{
+        prepareKeychain();
+
 		runXCodeBuild();
 
 		sign();
@@ -103,6 +105,7 @@ class PlatformBuild
 	public function fast()
 	{
 		prepareVariables();
+        prepareKeychain();
 		runXCodeBuild();
 		sign();
 
@@ -281,7 +284,6 @@ class PlatformBuild
 
 	private function prepareXcodeBuild()
 	{
-        prepareKeychain();
 		convertPlistEntriesToSections();
 		createDirectoriesAndCopyTemplates();
 		copyNativeFiles();
