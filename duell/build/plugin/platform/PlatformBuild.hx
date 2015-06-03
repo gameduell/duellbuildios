@@ -266,11 +266,21 @@ class PlatformBuild
 			var frameworkID = XCodeHelper.getUniqueIDForXCode();
 			var fileID = XCodeHelper.getUniqueIDForXCode();
 
+			var pathSection = "";
+			var fileType = "wrapper.framework";
 			if (framework.PATH != null)
+			{
 				PlatformConfiguration.getData().FRAMEWORK_SEARCH_PATHS.push(framework.PATH);
+				pathSection = "path = " + framework.PATH + "/" + framework.NAME + ";";
+			}
+
+			if (framework.NAME.endsWith(".dylib"))
+			{
+				fileType = "\"compiled.mach-o.dylib\"";
+			}
 
 			PlatformConfiguration.getData().ADDL_PBX_BUILD_FILE.push("      " + frameworkID + " /* " + framework.NAME + " in Frameworks */ = {isa = PBXBuildFile; fileRef = " + fileID + " /* " + framework.NAME + " */; };");
-			PlatformConfiguration.getData().ADDL_PBX_FILE_REFERENCE.push("      " + fileID + " /* " + framework.NAME + " */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = " + framework.NAME + "; path = " + framework.PATH + "/" + framework.NAME + "; sourceTree = SDKROOT; };");
+			PlatformConfiguration.getData().ADDL_PBX_FILE_REFERENCE.push("      " + fileID + " /* " + framework.NAME + " */ = {isa = PBXFileReference; lastKnownFileType = " + fileType + "; name = " + framework.NAME + ";" + pathSection + "sourceTree = SDKROOT; };");
 			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORKS_BUILD_PHASE.push("            " + frameworkID + " /* " + framework.NAME + " in Frameworks */,");
 			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORK_GROUP.push("            " + fileID + " /* " + framework.NAME + " */,");
 		}
