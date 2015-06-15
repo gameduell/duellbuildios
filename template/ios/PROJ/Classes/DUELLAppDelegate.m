@@ -58,7 +58,7 @@ const char *hxRunLibrary();
             [delegate application:application didFinishLaunchingWithOptions:launchOptions];
         }
     }
-    
+
     return YES;
 }
 
@@ -124,6 +124,28 @@ const char *hxRunLibrary();
         if ([delegate respondsToSelector:@selector(application:didReceiveRemoteNotification:)])
         {
             [delegate application:application didReceiveRemoteNotification:userInfo];
+        }
+    }
+}
+
+- (void)application:(UIApplication*)application didReceiveLocalNotification:(NSDictionary *)userInfo
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(application:didReceiveLocalNotification:)])
+        {
+            [delegate application:application didReceiveLocalNotification:userInfo];
+        }
+    }
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)])
+        {
+            [delegate application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
         }
     }
 }

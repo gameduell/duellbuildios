@@ -76,6 +76,7 @@ typedef PlatformConfigurationData = {
 	ADDL_PBX_FILE_REFERENCE : Array<String>,
 	ADDL_PBX_FRAMEWORKS_BUILD_PHASE : Array<String>,
 	ADDL_PBX_FRAMEWORK_GROUP : Array<String>,
+	ADDL_PBX_GROUP : Array<String>,
 	ADDL_PBX_RESOURCE_GROUP : Array<String>,
 	ADDL_PBX_RESOURCES_BUILD_PHASE : Array<String>,
 
@@ -139,6 +140,7 @@ class PlatformConfiguration
 			ADDL_PBX_FILE_REFERENCE : [],
 			ADDL_PBX_FRAMEWORKS_BUILD_PHASE : [],
 			ADDL_PBX_FRAMEWORK_GROUP : [],
+			ADDL_PBX_GROUP : [],
 			ADDL_PBX_RESOURCES_BUILD_PHASE : [],
 			ADDL_PBX_RESOURCE_GROUP : [],
 
