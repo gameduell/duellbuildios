@@ -165,6 +165,17 @@ const char *hxRunLibrary();
     return returnValue;
 }
 
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)])
+        {
+            [delegate application:application didFailToRegisterForRemoteNotificationsWithError:error];
+        }
+    }
+}
+
 - (void)addDuellDelegate:(id<DUELLDelegate>)delegate
 {
     if (self.duellDelegates == nil)
