@@ -49,7 +49,7 @@
 		</elem>
 
 		<elem name="device-type-id">
-			Use this to specify your target device. Use an identifier string to set target device and sdk version. E.g.: &lt;device-type-id value="com.apple.CoreSimulator.SimDeviceType.Resizable-iPhone6, 8.0" /&gt;.
+			Use this to specify your target device. Use an identifier string to set target device and sdk version. E.g.: &lt;device-type-id value="com.apple.CoreSimulator.SimDeviceType.Resizable-iPhone6, 8.0" /&gt;. You can get the list of supported devices by calling ios-sim showdevicetypes from the command line.
 		</elem>
 
 		<elem name="key-store-identity">
