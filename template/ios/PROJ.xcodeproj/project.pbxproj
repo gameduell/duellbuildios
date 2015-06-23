@@ -160,6 +160,9 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+
+		::foreach PLATFORM.ADDL_PBX_GROUP::
+		::__current__::::end::
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */

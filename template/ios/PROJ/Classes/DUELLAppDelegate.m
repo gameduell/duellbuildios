@@ -58,7 +58,7 @@ const char *hxRunLibrary();
             [delegate application:application didFinishLaunchingWithOptions:launchOptions];
         }
     }
-    
+
     return YES;
 }
 
@@ -128,6 +128,28 @@ const char *hxRunLibrary();
     }
 }
 
+- (void)application:(UIApplication*)application didReceiveLocalNotification:(NSDictionary *)userInfo
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(application:didReceiveLocalNotification:)])
+        {
+            [delegate application:application didReceiveLocalNotification:userInfo];
+        }
+    }
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)])
+        {
+            [delegate application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+        }
+    }
+}
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     BOOL returnValue = NO;
@@ -141,6 +163,17 @@ const char *hxRunLibrary();
     }
 
     return returnValue;
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    {
+        if ([delegate respondsToSelector:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)])
+        {
+            [delegate application:application didFailToRegisterForRemoteNotificationsWithError:error];
+        }
+    }
 }
 
 - (void)addDuellDelegate:(id<DUELLDelegate>)delegate
