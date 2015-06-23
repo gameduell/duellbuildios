@@ -48,6 +48,10 @@
 			Use this to specify your target devices. 1 is for iPhone, 2 is for iPad, 1,2 for both. By default 1,2 is selected. E.g.: &lt;target-devices value="1,2" /&gt;.
 		</elem>
 
+		<elem name="device-type-id">
+			Use this to specify your target device. Use an identifier string to set target device and sdk version. E.g.: &lt;device-type-id value="com.apple.CoreSimulator.SimDeviceType.Resizable-iPhone6, 8.0" /&gt;.
+		</elem>
+
 		<elem name="key-store-identity">
 			Use this to specify your key store identity. By default it is "iPhone Developer". E.g.: &lt;key-store-identity value="John Smith" /&gt;.
 		</elem>

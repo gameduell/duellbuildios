@@ -19,6 +19,7 @@
             <xs:element name="pre-rendered-icon" type="d:Value"/>
             <xs:element name="deployment-target" type="d:Value"/>
             <xs:element name="target-devices" type="d:Value"/>
+            <xs:element name="device-type-id" type="d:Value"/>
             <xs:element name="key-store" type="d:KeystoreIOS"/>
             <xs:element name="provisioning-profile" type="d:Path"/>
             <xs:element name="fullscreen" type="d:ValueBoolean"/>

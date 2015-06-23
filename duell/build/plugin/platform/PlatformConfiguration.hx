@@ -57,6 +57,7 @@ typedef PlatformConfigurationData = {
 	XCODE_BUILD_ARGS : Array<String>,
 	FRAMEWORKS : Array<{NAME : String, PATH : String}>,
 	DEPLOYMENT_TARGET : String,
+	DEVICE_TYPE_ID : String,
 	TARGET_DEVICES : String,
 	ARCHS : Array<String>,
 	KEY_STORE_PATH : String,
@@ -122,6 +123,7 @@ class PlatformConfiguration
 			FRAMEWORKS : [{NAME:"Foundation.framework", PATH:null}, {NAME:"UIKit.framework", PATH:null}, {NAME:"QuartzCore.framework", PATH:null}],
 			DEPLOYMENT_TARGET : "5",
 			TARGET_DEVICES : "", //1 for iphone, 2 for ipad, 1,2 for both
+			DEVICE_TYPE_ID : "com.apple.CoreSimulator.SimDeviceType.iPhone-4s, 8.2",
 			ARCHS : ["armv7"],
 			KEY_STORE_PATH : "",
 			KEY_STORE_PASSWORD : "",

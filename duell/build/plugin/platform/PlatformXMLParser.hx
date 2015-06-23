@@ -96,6 +96,9 @@ class PlatformXMLParser
 				case 'target-devices':
 					parseTargetDevicesElement(element);
 
+				case 'device-type-id':
+					parseDeviceTypeIdElement(element);
+
 				case 'key-store':
 					parseKeyStoreElement(element);
 
@@ -226,6 +229,14 @@ class PlatformXMLParser
 		if (element.has.value)
 		{
 			PlatformConfiguration.getData().DEPLOYMENT_TARGET = element.att.value;
+		}
+	}
+
+	private static function parseDeviceTypeIdElement(element : Fast)
+	{
+		if (element.has.value)
+		{
+			PlatformConfiguration.getData().DEVICE_TYPE_ID = element.att.value;
 		}
 	}
 
