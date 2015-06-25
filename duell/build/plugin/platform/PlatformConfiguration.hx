@@ -83,6 +83,8 @@ typedef PlatformConfigurationData = {
 	/// derived from the arguments
 	DEBUG : Bool,
 	SIMULATOR : Bool,
+	SIM_DEVICE : String,
+	SIM_OS : String,
 	OUTPUT_FILE : String,
 	IOS_VERSION : String,
 
@@ -146,6 +148,8 @@ class PlatformConfiguration
 
 			DEBUG : false,
 			SIMULATOR : false,
+			SIM_DEVICE : 'iPhone-4s',
+			SIM_OS : '8.2',
 			OUTPUT_FILE : "",
 			IOS_VERSION : "",
 

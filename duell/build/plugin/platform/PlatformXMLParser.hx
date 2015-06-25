@@ -27,6 +27,7 @@
 package duell.build.plugin.platform;
 
 
+import duell.objects.Arguments;
 import duell.build.objects.DuellProjectXML;
 import duell.build.objects.Configuration;
 
@@ -95,6 +96,12 @@ class PlatformXMLParser
 
 				case 'target-devices':
 					parseTargetDevicesElement(element);
+
+				case 'sim-device':
+					parseSimulatorDeviceElement(element);
+
+				case 'sim-os':
+					parseSimulatorOsElement(element);
 
 				case 'key-store':
 					parseKeyStoreElement(element);
@@ -226,6 +233,22 @@ class PlatformXMLParser
 		if (element.has.value)
 		{
 			PlatformConfiguration.getData().DEPLOYMENT_TARGET = element.att.value;
+		}
+	}
+
+	private static function parseSimulatorOsElement(element : Fast)
+	{
+		if (element.has.value && !Arguments.isSet('-simos'))
+		{
+			PlatformConfiguration.getData().SIM_OS = element.att.value;
+		}
+	}
+
+	private static function parseSimulatorDeviceElement(element : Fast)
+	{
+		if (element.has.value && !Arguments.isSet('-simdevice'))
+		{
+			PlatformConfiguration.getData().SIM_DEVICE = element.att.value;
 		}
 	}
 

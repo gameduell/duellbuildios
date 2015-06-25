@@ -75,6 +75,33 @@
 		<elem name="infoplist-entry">
 			Use this to add entries to the info.plist file of the project. Possible values for type are "string", "number", "bool" and "dynamic". "dynamic" will take the value specified literally as is. E.g.: &lt;infoplist-entry key="FacebookAppID" type="string" value="12345678" /&gt;.
 		</elem>
+
+		<elem name="sim-device">
+			Use this to specify your simulator target device. Use an identifier string to set target device, e.g.: &lt;sim-device value="iPhone-6" /&gt;. If omitted default simulator will be "iPhone-4s".
+
+			List of currently supported devices and available iOS versions:
+			iPhone-4s - OS: 7.1, 8.1, 8.2
+			iPhone-5 - OS: 7.1, 8.1, 8.2
+			iPhone-5s - OS: 7.1, 8.1, 8.2
+			iPhone-6-Plus - OS: 8.1, 8.2
+			iPhone-6 - OS: 8.1, 8.2
+			iPad-2 - OS: 7.1, 8.1, 8.2
+			iPad-Retina - OS: 7.1, 8.1, 8.2
+			iPad-Air - OS: 7.1, 8.1, 8.2
+			Resizable-iPhone - OS: 8.1, 8.2
+			Resizable-iPad - OS: 8.1, 8.2
+
+			!! Be sure to enter the ids in a case-sensitive way, otherwise may not work.
+		</elem>
+
+		<elem name="sim-os">
+			Use this to specify which OS version the simulator should start. Use an identifier string to set the targeted OS version, e.g.: &lt;sim-os value="8.0" /&gt;. If omitted default OS will be "8.2".
+
+			List of currently supported OSs and associated devices:
+			7.1: iPhone-4s | iPhone-5 | iPhone-5s | iPad-2 | iPad-Retina | iPad-Air
+			8.1: iPhone-4s | iPhone-5 | iPhone-5s | iPhone-6-Plus | iPhone-6 | iPad-2 | iPad-Retina | iPad-Air | Resizable-iPhone | Resizable-iPad
+			8.2: iPhone-4s | iPhone-5 | iPhone-5s | iPhone-6-Plus | iPhone-6 | iPad-2 | iPad-Retina | iPad-Air | Resizable-iPhone | Resizable-iPad
+		</elem>
 	</configuration>
 
 	<arg name="-debug" type="void">
@@ -104,6 +131,40 @@
 	<arg name="-arm64" type="void">
 		<documentation>
 			Use this if you want to build for arm64.
+		</documentation>
+	</arg>
+
+	<arg name="-simdevice" type="string">
+		<documentation>
+			Use this to specify your simulator target device. Specify the device by putting an identifier string after using the argument -simdevice, i.e. -simdevice iPad-2. If omitted default device will point to iPhone-4s.
+
+			List of currently supported devices and available iOS versions:
+			iPhone-4s - OS: 7.1, 8.1, 8.2
+			iPhone-5 - OS: 7.1, 8.1, 8.2
+			iPhone-5s - OS: 7.1, 8.1, 8.2
+			iPhone-6-Plus - OS: 8.1, 8.2
+			iPhone-6 - OS: 8.1, 8.2
+			iPad-2 - OS: 7.1, 8.1, 8.2
+			iPad-Retina - OS: 7.1, 8.1, 8.2
+			iPad-Air - OS: 7.1, 8.1, 8.2
+			Resizable-iPhone - OS: 8.1, 8.2
+			Resizable-iPad - OS: 8.1, 8.2
+
+			!! Beware: Will be overridden by configuration in duell_project.xml if &lt;sim-device&gt; is set
+			!! Be sure to enter the ids in a case-sensitive way, otherwise may not work.
+		</documentation>
+	</arg>
+
+	<arg name="-simos" type="string">
+		<documentation>
+			Use this to specify which OS version to run on the simulator. Set the OS version like this: -simos 8.0. If omitted default OS will be of version 8.2.
+
+			List of currently supported OSs and associated devices:
+			7.1: iPhone-4s | iPhone-5 | iPhone-5s | iPad-2 | iPad-Retina | iPad-Air
+			8.1: iPhone-4s | iPhone-5 | iPhone-5s | iPhone-6-Plus | iPhone-6 | iPad-2 | iPad-Retina | iPad-Air | Resizable-iPhone | Resizable-iPad
+			8.2: iPhone-4s | iPhone-5 | iPhone-5s | iPhone-6-Plus | iPhone-6 | iPad-2 | iPad-Retina | iPad-Air | Resizable-iPhone | Resizable-iPad
+
+			!! Beware: Will be overridden by configuration in duell_project.xml if &lt;sim-os&gt; is set !
 		</documentation>
 	</arg>
 

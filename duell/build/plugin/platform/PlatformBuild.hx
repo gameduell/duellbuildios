@@ -220,15 +220,30 @@ class PlatformBuild
 
 		if (isSimulator || Arguments.isSet("-test"))
 		{
-			Configuration.getData().PLATFORM.SIMULATOR = true;
-			Configuration.addParsingDefine("simulator");
-			Configuration.getData().PLATFORM.ARCHS = ["i386"];
+			setupSimulator();
 		}
 
 		if (Arguments.isSet("-test"))
 		{
 			Configuration.addParsingDefine("test");
 		}
+	}
+
+	private function setupSimulator() : Void
+	{
+		if (Arguments.isSet('-simdevice'))
+		{
+			Configuration.getData().PLATFORM.SIM_DEVICE = Arguments.get('-simdevice');
+		}
+
+		if (Arguments.isSet('-simos'))
+		{
+			Configuration.getData().PLATFORM.SIM_OS = Arguments.get('-simos');
+		}
+
+		Configuration.getData().PLATFORM.SIMULATOR = true;
+		Configuration.addParsingDefine("simulator");
+		Configuration.getData().PLATFORM.ARCHS = ["i386"];
 	}
 
 	private function convertParsingDefinesToCompilationDefines()
