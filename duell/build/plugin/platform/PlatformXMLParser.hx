@@ -96,8 +96,11 @@ class PlatformXMLParser
 				case 'target-devices':
 					parseTargetDevicesElement(element);
 
-				case 'device-type-id':
-					parseDeviceTypeIdElement(element);
+				case 'sim-device':
+					parseSimulatorDeviceElement(element);
+
+				case 'sim-os':
+					parseSimulatorOsElement(element);
 
 				case 'key-store':
 					parseKeyStoreElement(element);
@@ -232,11 +235,19 @@ class PlatformXMLParser
 		}
 	}
 
-	private static function parseDeviceTypeIdElement(element : Fast)
+	private static function parseSimulatorOsElement(element : Fast)
 	{
 		if (element.has.value)
 		{
-			PlatformConfiguration.getData().DEVICE_TYPE_ID = element.att.value;
+			PlatformConfiguration.getData().SIM_OS = element.att.value;
+		}
+	}
+
+	private static function parseSimulatorDeviceElement(element : Fast)
+	{
+		if (element.has.value)
+		{
+			PlatformConfiguration.getData().SIM_DEVICE = element.att.value;
 		}
 	}
 
