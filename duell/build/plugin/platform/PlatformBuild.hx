@@ -682,7 +682,7 @@ class PlatformBuild
 		neko.vm.Thread.create(runApp);
 
 		/// RUN THE LISTENER
-		TestHelper.runListenerServer(300, 8183, fullTestResultPath);
+		TestHelper.runListenerServer(300, 8181, fullTestResultPath);
 	}
 
 	public function clean()
