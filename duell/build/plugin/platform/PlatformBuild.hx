@@ -681,7 +681,7 @@ class PlatformBuild
 		/// RUN THE APP IN A THREAD
 		neko.vm.Thread.create(runApp);
 
-		trace('!!! iOS test port set to: ' + Configuration.getData().TEST_PORT + ' !!!');
+		trace('!!!!! Set DUELLBUILDIOS TEST_PORT to: ' + Configuration.getData().TEST_PORT + ' !!!!!');
 		/// RUN THE LISTENER
 		TestHelper.runListenerServer(300, Configuration.getData().TEST_PORT, fullTestResultPath);
 	}
