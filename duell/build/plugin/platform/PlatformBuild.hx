@@ -681,7 +681,12 @@ class PlatformBuild
 		/// RUN THE APP IN A THREAD
 		neko.vm.Thread.create(runApp);
 
-		// TODO: Find a better/central place for the hardcoded fallback port 8181 ?
+		/**
+		* TODO: Find a better/central place for the hardcoded fallback port 8181
+		*       which is intended fall back on if the duell-tool's configuration
+		*       does not provide the TEST_PORT property (backward-compatibility).
+		*       Remove eventually...
+		**/
 		var testPort:Int = untyped Configuration.getData().TEST_PORT == null ?
 			8181 : Configuration.getData().TEST_PORT;
 
