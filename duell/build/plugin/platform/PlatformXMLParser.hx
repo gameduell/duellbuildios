@@ -264,7 +264,7 @@ class PlatformXMLParser
 	{
 		if (element.has.path)
 		{
-			PlatformConfiguration.getData().KEY_STORE_PATH = element.att.path;
+			PlatformConfiguration.getData().KEY_STORE_PATH = resolvePath(element.att.path);
 		}
 
 		if (element.has.password)
