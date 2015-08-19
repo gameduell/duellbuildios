@@ -679,7 +679,7 @@ class PlatformBuild
 		PathHelper.mkdir(Path.directory(fullTestResultPath));
 
 		/// RUN THE APP IN A THREAD
-		neko.vm.Thread.create(runApp);
+		duell.helpers.ThreadHelper.runInAThread(runApp);
 
 		/**
 		* TODO: Find a better/central place for the hardcoded fallback port 8181

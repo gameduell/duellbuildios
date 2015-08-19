@@ -23,7 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 package duell.build.helpers;
 
 using StringTools;
@@ -33,53 +33,58 @@ import duell.objects.DuellProcess;
 
 import sys.FileSystem;
 
+@:pythonImport("builtins")
+extern class Builtins {
+	public static function hex(num: Int): String;
+}
+
 class XCodeHelper
 {
 
 	private static var seedNumber = 0;
 	static public function getUniqueIDForXCode() : String
 	{
-		return "11C0000000000018" + StringTools.hex(seedNumber++, 8);
+		return "11C0000000000018" + Builtins.hex(seedNumber++).substr(2);
 	}
 
-	private static var iosVersion : String = null; 
-	public static function getIOSVersion() : String 
+	private static var iosVersion : String = null;
+	public static function getIOSVersion() : String
 	{
-		if (iosVersion != null) 
+		if (iosVersion != null)
 			return iosVersion;
 
 		var devPath = haxe.io.Path.join([getDeveloperDir(), "/Platforms/iPhoneOS.platform/Developer/SDKs"]);
 
-		if (FileSystem.exists(devPath)) 
+		if (FileSystem.exists(devPath))
 		{
 			var best = "";
 			var files = FileSystem.readDirectory(devPath);
 			var extractVersion = ~/^iPhoneOS(.*).sdk$/;
-			
-			for (file in files) 
+
+			for (file in files)
 			{
-				if (extractVersion.match(file)) 
+				if (extractVersion.match(file))
 				{
 					var ver = extractVersion.matched (1);
 					if (ver > best)
 						best = ver;
 				}
 			}
-			
+
 			iosVersion = best;
 		}
 
 		return iosVersion;
 	}
 
-	private static var developerDir : String = null; 
+	private static var developerDir : String = null;
 	public static function getDeveloperDir() : String
 	{
 		if (developerDir != null)
 			return developerDir;
 
         var proc = new DuellProcess("", "xcode-select", ["--print-path"], {block:true, systemCommand:true, errorMessage: "trying to determine the developer directory"});
-        developerDir = proc.getCompleteStdout().toString(); 
+        developerDir = proc.getCompleteStdout().toString();
 
 		if (developerDir.endsWith("\n"))
 		{
