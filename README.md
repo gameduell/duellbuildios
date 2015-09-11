@@ -9,5 +9,7 @@ Use this plugin to build for the ios platform.
 
 ## Release Log
 
+# v4.0
+* added main view to app delegate so that libraries can retrieve/set the main view to make integration easier.
 # v3.5
 * added main view to app delegate so that libraries can retrieve/set the main view to make integration easier.
