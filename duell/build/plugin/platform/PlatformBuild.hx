@@ -144,7 +144,7 @@ class PlatformBuild
 		var outputFileDsym: String = '$outputFileWithoutExtension.app.dSYM';
 
 		// copy files from output to publish
-		TemplateHelper.recursiveCopyTemplatedFiles(outputFolder, publishDirectory, null, null);
+		FileHelper.recursiveCopyFiles(outputFolder, publishDirectory);
 
 		// run the PackageApplication command
 		var args: Array<String> =
