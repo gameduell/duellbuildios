@@ -627,9 +627,7 @@ class PlatformBuild
 
         FileHelper.copyIfNewer(mobileProvision, destinationFile);
 
-        // send keychain command party \o/
-        CommandHelper.runCommand("", "/usr/bin/security", ["-v", "list-keychains", "-s", keychainPath], null);
-        CommandHelper.runCommand("", "/usr/bin/security", ["-v", "default-keychain", "-d", "user", "-s", keychainPath], null);
+        CommandHelper.runCommand("", "/usr/bin/security", ["-v", "list-keychains", "-d", "user", "-s", "login.keychain", keychainPath], null);
         CommandHelper.runCommand("", "/usr/bin/security", ["-v", "unlock-keychain", "-p", keychainPwd, keychainPath], {errorMessage : "error unlocking keychain for the given password"});
         CommandHelper.runCommand("", "/usr/bin/security", ["-v", "set-keychain-settings", "-lut", "1800", keychainPath], null);
         CommandHelper.runCommand("", "/usr/bin/security", ["-v", "show-keychain-info", keychainPath], null);
