@@ -35,6 +35,7 @@ const char *hxRunLibrary();
 @interface DUELLAppDelegate ()
 
 @property (nonatomic, readwrite, strong) NSMutableArray *duellDelegates;
+@property (nonatomic, readwrite, strong) UIImageView *splashView;
 
 @end
 
@@ -59,7 +60,35 @@ const char *hxRunLibrary();
         }
     }
 
+    ::if (PLATFORM.HOLD_SPLASHSCREEN == "true")::
+    [self showSplashScreen];
+    ::end::
+
     return YES;
+}
+
+- (void)showSplashScreen
+{
+    if (self.splashView != NULL)
+    {
+        return;
+    }
+
+    self.splashView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.rootView.frame.size.width, self.rootView.frame.size.height)];
+    self.splashView.image = [UIImage imageNamed:@"Default.png"];
+    [self.rootView addSubview:self.splashView];
+    [self.window bringSubviewToFront:self.splashView];
+}
+
+- (void)hideSplashScreen
+{
+    if (self.splashView == NULL)
+    {
+        return;
+    }
+
+    [self.splashView removeFromSuperview];
+    [self.splashView release];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

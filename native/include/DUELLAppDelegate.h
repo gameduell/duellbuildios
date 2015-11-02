@@ -35,5 +35,7 @@
 
 - (void)addDuellDelegate:(id<DUELLDelegate>)delegate; // Keeps a strong refernce
 - (void)removeDuellDelegate:(id<DUELLDelegate>)delegate;
+- (void)showSplashScreen;
+- (void)hideSplashScreen;
 
 @end

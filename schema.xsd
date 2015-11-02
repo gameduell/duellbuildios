@@ -10,6 +10,7 @@
         <xs:choice maxOccurs="unbounded">
             <xs:element name="icon" type="d:Path"/>
             <xs:element name="splashscreen" type="d:Path"/>
+            <xs:element name="holdSplashscreen" type="d:ValueBoolean"/>
             <xs:element name="framework" type="d:NamePathNameRequired"/>
             <xs:element name="hxcpp-compilation-arg" type="d:Value"/>
             <xs:element name="xcode-link-arg" type="d:Value"/>

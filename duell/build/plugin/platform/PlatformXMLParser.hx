@@ -70,6 +70,9 @@ class PlatformXMLParser
 				case 'splashscreen':
 					parseSplashscreenElement(element);
 
+				case 'holdSplashscreen':
+					parseHoldSplashscreenElement(element);
+
 				case 'framework':
 					parseFrameworkElement(element);
 
@@ -143,6 +146,14 @@ class PlatformXMLParser
 		if (element.has.path)
 		{
 			PlatformConfiguration.getData().SPLASHSCREEN_PATH = resolvePath(element.att.path);
+		}
+	}
+
+	private static function parseHoldSplashscreenElement(element : Fast)
+	{
+		if (element.has.value)
+		{
+			PlatformConfiguration.getData().HOLD_SPLASHSCREEN = element.att.value;
 		}
 	}
 
