@@ -44,15 +44,11 @@ CONFIG := $(CONFIG)-$(HAXE_OS)
 debug_print:
 	@echo "Make $(HAXE_BUILDS)"
 
-MAIN_PREFIX := lib
-::if (DUELL_API_LEVEL != null)::
-    ::if (DUELL_API_LEVEL >= 412)::
-       MAIN_PREFIX :=
-    ::end::
-::end::
-
-LIB_BASE := build/$(CONFIG)/$(MAIN_PREFIX)::MAIN::$(DEBUG)
+LIB_BASE := build/$(CONFIG)/lib::MAIN::$(DEBUG)
 LIB_DEST := $(DEBUG)/libHaxeApplication.a
+
+export STATICLIBPREFIX=lib
+export LIBPREFIX=lib
 
 export HXCPP_COMPILE_THREADS := 2
 
