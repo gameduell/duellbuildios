@@ -149,7 +149,7 @@ class PlatformConfiguration
 			DEBUG : false,
 			SIMULATOR : false,
 			SIM_DEVICE : 'iPhone-4s',
-			SIM_OS : '8.2',
+			SIM_OS : '9.0',
 			OUTPUT_FILE : "",
 			IOS_VERSION : "",
 
