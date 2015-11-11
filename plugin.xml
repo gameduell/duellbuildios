@@ -72,6 +72,10 @@
             Use this to add custom parameters to the info.plist file of the project. E.g.: &lt;infoplist-section&gt;&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;&lt;dict&gt;&lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;&lt;true/&gt;&lt;/dict&gt;&lt;/infoplist-section&gt;
 		</elem>
 
+		<elem name="exceptiondomains">
+			You can opt-out of Apple's transport security (ATS) for certain URLs in your Info.plist by using NSExceptionDomains. Within the NSExceptionDomains dictionary you can explicitly define URLs that you need exceptions for with ATS. E.g.:&lt;exceptiondomains&gt;&lt;key&gt;socialstage.gameduell.de&lt;/key&gt;&lt;dict&gt;&lt;key&gt;NSIncludesSubdomains&lt;/key&gt;&lt;true/&gt;&lt;key&gt;NSThirdPartyExceptionRequiresForwardSecrecy&lt;/key&gt;&lt;false/&gt;&lt;/dict&gt;&lt;/exceptiondomains&gt;
+		</elem>
+
 		<elem name="infoplist-entry">
 			Use this to add entries to the info.plist file of the project. Possible values for type are "string", "number", "bool" and "dynamic". "dynamic" will take the value specified literally as is. E.g.: &lt;infoplist-entry key="FacebookAppID" type="string" value="12345678" /&gt;.
 		</elem>

@@ -43,6 +43,13 @@ typedef PlistEntry =
 	VALUE : String
 };
 
+typedef ExceptionDomain = 
+{
+	URL : String,
+	PROPERTIES : String
+}
+
+
 typedef KeyValueArray = Array<{NAME : String, VALUE : String}>;
 
 typedef PlatformConfigurationData = {
@@ -69,6 +76,7 @@ typedef PlatformConfigurationData = {
 	ENTITLEMENTS_PATH : String,
 	INFOPLIST_SECTIONS: Array<String>,
 	INFOPLIST_ENTRIES: Array<PlistEntry>,
+	EXCEPTION_DOMAINS: Array<ExceptionDomain>,
 
 	/// derived from the data above
 	FRAMEWORK_SEARCH_PATHS : Array<String>,
@@ -136,6 +144,7 @@ class PlatformConfiguration
 			ENTITLEMENTS_PATH : "",
 			INFOPLIST_SECTIONS: [],
 			INFOPLIST_ENTRIES: [],
+			EXCEPTION_DOMAINS: [],
 
 			FRAMEWORK_SEARCH_PATHS : [],
 			ADDL_PBX_BUILD_FILE : [],

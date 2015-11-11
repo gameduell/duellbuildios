@@ -126,6 +126,10 @@ class PlatformXMLParser
 
 				case 'infoplist-entry':
 					parseInfoPlistEntryElement(element);
+
+				case 'exceptiondomains':
+					 parseExceptionDomains(element);
+
 			}
 		}
 	}
@@ -360,6 +364,30 @@ class PlatformXMLParser
 			};
 
 			PlatformConfiguration.getData().INFOPLIST_ENTRIES.push(entry);
+		}
+	}
+
+	private static function parseExceptionDomains(element : Fast)
+	{
+		var url : String = "";
+		var prop : String = "";
+
+		for (d in element.elements)
+		{
+			switch(d.name)
+			{
+				case "key":
+					 url = d.innerData;
+
+				case "dict":
+					 prop = d.innerHTML;
+					 var exception : ExceptionDomain = {
+					 	URL : url,
+					 	PROPERTIES : prop
+					 }
+
+					 PlatformConfiguration.getData().EXCEPTION_DOMAINS.push(exception);
+			}
 		}
 	}
 

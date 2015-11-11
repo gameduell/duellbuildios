@@ -105,5 +105,18 @@
      		::__current__::
 		::end::
 	::end::
+
+	::if (PLATFORM.EXCEPTION_DOMAINS.length > 0)::
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+        	::foreach PLATFORM.EXCEPTION_DOMAINS::
+            <key>::URL::</key>
+            <dict>::PROPERTIES::</dict>
+        	::end::
+        </dict>
+    </dict>
+    ::end::
 </dict>
 </plist>
