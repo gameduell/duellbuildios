@@ -28,6 +28,7 @@
             <xs:element name="required-capability" type="d:NameValueNameRequired"/>
             <xs:element name="entitlements" type="d:Path" />
             <xs:element name="infoplist-section" type="d:IgnoreContents"/>
+            <xs:element name="exceptiondomain" type="d:ExceptionDomain"/>
             <xs:element name="infoplist-entry" type="d:PlistEntry"/>
         </xs:choice>
     </xs:complexType>
@@ -77,6 +78,22 @@
                 <xs:attribute name="identity" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ExceptionDomain">
+        <xs:sequence>
+            <xs:element name="property" type="d:PropertyType" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="url" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="PropertyType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="key" type="xs:string" use="required" />
+                <xs:attribute name="value" type="xs:string" use="required" />
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
 </xs:schema>
