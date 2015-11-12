@@ -113,7 +113,12 @@
         <dict>
         	::foreach PLATFORM.EXCEPTION_DOMAINS::
             <key>::URL::</key>
-            <dict>::PROPERTIES::</dict>
+            <dict>
+            	::foreach PROPERTIES::
+            	<key>::NAME::</key>
+            	::if (VALUE == "true")::<true/>::else::<false/>::end::
+            	::end::
+            </dict>
         	::end::
         </dict>
     </dict>

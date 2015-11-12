@@ -80,16 +80,14 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:element name="ExceptionDomain" >
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="property" type="propertyType" minOccurs="1" maxOccurs="10" />
-            </xs:sequence>
-            <xs:attribute name="url" type="xs:string"/>
-        </xs:complexType>
-    </xs:element>
+    <xs:complexType name="ExceptionDomain">
+        <xs:sequence>
+            <xs:element name="property" type="d:PropertyType" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="url" type="xs:string" use="required" />
+    </xs:complexType>
 
-    <xs:complexType name="propertyType">
+    <xs:complexType name="PropertyType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
                 <xs:attribute name="key" type="xs:string" use="required" />

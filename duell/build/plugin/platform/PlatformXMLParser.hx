@@ -127,8 +127,8 @@ class PlatformXMLParser
 				case 'infoplist-entry':
 					parseInfoPlistEntryElement(element);
 
-				case 'exceptiondomains':
-					 parseExceptionDomains(element);
+				case 'exceptiondomain':
+					 parseExceptionDomain(element);
 
 			}
 		}
@@ -367,28 +367,26 @@ class PlatformXMLParser
 		}
 	}
 
-	private static function parseExceptionDomains(element : Fast)
+	private static function parseExceptionDomain(element : Fast)
 	{
-		var url : String = "";
-		var prop : String = "";
+		var url : String = element.att.url;
+		var key : String = "";
+		var value : String = "";
+		var properties : KeyValueArray = [];
 
-		for (d in element.elements)
+		for (property in element.elements)
 		{
-			switch(d.name)
-			{
-				case "key":
-					 url = d.innerData;
+			key = property.att.key;
+			value = property.att.value;
 
-				case "dict":
-					 prop = d.innerHTML;
-					 var exception : ExceptionDomain = {
-					 	URL : url,
-					 	PROPERTIES : prop
-					 }
-
-					 PlatformConfiguration.getData().EXCEPTION_DOMAINS.push(exception);
-			}
+			properties.push({NAME : key, VALUE : value});
 		}
+
+		var exception : ExceptionDomain = {
+			URL : url,
+			PROPERTIES : properties
+		}
+		PlatformConfiguration.getData().EXCEPTION_DOMAINS.push(exception);
 	}
 
 	/// HELPERS

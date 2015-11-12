@@ -46,9 +46,8 @@ typedef PlistEntry =
 typedef ExceptionDomain = 
 {
 	URL : String,
-	PROPERTIES : String
+	PROPERTIES : KeyValueArray
 }
-
 
 typedef KeyValueArray = Array<{NAME : String, VALUE : String}>;
 

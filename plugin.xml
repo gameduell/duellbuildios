@@ -72,8 +72,8 @@
             Use this to add custom parameters to the info.plist file of the project. E.g.: &lt;infoplist-section&gt;&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;&lt;dict&gt;&lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;&lt;true/&gt;&lt;/dict&gt;&lt;/infoplist-section&gt;
 		</elem>
 
-		<elem name="exceptiondomains">
-			You can opt-out of Apple's transport security (ATS) for certain URLs in your Info.plist by using NSExceptionDomains. Within the NSExceptionDomains dictionary you can explicitly define URLs that you need exceptions for with ATS. E.g.:&lt;exceptiondomains&gt;&lt;key&gt;socialstage.gameduell.de&lt;/key&gt;&lt;dict&gt;&lt;key&gt;NSIncludesSubdomains&lt;/key&gt;&lt;true/&gt;&lt;key&gt;NSThirdPartyExceptionRequiresForwardSecrecy&lt;/key&gt;&lt;false/&gt;&lt;/dict&gt;&lt;/exceptiondomains&gt;
+		<elem name="exceptiondomain">
+			You can opt-out of Apple's transport security (ATS) for certain URLs in your Info.plist by using this node. To do so, create nodes of the following format:&lt;exceptiondomain url='de.your.special.domain'&gt;&lt;property key='NSIncludesSubdomains' value='true' /&gt;&lt;/exceptiondomain&gt; You can add as much properties as you want but you need at least one when defining a exceptiondomain.
 		</elem>
 
 		<elem name="infoplist-entry">
