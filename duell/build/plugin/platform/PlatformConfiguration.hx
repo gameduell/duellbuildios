@@ -43,7 +43,7 @@ typedef PlistEntry =
 	VALUE : String
 };
 
-typedef ExceptionDomain = 
+typedef ExceptionDomain =
 {
 	URL : String,
 	PROPERTIES : KeyValueArray
@@ -103,7 +103,7 @@ typedef PlatformConfigurationData = {
 class PlatformConfiguration
 {
 	public static var _configuration : PlatformConfigurationData = null;
-	private static var _parsingDefines : Array<String> = ["ios", "cpp"];
+	private static var _parsingDefines : Array<String> = ["apple", "ios", "cpp"];
 	public static function getData() : PlatformConfigurationData
 	{
 		if (_configuration == null)
