@@ -56,6 +56,8 @@
 	<::PLATFORM.FULLSCREEN::/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIRequiresFullScreen</key>
+	<::PLATFORM.REQUIRES_FULLSCREEN::/>
 
 	::if (PLATFORM.ORIENTATIONS.length > 0)::
 	<key>UISupportedInterfaceOrientations</key>
