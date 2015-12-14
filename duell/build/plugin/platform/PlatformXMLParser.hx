@@ -130,6 +130,11 @@ class PlatformXMLParser
 				case 'exceptiondomain':
 					 parseExceptionDomain(element);
 
+				case 'capability':
+					parseCapabilityElement(element);
+
+				case 'requires-fullscreen':
+					parseRequiresFullScreenElement(element);
 			}
 		}
 	}
@@ -387,6 +392,27 @@ class PlatformXMLParser
 			PROPERTIES : properties
 		}
 		PlatformConfiguration.getData().EXCEPTION_DOMAINS.push(exception);
+	}
+
+	private static function parseCapabilityElement(element : Fast)
+	{
+		var name : String = element.att.name;
+		var value: String = "1";
+
+		if (element.has.value)
+			value = element.att.value;
+
+		PlatformConfiguration.getData().CAPABILITIES.push({NAME: name, VALUE: value});
+	}
+
+	private static function parseRequiresFullScreenElement(element : Fast)
+	{
+		var value: String = "true";
+
+		if (element.has.value)
+			value = element.att.value;
+
+		PlatformConfiguration.getData().REQUIRES_FULLSCREEN = value;
 	}
 
 	/// HELPERS
