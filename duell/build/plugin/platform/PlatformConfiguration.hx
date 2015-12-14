@@ -71,13 +71,11 @@ typedef PlatformConfigurationData = {
 	PROVISIONING_PROFILE_PATH: String,
 	FULLSCREEN : String,
 	ORIENTATIONS : Array<String>,
-	REQUIRED_CAPABILITIES : KeyValueArray, /// DEVICE
+	REQUIRED_CAPABILITIES : KeyValueArray,
 	ENTITLEMENTS_PATH : String,
 	INFOPLIST_SECTIONS: Array<String>,
 	INFOPLIST_ENTRIES: Array<PlistEntry>,
 	EXCEPTION_DOMAINS: Array<ExceptionDomain>,
-	CAPABILITIES: Array<{NAME: String, VALUE: String}>, /// FEATURE, like push notifications
-	REQUIRES_FULLSCREEN: String,
 
 	/// derived from the data above
 	FRAMEWORK_SEARCH_PATHS : Array<String>,
@@ -146,8 +144,6 @@ class PlatformConfiguration
 			INFOPLIST_SECTIONS: [],
 			INFOPLIST_ENTRIES: [],
 			EXCEPTION_DOMAINS: [],
-			CAPABILITIES: [],
-			REQUIRES_FULLSCREEN: "true",
 
 			FRAMEWORK_SEARCH_PATHS : [],
 			ADDL_PBX_BUILD_FILE : [],

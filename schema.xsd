@@ -30,8 +30,6 @@
             <xs:element name="infoplist-section" type="d:IgnoreContents"/>
             <xs:element name="exceptiondomain" type="d:ExceptionDomain"/>
             <xs:element name="infoplist-entry" type="d:PlistEntry"/>
-            <xs:element name="capability" type="d:NameValueNameRequired"/>
-            <xs:element name="requires-fullscreen" type="d:ValueBoolean"/>
         </xs:choice>
     </xs:complexType>
 
