@@ -127,8 +127,8 @@ class PlatformXMLParser
 				case 'infoplist-entry':
 					parseInfoPlistEntryElement(element);
 
-				case 'exceptiondomain':
-					 parseExceptionDomain(element);
+				case 'transportsecurity':
+					 parseTransportSecurity(element);
 
 				case 'capability':
 					parseCapabilityElement(element);
@@ -372,6 +372,28 @@ class PlatformXMLParser
 		}
 	}
 
+	private static function parseTransportSecurity(element : Fast)
+	{
+		for (e in element.elements)
+		{
+			switch(e.name)
+			{
+				case 'arbitraryloads':
+					 parseArbitraryLoads( e );
+
+				case 'exceptiondomain':
+					 parseExceptionDomain( e );
+			}
+		}
+	}
+
+	private static function parseArbitraryLoads(element : Fast)
+	{
+		var val = element.att.value == "true" ? true : false;
+		LogHelper.info("================> allow arbitrary loads: " + val);
+		PlatformConfiguration.getData().ARBITRARY_LOADS = val;
+	}
+
 	private static function parseExceptionDomain(element : Fast)
 	{
 		var url : String = element.att.url;
@@ -391,6 +413,7 @@ class PlatformXMLParser
 			URL : url,
 			PROPERTIES : properties
 		}
+
 		PlatformConfiguration.getData().EXCEPTION_DOMAINS.push(exception);
 	}
 

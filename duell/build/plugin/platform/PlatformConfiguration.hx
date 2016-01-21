@@ -76,6 +76,7 @@ typedef PlatformConfigurationData = {
 	INFOPLIST_SECTIONS: Array<String>,
 	INFOPLIST_ENTRIES: Array<PlistEntry>,
 	EXCEPTION_DOMAINS: Array<ExceptionDomain>,
+	ARBITRARY_LOADS : Bool,
 	CAPABILITIES: Array<{NAME: String, VALUE: String}>, /// FEATURE, like push notifications
 	REQUIRES_FULLSCREEN: String,
 
@@ -146,6 +147,7 @@ class PlatformConfiguration
 			INFOPLIST_SECTIONS: [],
 			INFOPLIST_ENTRIES: [],
 			EXCEPTION_DOMAINS: [],
+			ARBITRARY_LOADS: false,
 			CAPABILITIES: [],
 			REQUIRES_FULLSCREEN: "true",
 

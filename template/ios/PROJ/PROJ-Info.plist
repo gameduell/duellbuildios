@@ -108,9 +108,13 @@
 		::end::
 	::end::
 
-	::if (PLATFORM.EXCEPTION_DOMAINS.length > 0)::
+	::if ((PLATFORM.EXCEPTION_DOMAINS.length > 0)||PLATFORM.ARBITRARY_LOADS)::
     <key>NSAppTransportSecurity</key>
     <dict>
+    	<key>NSAllowsArbitraryLoads</key>
+    	::if (PLATFORM.ARBITRARY_LOADS)::<true/>::else::<false/>::end::
+
+    	::if (PLATFORM.EXCEPTION_DOMAINS.length > 0)::
         <key>NSExceptionDomains</key>
         <dict>
         	::foreach PLATFORM.EXCEPTION_DOMAINS::
@@ -123,6 +127,7 @@
             </dict>
         	::end::
         </dict>
+        ::end::
     </dict>
     ::end::
 </dict>
