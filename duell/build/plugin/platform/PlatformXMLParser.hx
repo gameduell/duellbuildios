@@ -389,9 +389,7 @@ class PlatformXMLParser
 
 	private static function parseArbitraryLoads(element : Fast)
 	{
-		var val = element.att.value == "true" ? true : false;
-		LogHelper.info("================> allow arbitrary loads: " + val);
-		PlatformConfiguration.getData().ARBITRARY_LOADS = val;
+		PlatformConfiguration.getData().ARBITRARY_LOADS = element.att.value == "true" ? true : false;
 	}
 
 	private static function parseExceptionDomain(element : Fast)
