@@ -37,6 +37,7 @@ import duell.helpers.FileHelper;
 import duell.helpers.CommandHelper;
 import duell.helpers.TestHelper;
 import duell.helpers.PlatformHelper;
+import duell.helpers.DuellConfigHelper;
 
 import duell.objects.Arguments;
 import duell.objects.DuellLib;
@@ -183,6 +184,16 @@ class PlatformBuild
 
 		Configuration.getData().PLATFORM.IOS_VERSION = XCodeHelper.getIOSVersion();
 		Configuration.getData().PLATFORM.OUTPUT_FILE = Path.join([targetDirectory, "build", (Configuration.getData().PLATFORM.DEBUG?"Debug":"Release") + (Configuration.getData().PLATFORM.SIMULATOR?"-iphonesimulator":"-iphoneos"), Configuration.getData().APP.FILE + ".app"]);
+
+        var configFolderLocation = DuellConfigHelper.getDuellConfigFolderLocation();
+        var cacheLocation = Path.join([configFolderLocation, "hxcppcache"]);
+
+        if (!FileSystem.exists(cacheLocation))
+        {
+            PathHelper.mkdir(cacheLocation);
+        }
+
+        Sys.putEnv("HXCPP_COMPILE_CACHE", cacheLocation);
 	}
 
 	private function checkArguments()
