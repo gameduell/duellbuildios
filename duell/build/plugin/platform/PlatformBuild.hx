@@ -238,6 +238,11 @@ class PlatformBuild
 		{
 			Configuration.addParsingDefine("test");
 		}
+
+		if (Arguments.isSet("-publish") || Arguments.isDefineSet("publish"))
+		{
+			Configuration.getData().PLATFORM.DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+		}
 	}
 
 	private function setupSimulator() : Void

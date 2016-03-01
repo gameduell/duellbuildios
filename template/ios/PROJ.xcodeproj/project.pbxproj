@@ -343,7 +343,7 @@
 		1D6058940D05DD3E006BFB54 /* Debug */ = {/* Build configuration list for PBXNativeTarget "::APP.FILE::" */
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "::PLATFORM.DEBUG_INFORMATION_FORMAT::";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "::APP.FILE::/::APP.FILE::-Prefix.pch";
 				INFOPLIST_FILE = "::APP.FILE::/::APP.FILE::-Info.plist";
@@ -386,6 +386,7 @@
 		1D6058950D05DD3E006BFB54 /* Release */ = {/* Build configuration list for PBXNativeTarget "::APP.FILE::" */
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "::PLATFORM.DEBUG_INFORMATION_FORMAT::";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "::APP.FILE::/::APP.FILE::-Prefix.pch";
 				INFOPLIST_FILE = "::APP.FILE::/::APP.FILE::-Info.plist";
