@@ -38,7 +38,7 @@
   - (void)applicationWillTerminate:(UIApplication *)application;
   - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
   - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
-  - (void)application:(UIApplication*)application didReceiveLocalNotification:(NSDictionary *)userInfo;
+  - (void)application:(UIApplication*)application didReceiveLocalNotification:(UILocalNotification*)notification;
   - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
   - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 
