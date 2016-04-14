@@ -59,6 +59,9 @@ const char *hxRunLibrary();
         }
     }
 
+	UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+
     return YES;
 }
 
@@ -128,15 +131,17 @@ const char *hxRunLibrary();
     }
 }
 
-- (void)application:(UIApplication*)application didReceiveLocalNotification:(NSDictionary *)userInfo
+- (void)application:(UIApplication*)application didReceiveLocalNotification:(UILocalNotification*)notification
 {
     for (id<DUELLDelegate> delegate in self.duellDelegates)
     {
         if ([delegate respondsToSelector:@selector(application:didReceiveLocalNotification:)])
         {
-            [delegate application:application didReceiveLocalNotification:userInfo];
+            [delegate application:application didReceiveLocalNotification:notification];
         }
     }
+
+	[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
