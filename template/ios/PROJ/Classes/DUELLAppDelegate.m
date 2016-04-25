@@ -59,8 +59,17 @@ const char *hxRunLibrary();
         }
     }
 
-	UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    {
+        UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    }
+    else
+    {
+        // iOS < 8 Notifications
+        [application registerForRemoteNotificationTypes:
+        (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert)];
+    }
 
     return YES;
 }
