@@ -48,7 +48,7 @@ const char *hxRunLibrary();
     self.executor = ^(DuellCallbackBlock callback)
     {
         callback();
-    }
+    };
 
     const char *err = NULL;
     err = hxRunLibrary();
@@ -217,14 +217,17 @@ const char *hxRunLibrary();
 
 + (void)executeBlock:(DuellCallbackBlock)block
 {
-    DUELLDelegate *appDelegate = (DUELLDelegate *)[[UIApplication sharedApplication] delegate];
+    DUELLAppDelegate *appDelegate = (DUELLAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.executor(block);
 }
 
 + (void)overrideExecutor:(DuellExecutorBlock)executor
 {
-    DUELLDelegate *appDelegate = (DUELLDelegate *)[[UIApplication sharedApplication] delegate];
+  @synchronized(self)
+  {
+    DUELLAppDelegate *appDelegate = (DUELLAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.executor = executor;
+  }
 }
 
 @end
