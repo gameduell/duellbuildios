@@ -26,14 +26,20 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^DuellCallbackBlock)(void);
+typedef void (^DuellExecutorBlock)(DuellCallbackBlock);
+
 @protocol DUELLDelegate;
 
 
 @interface DUELLAppDelegate : UIResponder <UIApplicationDelegate>
 @property (nonatomic, readwrite, retain) UIView *rootView;
 @property (nonatomic, readwrite, strong) UIWindow *window;
+@property (copy) DuellExecutorBlock executor;
 
 - (void)addDuellDelegate:(id<DUELLDelegate>)delegate; // Keeps a strong refernce
 - (void)removeDuellDelegate:(id<DUELLDelegate>)delegate;
++ (void)executeBlock:(DuellCallbackBlock)block;
++ (void)overrideExecutor:(DuellExecutorBlock)executor;
 
 @end

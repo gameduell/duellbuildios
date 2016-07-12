@@ -43,6 +43,13 @@ const char *hxRunLibrary();
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
+    //setup default callback executor before runloop can override it later
+    self.executor = ^(DuellCallbackBlock callback)
+    {
+        callback();
+    };
+
     const char *err = NULL;
     err = hxRunLibrary();
     if (err)
@@ -206,6 +213,21 @@ const char *hxRunLibrary();
 - (void)removeDuellDelegate:(id<DUELLDelegate>)delegate
 {
     [self.duellDelegates removeObject:delegate];
+}
+
++ (void)executeBlock:(DuellCallbackBlock)block
+{
+    DUELLAppDelegate *appDelegate = (DUELLAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.executor(block);
+}
+
++ (void)overrideExecutor:(DuellExecutorBlock)executor
+{
+  @synchronized(self)
+  {
+    DUELLAppDelegate *appDelegate = (DUELLAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.executor = executor;
+  }
 }
 
 @end
