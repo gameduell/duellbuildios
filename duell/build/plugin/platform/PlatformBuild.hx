@@ -418,7 +418,7 @@ class PlatformBuild
 		{
             var version = haxelib.version;
             if (version.startsWith("ssh") || version.startsWith("http"))
-                version = "git";
+                version = "dev";
             Configuration.getData().HAXE_COMPILE_ARGS.push("-lib " + haxelib.name + (version != "" ? ":" + version : ""));
        }
 
