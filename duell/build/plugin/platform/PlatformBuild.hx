@@ -722,7 +722,8 @@ class PlatformBuild
 
 		for (ndll in Configuration.getData().NDLLS)
 		{
-			LogHelper.info('Cleaning ndll ' + ndll.NAME + "...");
+            LogHelper.info('Cleaning ${ndll.NAME} ndll:');
+            LogHelper.info('  - Running HXCPP clean command (${Path.directory(ndll.BUILD_FILE_PATH)})');
     		var result = CommandHelper.runHaxelib(Path.directory(ndll.BUILD_FILE_PATH), ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH), "clean"], {errorMessage: "cleaning ndll"});
 
 			if (result != 0)
@@ -731,6 +732,7 @@ class PlatformBuild
 			var destFolder = Path.join([ndll.BIN_PATH, "iPhone"]);
 			if (FileSystem.exists(destFolder))
 			{
+                LogHelper.info('  - Deleting ndll folder (${destFolder})');
 				PathHelper.removeDirectory(destFolder);
 			}
 		}
