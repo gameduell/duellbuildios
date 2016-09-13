@@ -331,6 +331,11 @@ class PlatformBuild
 		handleIcons();
 		handleSplashscreens();
 		handleNDLLs();
+
+		if (!Configuration.getData().PLATFORM.SIMULATOR && PlatformConfiguration.getData().DEVELOPMENT_TEAM == null)
+		{
+			LogHelper.warn("iOS development team ID is not defined, please select it manually in Xcode.");
+		}
 	}
 
 	private function runXCodeBuild()

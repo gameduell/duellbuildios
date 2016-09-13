@@ -180,8 +180,8 @@
 			dependencies = (
 				1EF0A883121AE1D2003F2F59 /* PBXTargetDependency */,
 			);
-			name = "::APP.FILE::"; /* HMMM */
-			productName = "::APP.FILE::";
+			name = ::APP.FILE::; /* HMMM */
+			productName = ::APP.FILE::;
 			productReference = 1D6058910D05DD3D006BFB54 /* "::APP.FILE::.app" */;
 			productType = "com.apple.product-type.application";
 		};
@@ -210,6 +210,11 @@
 			attributes = {
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
+					    ::if (PLATFORM.DEVELOPMENT_TEAM != null)::
+					    DevelopmentTeam = ::PLATFORM.DEVELOPMENT_TEAM::;
+					    ::else::
+					    ProvisioningStyle = Automatic;
+					    ::end::
 						SystemCapabilities = {
 							::foreach PLATFORM.CAPABILITIES::
 							com.apple.::NAME:: = {
