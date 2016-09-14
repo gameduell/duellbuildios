@@ -51,11 +51,11 @@ const char *hxRunLibrary();
         return -1;
     }
 
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(application:didFinishLaunchingWithOptions:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(application:didFinishLaunchingWithOptions:)])
         {
-            [delegate application:application didFinishLaunchingWithOptions:launchOptions];
+            [self.duellDelegates[i] application:application didFinishLaunchingWithOptions:launchOptions];
         }
     }
 
@@ -76,77 +76,77 @@ const char *hxRunLibrary();
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(applicationWillResignActive:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(applicationWillResignActive:)])
         {
-            [delegate applicationWillResignActive:application];
+            [self.duellDelegates[i] applicationWillResignActive:application];
         }
     }
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(applicationDidEnterBackground:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(applicationDidEnterBackground:)])
         {
-            [delegate applicationDidEnterBackground:application];
+            [self.duellDelegates[i] applicationDidEnterBackground:application];
         }
     }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(applicationWillEnterForeground:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(applicationWillEnterForeground:)])
         {
-            [delegate applicationWillEnterForeground:application];
+            [self.duellDelegates[i] applicationWillEnterForeground:application];
         }
     }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(applicationDidBecomeActive:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(applicationDidBecomeActive:)])
         {
-            [delegate applicationDidBecomeActive:application];
+            [self.duellDelegates[i] applicationDidBecomeActive:application];
         }
     }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(applicationWillTerminate:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(applicationWillTerminate:)])
         {
-            [delegate applicationWillTerminate:application];
+            [self.duellDelegates[i] applicationWillTerminate:application];
         }
     }
 }
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(application:didReceiveRemoteNotification:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(application:didReceiveRemoteNotification:)])
         {
-            [delegate application:application didReceiveRemoteNotification:userInfo];
+            [self.duellDelegates[i] application:application didReceiveRemoteNotification:userInfo];
         }
     }
 }
 
 - (void)application:(UIApplication*)application didReceiveLocalNotification:(UILocalNotification*)notification
 {
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(application:didReceiveLocalNotification:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(application:didReceiveLocalNotification:)])
         {
-            [delegate application:application didReceiveLocalNotification:notification];
+            [self.duellDelegates[i] application:application didReceiveLocalNotification:notification];
         }
     }
 
@@ -155,11 +155,11 @@ const char *hxRunLibrary();
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)])
         {
-            [delegate application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+            [self.duellDelegates[i] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
         }
     }
 }
@@ -168,11 +168,11 @@ const char *hxRunLibrary();
 {
     BOOL returnValue = NO;
 
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(application:openURL:sourceApplication:annotation:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(application:openURL:sourceApplication:annotation:)])
         {
-            returnValue |= [delegate application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+            returnValue |= [self.duellDelegates[i] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
         }
     }
 
@@ -181,11 +181,11 @@ const char *hxRunLibrary();
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-    for (id<DUELLDelegate> delegate in self.duellDelegates)
+    for (int i = 0; i < [self.duellDelegates count]; ++i)
     {
-        if ([delegate respondsToSelector:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)])
+        if ([self.duellDelegates[i] respondsToSelector:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)])
         {
-            [delegate application:application didFailToRegisterForRemoteNotificationsWithError:error];
+            [self.duellDelegates[i] application:application didFailToRegisterForRemoteNotificationsWithError:error];
         }
     }
 }
