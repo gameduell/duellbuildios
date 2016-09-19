@@ -65,6 +65,8 @@
 		667AC6E61A5C308B00639890 /* DUELLAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DUELLAppDelegate.h; path = "::APP.FILE::/Classes/DUELLAppDelegate.h"; sourceTree = SOURCE_ROOT; };
 		667AC6E71A5C308B00639890 /* DUELLAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DUELLAppDelegate.m; path = "::APP.FILE::/Classes/DUELLAppDelegate.m"; sourceTree = SOURCE_ROOT; };
 		1E2E17A5141E8B5D0048F3C7 /* haxe */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "::APP.FILE::/haxe/build"; sourceTree = SOURCE_ROOT; };
+        27EA80D81D8FF98A00058645 /* ::APP.FILE::.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ::APP.FILE::.entitlements; path = ::APP.FILE::/::APP.FILE::.entitlements; sourceTree = "<group>"; };
+
 
 		::foreach PLATFORM.ADDL_PBX_FILE_REFERENCE::
 		::__current__::::end::
@@ -117,6 +119,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+			    27EA80D81D8FF98A00058645 /* ::APP.FILE::.entitlements */,
 				1EEEBA99121AF18B0048A9DF /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -348,6 +351,7 @@
 		1D6058940D05DD3E006BFB54 /* Debug */ = {/* Build configuration list for PBXNativeTarget "::APP.FILE::" */
 			isa = XCBuildConfiguration;
 			buildSettings = {
+                CODE_SIGN_ENTITLEMENTS = ::APP.FILE::/::APP.FILE::.entitlements;
 				DEBUG_INFORMATION_FORMAT = "::PLATFORM.DEBUG_INFORMATION_FORMAT::";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "::APP.FILE::/::APP.FILE::-Prefix.pch";
@@ -391,6 +395,7 @@
 		1D6058950D05DD3E006BFB54 /* Release */ = {/* Build configuration list for PBXNativeTarget "::APP.FILE::" */
 			isa = XCBuildConfiguration;
 			buildSettings = {
+                CODE_SIGN_ENTITLEMENTS = ::APP.FILE::/::APP.FILE::.entitlements;
 				DEBUG_INFORMATION_FORMAT = "::PLATFORM.DEBUG_INFORMATION_FORMAT::";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "::APP.FILE::/::APP.FILE::-Prefix.pch";
