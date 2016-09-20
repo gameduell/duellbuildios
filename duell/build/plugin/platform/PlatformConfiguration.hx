@@ -166,7 +166,7 @@ class PlatformConfiguration
 
 			DEBUG : false,
 			SIMULATOR : false,
-			SIM_DEVICE : 'iPhone-4s',
+			SIM_DEVICE : 'iPhone 5s',
 			SIM_OS : '10.0',
 			OUTPUT_FILE : "",
 			IOS_VERSION : "",

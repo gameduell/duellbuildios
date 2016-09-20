@@ -401,6 +401,7 @@ class PlatformBuild
 		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/codesign_args", targetDirectory + "/codesign_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/rundevice_args", targetDirectory + "/rundevice_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/runsimulator_args", targetDirectory + "/runsimulator_args", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+        TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/runsimulator.sh", targetDirectory + "/runsimulator.sh", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 	}
 
 	private function copyNativeFiles()
@@ -662,17 +663,8 @@ class PlatformBuild
 	{
 		if (Configuration.getData().PLATFORM.SIMULATOR)
 		{
-			var argsString = File.getContent(Path.join([targetDirectory, "runsimulator_args"]));
-			var args = argsString.split("\n");
-			args = args.filter(function(str) return str != "");
-
-			var launcher = Path.join([duellBuildIOSPath , "bin", "ios-sim"]);
-			CommandHelper.runCommand("", "chmod", ["+x", launcher], {errorMessage: "setting permissions on the simulator launcher"});
-
-
-			var launcherPath = Path.directory(launcher);
-
-			CommandHelper.runCommand(launcherPath, "ios-sim", args, {systemCommand: false, errorMessage: "running the simulator"});
+            CommandHelper.runCommand("", "chmod", ["+x", Path.join([targetDirectory, "runsimulator.sh"])], {errorMessage: "setting permissions on the simulator launcher"});
+            CommandHelper.runCommand(targetDirectory, "bash", ["runsimulator.sh"]);
 		}
 		else
 		{
