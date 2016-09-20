@@ -69,6 +69,7 @@ typedef PlatformConfigurationData = {
 	KEY_STORE_PASSWORD : String,
 	KEY_STORE_IDENTITY : String,
 	PROVISIONING_PROFILE_PATH: String,
+	DEVELOPMENT_TEAM: String,
 	FULLSCREEN : String,
 	ORIENTATIONS : Array<String>,
 	REQUIRED_CAPABILITIES : KeyValueArray, /// DEVICE
@@ -141,6 +142,7 @@ class PlatformConfiguration
 			KEY_STORE_PASSWORD : "",
 			KEY_STORE_IDENTITY : "iPhone Developer",
 			PROVISIONING_PROFILE_PATH: "",
+			DEVELOPMENT_TEAM: null,
 			FULLSCREEN : "true",
 			ORIENTATIONS : ["UIInterfaceOrientationLandscapeLeft", "UIInterfaceOrientationLandscapeRight", "UIInterfaceOrientationPortrait", "UIInterfaceOrientationPortraitUpsideDown"],
 			REQUIRED_CAPABILITIES : [],
@@ -164,8 +166,8 @@ class PlatformConfiguration
 
 			DEBUG : false,
 			SIMULATOR : false,
-			SIM_DEVICE : 'iPhone-4s',
-			SIM_OS : '9.0',
+			SIM_DEVICE : 'iPhone 5s',
+			SIM_OS : '10.0',
 			OUTPUT_FILE : "",
 			IOS_VERSION : "",
 

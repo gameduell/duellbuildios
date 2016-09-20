@@ -26,6 +26,11 @@
 
 package duell.build.plugin.platform;
 
+import haxe.io.Bytes;
+
+import sys.io.FileInput;
+import sys.io.File;
+import sys.FileSystem;
 
 import duell.objects.Arguments;
 import duell.build.objects.DuellProjectXML;
@@ -43,6 +48,10 @@ import haxe.xml.Fast;
 
 class PlatformXMLParser
 {
+	private static inline var PROVISIONING_PRIFILE_HEADER_SIZE: Int = 62;
+	private static inline var DEVELOPER_TEAM_KEY_XML: String = '<key>com.apple.developer.team-identifier</key>';
+    private static inline var DEVELOPER_TEAM_VALUE_TAG_NAME: String = 'string';
+
 	public static function parse(xml : Fast) : Void
 	{
 		for (element in xml.elements)
@@ -292,6 +301,44 @@ class PlatformXMLParser
 		if (element.has.path)
 		{
 			PlatformConfiguration.getData().PROVISIONING_PROFILE_PATH = element.att.path;
+
+            // Extracts development team ID from the provisioning prifile
+			if (FileSystem.exists(element.att.path))
+			{
+				var file: FileInput = File.read(element.att.path);
+
+				// Skips the binary header
+				file.read(PROVISIONING_PRIFILE_HEADER_SIZE);
+
+                // Reads the "###" string from the XML part of the profile
+                // Example:
+                //  <key>com.apple.developer.team-identifier</key>
+                //  <string>###</string>
+				var parsingState: Int = 0;
+				while (!file.eof())
+				{
+					var line: String = file.readLine();
+					switch (parsingState)
+					{
+						case 0:
+							if (line.indexOf(DEVELOPER_TEAM_KEY_XML) != -1) ++parsingState;
+						case 1:
+                            if (line != null)
+                            {
+                                var valueTag: Xml = Xml.parse(line).firstElement();
+                                if (valueTag != null && valueTag.nodeName == DEVELOPER_TEAM_VALUE_TAG_NAME &&
+                                        valueTag.firstChild() != null)
+                                {
+        							PlatformConfiguration.getData().DEVELOPMENT_TEAM = valueTag.firstChild().toString();
+                                }
+                            }
+							break; // stops the reading
+						default:
+							break; // stops the reading
+					}
+				}
+			}
+
 		}
 	}
 
