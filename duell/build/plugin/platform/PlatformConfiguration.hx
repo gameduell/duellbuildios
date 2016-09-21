@@ -74,6 +74,7 @@ typedef PlatformConfigurationData = {
 	ORIENTATIONS : Array<String>,
 	REQUIRED_CAPABILITIES : KeyValueArray, /// DEVICE
 	ENTITLEMENTS_PATH : String,
+    ENTITLEMENTS_APS_ENVIRONMENT: String,
 	INFOPLIST_SECTIONS: Array<String>,
 	INFOPLIST_ENTRIES: Array<PlistEntry>,
 	EXCEPTION_DOMAINS: Array<ExceptionDomain>,
@@ -147,6 +148,7 @@ class PlatformConfiguration
 			ORIENTATIONS : ["UIInterfaceOrientationLandscapeLeft", "UIInterfaceOrientationLandscapeRight", "UIInterfaceOrientationPortrait", "UIInterfaceOrientationPortraitUpsideDown"],
 			REQUIRED_CAPABILITIES : [],
 			ENTITLEMENTS_PATH : "",
+			ENTITLEMENTS_APS_ENVIRONMENT : "development",
 			INFOPLIST_SECTIONS: [],
 			INFOPLIST_ENTRIES: [],
 			EXCEPTION_DOMAINS: [],

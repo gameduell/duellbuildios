@@ -50,7 +50,9 @@ class PlatformXMLParser
 {
 	private static inline var PROVISIONING_PRIFILE_HEADER_SIZE: Int = 62;
 	private static inline var DEVELOPER_TEAM_KEY_XML: String = '<key>com.apple.developer.team-identifier</key>';
-    private static inline var DEVELOPER_TEAM_VALUE_TAG_NAME: String = 'string';
+	private static inline var APS_ENVIRONMENT_KEY_XML: String = '<key>aps-environment</key>';
+	private static inline var DEVELOPER_PLIST_END_TAG: String = '</plist>';
+    private static inline var STRING_VALUE_TAG_NAME: String = 'string';
 
 	public static function parse(xml : Fast) : Void
 	{
@@ -310,10 +312,7 @@ class PlatformXMLParser
 				// Skips the binary header
 				file.read(PROVISIONING_PRIFILE_HEADER_SIZE);
 
-                // Reads the "###" string from the XML part of the profile
-                // Example:
-                //  <key>com.apple.developer.team-identifier</key>
-                //  <string>###</string>
+                // Reads the configuration values from the provisioning profile
 				var parsingState: Int = 0;
 				while (!file.eof())
 				{
@@ -321,18 +320,40 @@ class PlatformXMLParser
 					switch (parsingState)
 					{
 						case 0:
-							if (line.indexOf(DEVELOPER_TEAM_KEY_XML) != -1) ++parsingState;
+							if (line.indexOf(DEVELOPER_TEAM_KEY_XML) != -1)
+							{
+								parsingState = 1;
+							}
+							if (line.indexOf(APS_ENVIRONMENT_KEY_XML) != -1)
+							{
+								parsingState = 2;
+							}
+							else if (line.indexOf(DEVELOPER_PLIST_END_TAG) != -1)
+							{
+								break; // end of the XML, stops the reading
+							}
 						case 1:
                             if (line != null)
                             {
                                 var valueTag: Xml = Xml.parse(line).firstElement();
-                                if (valueTag != null && valueTag.nodeName == DEVELOPER_TEAM_VALUE_TAG_NAME &&
+                                if (valueTag != null && valueTag.nodeName == STRING_VALUE_TAG_NAME &&
                                         valueTag.firstChild() != null)
                                 {
         							PlatformConfiguration.getData().DEVELOPMENT_TEAM = valueTag.firstChild().toString();
                                 }
                             }
-							break; // stops the reading
+							parsingState = 0;
+						case 2:
+                            if (line != null)
+                            {
+                                var valueTag: Xml = Xml.parse(line).firstElement();
+                                if (valueTag != null && valueTag.nodeName == STRING_VALUE_TAG_NAME &&
+                                        valueTag.firstChild() != null)
+                                {
+        							PlatformConfiguration.getData().ENTITLEMENTS_APS_ENVIRONMENT = valueTag.firstChild().toString();
+                                }
+                            }
+							parsingState = 0;
 						default:
 							break; // stops the reading
 					}
