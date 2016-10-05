@@ -148,7 +148,7 @@ class PlatformConfiguration
 			ORIENTATIONS : ["UIInterfaceOrientationLandscapeLeft", "UIInterfaceOrientationLandscapeRight", "UIInterfaceOrientationPortrait", "UIInterfaceOrientationPortraitUpsideDown"],
 			REQUIRED_CAPABILITIES : [],
 			ENTITLEMENTS_PATH : "",
-			ENTITLEMENTS_APS_ENVIRONMENT : "development",
+			ENTITLEMENTS_APS_ENVIRONMENT : null,
 			INFOPLIST_SECTIONS: [],
 			INFOPLIST_ENTRIES: [],
 			EXCEPTION_DOMAINS: [],

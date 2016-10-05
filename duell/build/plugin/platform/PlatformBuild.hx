@@ -393,7 +393,10 @@ class PlatformBuild
 
 		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "/template/ios/PROJ/Classes", projectDirectory + "/Classes", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
         TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Entitlements.plist", projectDirectory + "/" + Configuration.getData().APP.FILE + "-Entitlements.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
-        TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ.entitlements", projectDirectory + "/" + Configuration.getData().APP.FILE + ".entitlements", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+		if (PlatformConfiguration.getData().ENTITLEMENTS_APS_ENVIRONMENT != null)
+		{
+			TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ.entitlements", projectDirectory + "/" + Configuration.getData().APP.FILE + ".entitlements", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
+		}
         TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Info.plist", projectDirectory + "/" + Configuration.getData().APP.FILE + "-Info.plist", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 		TemplateHelper.copyTemplateFile(duellBuildIOSPath + "template/ios/PROJ/PROJ-Prefix.pch", projectDirectory + "/" + Configuration.getData().APP.FILE + "-Prefix.pch", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
 		TemplateHelper.recursiveCopyTemplatedFiles(duellBuildIOSPath + "template/ios/PROJ.xcodeproj", targetDirectory + "/" + Configuration.getData().APP.FILE + ".xcodeproj", Configuration.getData(), Configuration.getData().TEMPLATE_FUNCTIONS);
