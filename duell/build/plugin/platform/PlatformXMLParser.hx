@@ -51,6 +51,8 @@ class PlatformXMLParser
 	private static inline var PROVISIONING_PRIFILE_HEADER_SIZE: Int = 62;
 	private static inline var DEVELOPER_TEAM_KEY_XML: String = '<key>com.apple.developer.team-identifier</key>';
 	private static inline var APS_ENVIRONMENT_KEY_XML: String = '<key>aps-environment</key>';
+	private static inline var NAME_KEY_XML: String = '<key>Name</key>';
+	private static inline var UUID_KEY_XML: String = '<key>UUID</key>';
 	private static inline var DEVELOPER_PLIST_END_TAG: String = '</plist>';
     private static inline var STRING_VALUE_TAG_NAME: String = 'string';
 
@@ -328,6 +330,14 @@ class PlatformXMLParser
 							{
 								parsingState = 2;
 							}
+							if (line.indexOf(NAME_KEY_XML) != -1)
+							{
+								parsingState = 3;
+							}
+							if (line.indexOf(UUID_KEY_XML) != -1)
+							{
+								parsingState = 4;
+							}
 							else if (line.indexOf(DEVELOPER_PLIST_END_TAG) != -1)
 							{
 								break; // end of the XML, stops the reading
@@ -353,6 +363,28 @@ class PlatformXMLParser
         							PlatformConfiguration.getData().ENTITLEMENTS_APS_ENVIRONMENT = valueTag.firstChild().toString();
                                 }
                             }
+							parsingState = 0;
+						case 3:
+							if (line != null)
+							{
+								var valueTag: Xml = Xml.parse(line).firstElement();
+								if (valueTag != null && valueTag.nodeName == STRING_VALUE_TAG_NAME &&
+									valueTag.firstChild() != null)
+								{
+									PlatformConfiguration.getData().PROVISIONING_PROFILE_NAME = valueTag.firstChild().toString();
+								}
+							}
+							parsingState = 0;
+						case 4:
+							if (line != null)
+							{
+								var valueTag: Xml = Xml.parse(line).firstElement();
+								if (valueTag != null && valueTag.nodeName == STRING_VALUE_TAG_NAME &&
+									valueTag.firstChild() != null)
+								{
+									PlatformConfiguration.getData().PROVISIONING_PROFILE_UUID = valueTag.firstChild().toString();
+								}
+							}
 							parsingState = 0;
 						default:
 							break; // stops the reading
