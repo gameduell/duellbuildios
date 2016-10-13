@@ -309,9 +309,13 @@ class PlatformBuild
 			{
 				fileType = "\"compiled.mach-o.dylib\"";
 			}
+			else if (framework.NAME.endsWith(".tbd"))
+			{
+				fileType = "\"sourcecode.text-based-dylib-definition\"";
+			}
 
 			PlatformConfiguration.getData().ADDL_PBX_BUILD_FILE.push("      " + frameworkID + " /* " + framework.NAME + " in Frameworks */ = {isa = PBXBuildFile; fileRef = " + fileID + " /* " + framework.NAME + " */; };");
-			PlatformConfiguration.getData().ADDL_PBX_FILE_REFERENCE.push("      " + fileID + " /* " + framework.NAME + " */ = {isa = PBXFileReference; lastKnownFileType = " + fileType + "; name = " + framework.NAME + ";" + pathSection + "sourceTree = SDKROOT; };");
+			PlatformConfiguration.getData().ADDL_PBX_FILE_REFERENCE.push("      " + fileID + " /* " + framework.NAME + " */ = {isa = PBXFileReference; lastKnownFileType = " + fileType + "; name = \"" + framework.NAME + "\";" + pathSection + "sourceTree = SDKROOT; };");
 			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORKS_BUILD_PHASE.push("            " + frameworkID + " /* " + framework.NAME + " in Frameworks */,");
 			PlatformConfiguration.getData().ADDL_PBX_FRAMEWORK_GROUP.push("            " + fileID + " /* " + framework.NAME + " */,");
 		}
