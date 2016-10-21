@@ -304,12 +304,20 @@ class PlatformXMLParser
 	{
 		if (element.has.path)
 		{
-			PlatformConfiguration.getData().PROVISIONING_PROFILE_PATH = element.att.path;
+			var path = resolvePath(element.att.path);
+			PlatformConfiguration.getData().PROVISIONING_PROFILE_PATH = path;
+
+            // Resets prebious values
+            PlatformConfiguration.getData().DEVELOPMENT_TEAM = null;
+            PlatformConfiguration.getData().ENTITLEMENTS_APS_ENVIRONMENT = null;
+            PlatformConfiguration.getData().PROVISIONING_PROFILE_NAME = "";
+            PlatformConfiguration.getData().PROVISIONING_PROFILE_UUID = "";
 
             // Extracts development team ID from the provisioning prifile
-			if (FileSystem.exists(element.att.path))
+			if (FileSystem.exists(path))
 			{
-				var file: FileInput = File.read(element.att.path);
+
+				var file: FileInput = File.read(path);
 
 				// Skips the binary header
 				file.read(PROVISIONING_PRIFILE_HEADER_SIZE);
@@ -391,7 +399,6 @@ class PlatformXMLParser
 					}
 				}
 			}
-
 		}
 	}
 

@@ -344,6 +344,15 @@ class PlatformBuild
 
 	private function runXCodeBuild()
 	{
+		LogHelper.info('Running Xcode build:');
+
+		LogHelper.info('    PROVISIONING_PROFILE_PATH = ${PlatformConfiguration.getData().PROVISIONING_PROFILE_PATH}');
+		LogHelper.info('    DEVELOPMENT_TEAM = ${PlatformConfiguration.getData().DEVELOPMENT_TEAM}');
+		LogHelper.info('    ENTITLEMENTS_APS_ENVIRONMENT = ${PlatformConfiguration.getData().ENTITLEMENTS_APS_ENVIRONMENT}');
+		LogHelper.info('    PROVISIONING_PROFILE_NAME = ${PlatformConfiguration.getData().PROVISIONING_PROFILE_NAME}');
+		LogHelper.info('    PROVISIONING_PROFILE_UUID = ${PlatformConfiguration.getData().PROVISIONING_PROFILE_UUID}');
+		LogHelper.info('    KEY_STORE_IDENTITY = ${PlatformConfiguration.getData().KEY_STORE_IDENTITY}');
+
 		var argsString = File.getContent(Path.join([targetDirectory, "xcodebuild_args"]));
 		var args = argsString.split("\n");
 		args = args.filter(function(str) return str != "");
@@ -628,34 +637,36 @@ class PlatformBuild
         var keychainPath: String = Configuration.getData().PLATFORM.KEY_STORE_PATH;
         var keychainPwd: String = Configuration.getData().PLATFORM.KEY_STORE_PASSWORD;
 
-        if (mobileProvision == "" || keychainPath == "")
+        if (mobileProvision != null && mobileProvision.length > 0)
         {
-            // don't prepare the keychain if these vars are not set
+            var mobileDeviceFolder: String = Path.join([PathHelper.getHomeFolder(), "Library", "MobileDevice"]);
+            var destinationFolder: String = Path.join([mobileDeviceFolder, "Provisioning Profiles"]);
+            var destinationFile: String = Path.join([destinationFolder, "profile.mobileprovision"]);
+
+            // create the destination folders if they don't exist
+            if (!FileSystem.exists(mobileDeviceFolder))
+            {
+                PathHelper.mkdir(mobileDeviceFolder);
+            }
+
+            if (!FileSystem.exists(destinationFolder))
+            {
+                PathHelper.mkdir(destinationFolder);
+            }
+
+            // delete existing provisioning profile
+            if (FileSystem.exists(destinationFile))
+            {
+                FileSystem.deleteFile(destinationFile);
+            }
+
+            FileHelper.copyIfNewer(mobileProvision, destinationFile);
+        }
+
+        if (keychainPath == null || keychainPath == "")
+        {
             return;
         }
-
-        var mobileDeviceFolder: String = Path.join([PathHelper.getHomeFolder(), "Library", "MobileDevice"]);
-        var destinationFolder: String = Path.join([mobileDeviceFolder, "Provisioning Profiles"]);
-        var destinationFile: String = Path.join([destinationFolder, "profile.mobileprovision"]);
-
-        // create the destination folders if they don't exist
-        if (!FileSystem.exists(mobileDeviceFolder))
-        {
-            PathHelper.mkdir(mobileDeviceFolder);
-        }
-
-        if (!FileSystem.exists(destinationFolder))
-        {
-            PathHelper.mkdir(destinationFolder);
-        }
-
-        // delete existing provisioning profile
-        if (FileSystem.exists(destinationFile))
-        {
-            FileSystem.deleteFile(destinationFile);
-        }
-
-        FileHelper.copyIfNewer(mobileProvision, destinationFile);
 
         CommandHelper.runCommand("", "/usr/bin/security", ["-v", "list-keychains", "-d", "user", "-s", "login.keychain", keychainPath], null);
         CommandHelper.runCommand("", "/usr/bin/security", ["-v", "unlock-keychain", "-p", keychainPwd, keychainPath], {errorMessage : "error unlocking keychain for the given password"});
