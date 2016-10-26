@@ -93,6 +93,7 @@ typedef PlatformConfigurationData = {
 	ADDL_PBX_GROUP : Array<String>,
 	ADDL_PBX_RESOURCE_GROUP : Array<String>,
 	ADDL_PBX_RESOURCES_BUILD_PHASE : Array<String>,
+	ADDL_PBX_CUSTOM_TEMPLATE : Array<String>,
 	DEBUG_INFORMATION_FORMAT: String,
 
 	/// derived from the arguments
@@ -168,6 +169,7 @@ class PlatformConfiguration
 			ADDL_PBX_GROUP : [],
 			ADDL_PBX_RESOURCES_BUILD_PHASE : [],
 			ADDL_PBX_RESOURCE_GROUP : [],
+			ADDL_PBX_CUSTOM_TEMPLATE : [],
 			DEBUG_INFORMATION_FORMAT: "dwarf",
 
 			DEBUG : false,
