@@ -26,10 +26,13 @@ then
     fi
 fi
 
+xcode_path=$( xcode-select -p )
+
+
 if pgrep "CoreSimulatorBridge" > /dev/null ; then
     echo "Simulator already running"
     # setting simulator in focus
-    open -a Simulator
+    open -a ${xcode_path}/Applications/Simulator.app
 else
 
     device_UDID=$( xcrun simctl list devices |
@@ -48,7 +51,6 @@ else
 
     # runs the simulator
 
-    xcode_path=$( xcode-select -p )
     open ${xcode_path}/Applications/Simulator.app --args -CurrentDeviceUDID $device_UDID
 
     # waits for the simulator to be booted
