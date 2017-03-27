@@ -61,8 +61,10 @@ const char *hxRunLibrary();
 
     if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
     {
-        UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        UIUserNotificationSettings *settings = [UIApplication sharedApplication].currentUserNotificationSettings;
+        if( settings.types != UIUserNotificationTypeNone ) {
+            [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        }
     }
     else
     {
