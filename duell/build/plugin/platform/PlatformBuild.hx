@@ -147,12 +147,15 @@ class PlatformBuild
 		// copy files from output to publish
 		FileHelper.recursiveCopyFiles(outputFolder, publishDirectory);
 
+		var packagingToolPath = Path.join([duellBuildIOSPath , "bin", "PackageApplication"]);
+		CommandHelper.runCommand("", "chmod", ["+x", packagingToolPath], {errorMessage: "setting permission on the 'PackageApplication' tool"});
+
 		// run the PackageApplication command
 		var args: Array<String> =
 		[
 			"-sdk",
 			"iphoneos",
-			"PackageApplication",
+			'$packagingToolPath',
 			"-v",
 			'$outputFileWithoutExtension.app',
 			"-o",
