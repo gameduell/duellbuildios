@@ -39,6 +39,7 @@ import duell.helpers.TestHelper;
 import duell.helpers.PlatformHelper;
 import duell.helpers.DuellConfigHelper;
 
+import duell.objects.DuellProcess;
 import duell.objects.Arguments;
 import duell.objects.DuellLib;
 import duell.objects.Haxelib;
@@ -356,8 +357,12 @@ class PlatformBuild
 		LogHelper.info('    PROVISIONING_PROFILE_UUID = ${PlatformConfiguration.getData().PROVISIONING_PROFILE_UUID}');
 		LogHelper.info('    KEY_STORE_IDENTITY = ${PlatformConfiguration.getData().KEY_STORE_IDENTITY}');
 
+		var proc       = new DuellProcess("", "sysctl", ["-n", "hw.ncpu"], {block:true, systemCommand:true, errorMessage: "grabbing number of kernels"});
+		var numberJobs = proc.getCompleteStdout().toString();
 		var argsString = File.getContent(Path.join([targetDirectory, "xcodebuild_args"]));
 		var args = argsString.split("\n");
+		args.push( "-jobs" );
+		args.push( numberJobs );
 		args = args.filter(function(str) return str != "");
 		var result = CommandHelper.runCommand(targetDirectory, "xcodebuild", args, {errorMessage: "running the xcode build"});
 
