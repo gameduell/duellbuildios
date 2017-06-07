@@ -472,41 +472,27 @@ class PlatformBuild
 			return;
 		}
 
-		var iconNames = [ "Icon.png", "Icon@2x.png", "Icon-60.png", "Icon-60@2x.png", "Icon-72.png", "Icon-72@2x.png", "Icon-76.png", "Icon-76@2x.png" ];
-
+		var iconNames = FileHelper.getAllFilesInDir( PlatformConfiguration.getData().ICON_PATH );
 		for (icon in iconNames)
 		{
-			var iconPath = PlatformConfiguration.getData().ICON_PATH + "/" + icon;
-			if(!FileSystem.exists(iconPath))
-			{
-				LogHelper.println('Icon $icon not found.');
-				continue;
-			}
-
-			FileHelper.copyIfNewer(iconPath, projectDirectory + "/" + icon);
+			var fileName = Path.withoutDirectory( icon );
+			FileHelper.copyIfNewer( icon, Path.join( [projectDirectory, fileName] ) );
 		}
 	}
 
 	private function handleSplashscreens()
 	{
-		if (!FileSystem.exists(PlatformConfiguration.getData().SPLASHSCREEN_PATH))
+		if (!FileSystem.exists( PlatformConfiguration.getData().SPLASHSCREEN_PATH ))
 		{
 			LogHelper.println('Splashscreen path ${PlatformConfiguration.getData().SPLASHSCREEN_PATH} is not accessible.');
 			return;
 		}
 
-		var splashscreenNames = [ "Default.png", "Default@2x.png", "Default-568h@2x.png", "Default-Portrait.png", "Default-Landscape.png", "Default-Portrait@2x.png", "Default-Landscape@2x.png" ];
-
+		var splashscreenNames = FileHelper.getAllFilesInDir( PlatformConfiguration.getData().SPLASHSCREEN_PATH );
 		for (splashscreen in splashscreenNames)
 		{
-			var splashscreenPath = PlatformConfiguration.getData().SPLASHSCREEN_PATH + "/" + splashscreen;
-			if(!FileSystem.exists(splashscreenPath))
-			{
-				LogHelper.println('Splashscreen $splashscreen not found.');
-				continue;
-			}
-
-			FileHelper.copyIfNewer(splashscreenPath, projectDirectory + "/" + splashscreen);
+			var fileName = Path.withoutDirectory( splashscreen );
+			FileHelper.copyIfNewer( splashscreen, Path.join( [projectDirectory, fileName] ) );
 		}
 	}
 
