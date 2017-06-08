@@ -8,22 +8,11 @@
 
 /* Begin PBXBuildFile section */
 
-		1EF0A83A000000001C000001 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000001 /* Icon.png */; };
-		1EF0A83A000000001C000002 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000002 /* Icon@2x.png */; };
-		1EF0A83A000000001C000003 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000003 /* Icon-72.png */; };
-		1EF0A83A000000001C000004 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000004 /* Icon-72@2x.png */; };
-		1EF0A83A000000001C000012 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000012 /* Icon-60.png */; };
-		1EF0A83A000000001C000013 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000013 /* Icon-60@2x.png */; };
-		1EF0A83A000000001C000014 /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000014 /* Icon-76.png */; };
-		1EF0A83A000000001C000015 /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000015 /* Icon-76@2x.png */; };
-		1EF0A83A000000001C000005 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000005 /* Default.png */; };
-		1EF0A83A000000001C000006 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000006 /* Default@2x.png */; };
-		1EF0A83A000000001C000007 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000007 /* Default-Portrait.png */; };
-		1EF0A83A000000001C000008 /* Default-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000008 /* Default-Portrait@2x.png */; };
-		1EF0A83A000000001C000009 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000009 /* Default-Landscape.png */; };
-		1EF0A83A000000001C000010 /* Default-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000010 /* Default-Landscape@2x.png */; };
-		1EF0A83A000000001C000011 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C0000011 /* Default-568h@2x.png */; };
-
+		::foreach PLATFORM.ASSETS::
+		::if (__current__ != null)::
+		1EF0A83A000000001C00000::__index__:: /* ::__current__:: in Resources */ = {isa = PBXBuildFile; fileRef = 1EF0A83900000001C000000::__index__:: /* ::__current__:: */; };
+		::end::
+		::end::
 		1EF0A83A121ADB8E003F2F59 /* Main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1EF0A839121ADB8E003F2F59 /* Main.mm */; };
 		667AC6E81A5C308B00639890 /* DUELLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 667AC6E71A5C308B00639890 /* DUELLAppDelegate.m */; };
 		1EF0A83B121ADB8E003F2F59 /* haxe in Sources */ = {isa = PBXBuildFile; fileRef = 1E2E17A5141E8B5D0048F3C7 /* haxe */; };
@@ -46,21 +35,11 @@
 /* Begin PBXFileReference section */
 		1D6058910D05DD3D006BFB54 /* "::APP.FILE::.app" */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "::APP.FILE::.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 
-        1EF0A83900000001C0000001 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000002 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000003 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-72.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000004 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-72@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000012 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-60.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000013 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-60@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000014 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-76.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000015 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Icon-76@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000005 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000006 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000007 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default-Portrait.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000008 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default-Portrait@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000009 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default-Landscape.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000010 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default-Landscape@2x.png"; sourceTree = SOURCE_ROOT; };
-        1EF0A83900000001C0000011 = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
+		::foreach PLATFORM.ASSETS::
+		::if (__current__ != null)::
+		1EF0A83900000001C000000::__index__:: = {isa = PBXFileReference; lastKnownFileType = image.png; path = "::APP.FILE::/::__current__::"; sourceTree = SOURCE_ROOT; };
+		::end::
+		::end::
 		1EF0A839121ADB8E003F2F59 /* Main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Main.mm; path = "::APP.FILE::/Classes/Main.mm"; sourceTree = SOURCE_ROOT; };
 		667AC6E61A5C308B00639890 /* DUELLAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DUELLAppDelegate.h; path = "::APP.FILE::/Classes/DUELLAppDelegate.h"; sourceTree = SOURCE_ROOT; };
 		667AC6E71A5C308B00639890 /* DUELLAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DUELLAppDelegate.m; path = "::APP.FILE::/Classes/DUELLAppDelegate.m"; sourceTree = SOURCE_ROOT; };
@@ -148,21 +127,11 @@
 			children = (
                 8D1107310486CEB800E47090 /* ::APP.FILE::-Info.plist */,
                 1E2E17A5131E8B5D0048F3C7 /* assets */,
-                1EF0A83900000001C0000001 /* Icon.png */,
-                1EF0A83900000001C0000002 /* Icon@2x.png */,
-                1EF0A83900000001C0000003 /* Icon-72.png */,
-                1EF0A83900000001C0000004 /* Icon-72@2x.png */,
-                1EF0A83900000001C0000012 /* Icon-60.png */,
-                1EF0A83900000001C0000013 /* Icon-60@2x.png */,
-                1EF0A83900000001C0000014 /* Icon-76.png */,
-                1EF0A83900000001C0000015 /* Icon-76@2x.png */,
-                1EF0A83900000001C0000005 /* Default.png */,
-                1EF0A83900000001C0000006 /* Default@2x.png */,
-                1EF0A83900000001C0000007 /* Default-Portrait.png */,
-                1EF0A83900000001C0000008 /* Default-Portrait@2x.png */,
-                1EF0A83900000001C0000009 /* Default-Landscape.png */,
-                1EF0A83900000001C0000010 /* Default-Landscape@2x.png */,
-                1EF0A83900000001C0000011 /* Default-568h@2x.png */,
+                ::foreach PLATFORM.ASSETS::
+				::if (__current__ != null)::
+				1EF0A83900000001C000000::__index__:: /* ::__current__:: */,
+				::end::
+				::end::
 				::foreach PLATFORM.ADDL_PBX_RESOURCE_GROUP::
 				::__current__::::end::
 			);
@@ -258,21 +227,11 @@
 			buildActionMask = 2147483647;
 			files = (
                 1E2E17AD131E8B5D0048F3C7 /* assets in Resources */,
-                1EF0A83A000000001C000001 /* Icon.png */,
-                1EF0A83A000000001C000002 /* Icon@2x.png */,
-                1EF0A83A000000001C000003 /* Icon-72.png */,
-                1EF0A83A000000001C000004 /* Icon-72@2x.png */,
-                1EF0A83A000000001C000012 /* Icon-60.png */,
-                1EF0A83A000000001C000013 /* Icon-60@2x.png */,
-                1EF0A83A000000001C000014 /* Icon-76.png */,
-                1EF0A83A000000001C000015 /* Icon-76@2x.png */,
-                1EF0A83A000000001C000005 /* Default.png */,
-                1EF0A83A000000001C000006 /* Default@2x.png */,
-                1EF0A83A000000001C000007 /* Default-Portrait.png */,
-                1EF0A83A000000001C000008 /* Default-Portrait@2x.png */,
-                1EF0A83A000000001C000009 /* Default-Landscape.png */,
-                1EF0A83A000000001C000010 /* Default-Landscape@2x.png */,
-                1EF0A83A000000001C000011 /* Default-568h@2x.png */,
+                ::foreach PLATFORM.ASSETS::
+				::if (__current__ != null)::
+				1EF0A83A000000001C00000::__index__:: /* ::__current__:: */,
+				::end::
+				::end::
 				::foreach PLATFORM.ADDL_PBX_RESOURCES_BUILD_PHASE::
 				::__current__::::end::
 			);

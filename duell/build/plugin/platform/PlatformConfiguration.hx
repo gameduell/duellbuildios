@@ -52,6 +52,7 @@ typedef ExceptionDomain =
 typedef KeyValueArray = Array<{NAME : String, VALUE : String}>;
 
 typedef PlatformConfigurationData = {
+	ASSETS : Array<String>,
 	PLATFORM_NAME : String,
 	ICON_PATH : String,
 	ICONS : Array<String>,
@@ -130,6 +131,7 @@ class PlatformConfiguration
 	{
 		_configuration =
 		{
+			ASSETS : [null],
 			PLATFORM_NAME : "ios",
 			ICON_PATH : "Icons/ios",
 			ICONS : [],

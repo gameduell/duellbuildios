@@ -333,12 +333,12 @@ class PlatformBuild
 
 	private function prepareXcodeBuild()
 	{
-		handleIcons();
+		handleAssets();
 		convertPlistEntriesToSections();
 		createDirectoriesAndCopyTemplates();
 		copyNativeFiles();
 		copyIcons();
-		handleSplashscreens();
+		copySplashscreens();
 		handleNDLLs();
 
 		if (!Configuration.getData().PLATFORM.SIMULATOR && PlatformConfiguration.getData().DEVELOPMENT_TEAM == null)
@@ -371,7 +371,7 @@ class PlatformBuild
 			throw "Build error";
 	}
 
-	private function handleIcons():Void {
+	private function handleAssets():Void {
 		if ( !FileSystem.exists( PlatformConfiguration.getData().ICON_PATH ) )
 		{
 			LogHelper.println('Icon path ${PlatformConfiguration.getData().ICON_PATH} is not accessible.');
@@ -383,6 +383,20 @@ class PlatformBuild
 		{
 			var fileName = Path.withoutDirectory( icon );
 			PlatformConfiguration.getData().ICONS.push( fileName );
+			PlatformConfiguration.getData().ASSETS.push( fileName );
+		}
+
+		if (!FileSystem.exists( PlatformConfiguration.getData().SPLASHSCREEN_PATH ))
+		{
+			LogHelper.println('Splashscreen path ${PlatformConfiguration.getData().SPLASHSCREEN_PATH} is not accessible.');
+			return;
+		}
+
+		var splashscreenNames = FileHelper.getAllFilesInDir( PlatformConfiguration.getData().SPLASHSCREEN_PATH );
+		for (splashscreen in splashscreenNames)
+		{
+			var fileName = Path.withoutDirectory( splashscreen );
+			PlatformConfiguration.getData().ASSETS.push( fileName );
 		}
 	}
 
@@ -496,7 +510,7 @@ class PlatformBuild
 		}
 	}
 
-	private function handleSplashscreens()
+	private function copySplashscreens()
 	{
 		if (!FileSystem.exists( PlatformConfiguration.getData().SPLASHSCREEN_PATH ))
 		{
