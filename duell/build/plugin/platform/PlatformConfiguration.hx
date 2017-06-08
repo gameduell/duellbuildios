@@ -54,6 +54,7 @@ typedef KeyValueArray = Array<{NAME : String, VALUE : String}>;
 typedef PlatformConfigurationData = {
 	PLATFORM_NAME : String,
 	ICON_PATH : String,
+	ICONS : Array<String>,
 	PRERENDERED_ICON : String,
 	SPLASHSCREEN_PATH : String,
 	HXCPP_COMPILATION_ARGS : Array<String>,
@@ -131,6 +132,7 @@ class PlatformConfiguration
 		{
 			PLATFORM_NAME : "ios",
 			ICON_PATH : "Icons/ios",
+			ICONS : [],
 			PRERENDERED_ICON : "true",
 			SPLASHSCREEN_PATH : "Splashscreens/ios",
 			HXCPP_COMPILATION_ARGS : [],

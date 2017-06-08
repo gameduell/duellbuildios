@@ -333,10 +333,11 @@ class PlatformBuild
 
 	private function prepareXcodeBuild()
 	{
+		handleIcons();
 		convertPlistEntriesToSections();
 		createDirectoriesAndCopyTemplates();
 		copyNativeFiles();
-		handleIcons();
+		copyIcons();
 		handleSplashscreens();
 		handleNDLLs();
 
@@ -368,6 +369,21 @@ class PlatformBuild
 
 		if (result != 0)
 			throw "Build error";
+	}
+
+	private function handleIcons():Void {
+		if ( !FileSystem.exists( PlatformConfiguration.getData().ICON_PATH ) )
+		{
+			LogHelper.println('Icon path ${PlatformConfiguration.getData().ICON_PATH} is not accessible.');
+			return;
+		}
+
+		var iconNames = FileHelper.getAllFilesInDir( PlatformConfiguration.getData().ICON_PATH );
+		for (icon in iconNames)
+		{
+			var fileName = Path.withoutDirectory( icon );
+			PlatformConfiguration.getData().ICONS.push( fileName );
+		}
 	}
 
 	private static function convertPlistEntriesToSections()
@@ -464,9 +480,9 @@ class PlatformBuild
 		}
 	}
 
-	private function handleIcons()
+	private function copyIcons()
 	{
-		if (!FileSystem.exists(PlatformConfiguration.getData().ICON_PATH))
+		if ( !FileSystem.exists( PlatformConfiguration.getData().ICON_PATH ) )
 		{
 			LogHelper.println('Icon path ${PlatformConfiguration.getData().ICON_PATH} is not accessible.');
 			return;
