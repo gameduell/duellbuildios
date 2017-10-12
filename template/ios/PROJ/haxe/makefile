@@ -60,6 +60,14 @@ build-haxe-i386:
 	touch ../Classes/Main.mm
 	touch ../Classes/DUELLAppDelegate.m
 
+build-haxe-x86_64:
+	@echo "Haxe simulator build CONFIG : $(CONFIG)"
+	haxe Build_$(CONFIG_FILE)_simulator.hxml
+	cd build/$(CONFIG); haxelib run hxcpp Build.xml -DHXCPP_M64 -Dios -Diphone -Dsimulator -DHXCPP_CPP11 $(DEF_DEBUG) $(HXCPP_CLANG) ::foreach (PLATFORM.HXCPP_COMPILATION_ARGS)::::__current__:: ::end::
+	cp $(LIB_BASE).iphonesim-64.a ../lib/x86_64$(LIB_DEST)
+	touch ../Classes/Main.mm
+	touch ../Classes/DUELLAppDelegate.m
+
 build-haxe-armv7:
 	@echo "Haxe armv7 build CONFIG : $(CONFIG)"
 	haxe Build_$(CONFIG_FILE)_armv7.hxml

@@ -263,7 +263,8 @@ class PlatformBuild
 
 		Configuration.getData().PLATFORM.SIMULATOR = true;
 		Configuration.addParsingDefine("simulator");
-		Configuration.getData().PLATFORM.ARCHS = ["i386"];
+		Configuration.addParsingDefine("HXCPP_M64");
+		Configuration.getData().PLATFORM.ARCHS = ["x86_64"];
 	}
 
 	private function convertParsingDefinesToCompilationDefines()
@@ -469,8 +470,8 @@ class PlatformBuild
 		var buildFilePath = Path.join([Haxelib.getHaxelib("hxcpp").getPath(), "project", "Build.xml"]);
 
 		Configuration.getData().NDLLS.push({NAME : "std", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true, DEBUG_SUFFIX : false});
-		Configuration.getData().NDLLS.push({NAME : "regexp", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true, DEBUG_SUFFIX : false});
-		Configuration.getData().NDLLS.push({NAME : "zlib", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true, DEBUG_SUFFIX : false});
+		//Configuration.getData().NDLLS.push({NAME : "regexp", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true, DEBUG_SUFFIX : false});
+		//Configuration.getData().NDLLS.push({NAME : "zlib", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true, DEBUG_SUFFIX : false});
 	}
 
 	private function convertDuellAndHaxelibsIntoHaxeCompilationFlags()
@@ -530,7 +531,7 @@ class PlatformBuild
 	{
 		for (archID in 0...4)
 		{
-			var arch = ["armv7", "armv7s", "arm64", "i386"][archID];
+			var arch = ["armv7", "armv7s", "arm64", "x86_64"][archID];
 
 			var argsForBuild = [["-Diphoneos", "-DHXCPP_ARMV7"],
 								["-Diphoneos", "-DHXCPP_ARMV7S"],
@@ -542,7 +543,7 @@ class PlatformBuild
 				argsForBuild.push("-Ddebug");
 			}
 
-			var libExt = [ ".iphoneos-v7.a", ".iphoneos-v7s.a", ".iphoneos-64.a", ".iphonesim.a" ][archID];
+			var libExt = [ ".iphoneos-v7.a", ".iphoneos-v7s.a", ".iphoneos-64.a", ".iphonesim-64.a" ][archID];
 
 			if (Configuration.getData().PLATFORM.ARCHS.indexOf(arch) == -1)
 				continue;
@@ -563,6 +564,7 @@ class PlatformBuild
 					additionalArgs = additionalArgs.filter(function(str) return str != "");
 					argsForBuildSpecific = argsForBuildSpecific.concat(additionalArgs);
 				}
+				argsForBuildSpecific.push("-DHXCPP_M64");
 
         		var result = CommandHelper.runHaxelib(Path.directory(ndll.BUILD_FILE_PATH), ["run", "hxcpp", Path.withoutDirectory(ndll.BUILD_FILE_PATH)].concat(argsForBuildSpecific));
 

@@ -3,6 +3,6 @@
 PLATFORM_NAME=::if PLATFORM.SIMULATOR::iphonesimulator::else::iphoneos::end::
 SDKROOT=::if PLATFORM.SIMULATOR::iphonesimulator::else::iphoneos::end::::PLATFORM.IOS_VERSION::
 ::if PLATFORM.SIMULATOR::-arch
-i386::end::
+x86_64::end::
 ::foreach PLATFORM.XCODE_BUILD_ARGS::::__current__::
 ::end::
