@@ -112,6 +112,12 @@
     	<key>NSAllowsArbitraryLoads</key>
     	::if (PLATFORM.ARBITRARY_LOADS)::<true/>::else::<false/>::end::
 
+        <key>NSAllowsArbitraryLoadsForMedia</key>
+        ::if (PLATFORM.ARBITRARY_LOADS)::<true/>::else::<false/>::end::
+
+        <key>NSAllowsArbitraryLoadsInWebContent</key>
+        ::if (PLATFORM.ARBITRARY_LOADS)::<true/>::else::<false/>::end::
+
     	::if (PLATFORM.EXCEPTION_DOMAINS.length > 0)::
         <key>NSExceptionDomains</key>
         <dict>
