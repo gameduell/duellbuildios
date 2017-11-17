@@ -1,6 +1,7 @@
 ## Description
 
 Use this plugin to build for the ios platform.
+
 ## Usage:
 `$ duell build ios -simulator -debug`
 ## Arguments:
@@ -14,6 +15,20 @@ Use this plugin to build for the ios platform.
 
 # v5.0
 * added support for Xcode 8.
+
+# v6.0.5
+* added correct template for default launch images
+* image name    orientation     point resolution
+* ~ipad
+* Default-Landscape Landscape {768, 1024}
+* Default-Portrait Portrait {768, 1024}
+* Default-736h Portrait {414, 736}
+* ~iphone
+* Default Portrait {320, 480}
+* Default-568h Portrait {320, 568}
+* Default-667h Portrait {375, 667}
+* Default-736h Portrait {414, 736}
+* Default-812h Portrait {375, 812}
 
 ## Next Major TODOs
 
