@@ -30,6 +30,10 @@ Use this plugin to build for the ios platform.
 * Default-736h Portrait {414, 736}
 * Default-812h Portrait {375, 812}
 
+# v.7.0.2
+* Ios 11 sdk compatibility for Icons asset catalog
+* Icons folder required to contain an asset catalog name Images.xcassets containing AppIcon.appiconset
+
 ## Next Major TODOs
 
 * Properly name required-capability, capability, fullscreen and requires-fullscreen to something less confusing.

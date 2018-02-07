@@ -263,6 +263,7 @@
 		C01FCF4F08A954540054247B /* Debug */ = {/* Build configuration list for PBXProject "::APP.FILE::" */
 			isa = XCBuildConfiguration;
 			buildSettings = {
+			    ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon";
 			    CODE_SIGN_IDENTITY = "";
                 ::if (PLATFORM.DEVELOPMENT_TEAM != null)::
                 DEVELOPMENT_TEAM = ::PLATFORM.DEVELOPMENT_TEAM::;
@@ -298,6 +299,7 @@
 		C01FCF5008A954540054247B /* Release */ = {/* Build configuration list for PBXProject "::APP.FILE::" */
 			isa = XCBuildConfiguration;
 			buildSettings = {
+			    ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon";
 			    CODE_SIGN_IDENTITY = "";
                 ::if (PLATFORM.DEVELOPMENT_TEAM != null)::
                 DEVELOPMENT_TEAM = ::PLATFORM.DEVELOPMENT_TEAM::;

@@ -335,10 +335,10 @@ class PlatformBuild
 	private function prepareXcodeBuild()
 	{
 		handleAssets();
+		copyIcons();
 		convertPlistEntriesToSections();
 		createDirectoriesAndCopyTemplates();
 		copyNativeFiles();
-		copyIcons();
 		copySplashscreens();
 		handleNDLLs();
 
@@ -373,20 +373,6 @@ class PlatformBuild
 	}
 
 	private function handleAssets():Void {
-		if ( !FileSystem.exists( PlatformConfiguration.getData().ICON_PATH ) )
-		{
-			LogHelper.println('Icon path ${PlatformConfiguration.getData().ICON_PATH} is not accessible.');
-			return;
-		}
-
-		var iconNames = FileHelper.getAllFilesInDir( PlatformConfiguration.getData().ICON_PATH );
-		for (icon in iconNames)
-		{
-			var fileName = Path.withoutDirectory( icon );
-			PlatformConfiguration.getData().ICONS.push( fileName );
-			PlatformConfiguration.getData().ASSETS.push( fileName );
-		}
-
 		if (!FileSystem.exists( PlatformConfiguration.getData().SPLASHSCREEN_PATH ))
 		{
 			LogHelper.println('Splashscreen path ${PlatformConfiguration.getData().SPLASHSCREEN_PATH} is not accessible.');
@@ -503,12 +489,9 @@ class PlatformBuild
 			return;
 		}
 
-		var iconNames = FileHelper.getAllFilesInDir( PlatformConfiguration.getData().ICON_PATH );
-		for (icon in iconNames)
-		{
-			var fileName = Path.withoutDirectory( icon );
-			FileHelper.copyIfNewer( icon, Path.join( [projectDirectory, fileName] ) );
-		}
+		FileHelper.recursiveCopyFiles(PlatformConfiguration.getData().ICON_PATH, projectDirectory, true, false);
+		var catalog = "Images.xcassets";
+		addAssetCatalog(catalog);
 	}
 
 	private function copySplashscreens()
@@ -778,6 +761,17 @@ class PlatformBuild
 				PathHelper.removeDirectory(destFolder);
 			}
 		}
+	}
+
+	private function addAssetCatalog( catalog:String ):Void {
+		catalog = Path.join([Configuration.getData().APP.FILE, catalog]);
+		var assetFolderID = duell.build.helpers.XCodeHelper.getUniqueIDForXCode();
+		var fileID = duell.build.helpers.XCodeHelper.getUniqueIDForXCode();
+
+		PlatformConfiguration.getData().ADDL_PBX_BUILD_FILE.push('      ' + assetFolderID + ' /* $catalog in Resources */ = {isa = PBXBuildFile; fileRef = ' + fileID + ' /* $catalog */; };');
+		PlatformConfiguration.getData().ADDL_PBX_FILE_REFERENCE.push('      ' + fileID + ' /* $catalog */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = $catalog; sourceTree = SOURCE_ROOT; };');
+		PlatformConfiguration.getData().ADDL_PBX_CUSTOM_TEMPLATE.push('    ' + fileID + ' /* $catalog */,');
+		PlatformConfiguration.getData().ADDL_PBX_RESOURCES_BUILD_PHASE.push('            ' + assetFolderID + ' /* $catalog in Resources */,');
 	}
 
 	public function handleError()
