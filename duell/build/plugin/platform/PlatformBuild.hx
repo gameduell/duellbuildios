@@ -452,7 +452,7 @@ class PlatformBuild
 
 	private function addHXCPPLibs()
 	{
-		var binPath = Path.join([Haxelib.getHaxelib("hxcpp").getPath(), "bin"]);
+		var binPath = Path.join([Haxelib.getHaxelib("hxcpp").getPath(), "lib"]);
 		var buildFilePath = Path.join([Haxelib.getHaxelib("hxcpp").getPath(), "project", "Build.xml"]);
 
 		Configuration.getData().NDLLS.push({NAME : "std", BIN_PATH : binPath, BUILD_FILE_PATH : buildFilePath, REGISTER_STATICS : true, DEBUG_SUFFIX : false});
@@ -525,6 +525,7 @@ class PlatformBuild
 			{
 				argsForBuild.push("-Ddebug");
 			}
+			argsForBuild.push("-DHXCPP_CPP11");
 
 			var libExt = [ ".iphoneos-v7.a", ".iphoneos-v7s.a", ".iphoneos-64.a", ".iphonesim-64.a" ][archID];
 
